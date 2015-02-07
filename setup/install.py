@@ -33,10 +33,14 @@ def check_result(result, cmd, exit_on_error=True):
 def run_command(cmd,
                 exit_on_error=True,
                 check_res=True,
-                stdout_redirect=True):
+                stdout_redirect=True,
+                as_user=None):
     logging.info("Running command \n{}{}{}".format(bcolors.OKBLUE, cmd, bcolors.ENDC))
     if (stdout_redirect is True) and (DEBUG is False):
         cmd += " > /dev/null"
+
+    if as_user is not None:
+        cmd = "sudo su %s -c '%s'" % (as_user, cmd)
 
     result = os.system(cmd)
     if check_res is True:
@@ -47,13 +51,15 @@ def run_command(cmd,
 def run_commands(cmds,
                  exit_on_error=True,
                  check_res=True,
-                 stdout_redirect=True):
+                 stdout_redirect=True,
+                 as_user=None):
     result = True
     for cmd in cmds:
         rv = run_command(cmd,
                          exit_on_error,
                          check_res,
-                         stdout_redirect)
+                         stdout_redirect,
+                         as_user)
         result = result and rv
     return result
 
@@ -76,13 +82,15 @@ def install_package(pkg, info):
     stdout_redirect = options.get('stdout_redirect', True)
     ignore_result = options.get('ignore_result', False)
     verify_install = options.get('verify_install', None)
+    as_user = options.get(as_user, None)
 
     if (cmds is None) or (cmds == []):
         return False
 
     run_commands(cmds,
                  exit_on_error=(not ignore_result),
-                 stdout_redirect=stdout_redirect)
+                 stdout_redirect=stdout_redirect,
+                 as_user=as_user)
 
     if verify_install is not None:
         run_command(verify_install)

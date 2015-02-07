@@ -1,81 +1,21 @@
-VENV_FOLDER = '~/.virtualenvs'
-VENV_NAME = 'cms'
-APT_GET_DELAY = 24*60*60  # in seconds
+import os
+
+WEB_ROOT_FOLDER = os.environ.get('WEB_ROOT_FOLDER', '/webserver')
+WEB_USER = os.environ.get('WEB_USER', 'webuser')
+
+VENV_ROOT_FOLDER = os.path.join(WEB_ROOT_FOLDER, 'venvs')
+VENV_NAME = os.path.join(WEB_ROOT_FOLDER, 'cms')
+VENV_FOLDER = os.path.join(VENV_ROOT_FOLDER, VENV_NAME)
+
+THIS_DIR = os.path.dirname(os.path.abspath(__file__))
 
 package_info = [
-    ('apt-get-update',
-     {
-         'exists': [
-             ('[ $(($(date +%s) - $(stat -c %Y /var/lib/apt/periodic/update-success-stamp) - {})) -le 0 ]'.format(APT_GET_DELAY), 0),
-             ],
-         'install': [
-             'sudo apt-get -y update',
-             'sudo apt-get -y upgrade',
-             ],
-     }),
-
-    ('sublime',
-     {
-         'exists': [
-             ('cat ~/.bashrc | grep -q sublime_text', 0),
-             ('ls /usr/local/bin | grep -q sublime', 0)
-             ],
-         'install': [
-             'rm -rf /tmp/sublime',
-             'sudo rm -rf /usr/local/bin/sublime',
-             'wget http://c758482.r82.cf2.rackcdn.com/Sublime%20Text%202.0.2%20x64.tar.bz2 -O /tmp/sublime.tar.bz2',
-             'cd /tmp; tar -xvjf sublime.tar.bz2',
-             'mv /tmp/Sublime\ Text\ 2 /tmp/sublime',
-             'sudo mv /tmp/sublime /usr/local/bin/sublime',
-             '''
-             if grep -q "alias sublime" ~/.bashrc; then
-                 echo "alias sublime already exists"
-             else
-                 echo "alias sublime=/usr/local/bin/sublime/sublime_text" >> ~/.bashrc
-             fi''',
-             ],
-     }),
-
-    ('chrome',
-     {
-         'options':{
-             'ignore_result': True,
-             'verify_install': 'which google-chrome',
-             },
-         'exists': [
-             ('which google-chrome', 0),
-             ],
-         'install': [
-             'wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb -O /tmp/google-chrome-stable_current_amd64.deb',
-             'sudo dpkg -i /tmp/google-chrome-stable_current_amd64.deb',
-             'sudo apt-get -fy install',
-             ],
-     }),
-
-    ('wingide', {
+    ('aptitude', {
         'exists': [
-            ('which wing4.1', 0)
+            ('dpkg -s aptitude', 0),
             ],
         'install': [
-            'sudo apt-get -y install enscript',
-            'wget http://wingware.com/pub/wingide/4.1.14/wingide4.1_4.1.14-1_amd64.deb -O /tmp/wingide.deb',
-            'sudo dpkg -i /tmp/wingide.deb',
-            'sudo apt-get -fy install',
-            ],
-    }),
-
-    ('fix-scrollbar-menubar', {
-        'exists': [
-            ('dpkg -s overlay-scrollbar', 256),
-            ('dpkg -s liboverlay-scrollbar-0.2-0', 256),
-            ('dpkg -s liboverlay-scrollbar3-0.2-0', 256),
-            ('dpkg -s appmenu-gtk', 256),
-            ('dpkg -s appmenu-gtk3', 256),
-            ('dpkg -s appmenu-qt', 256),
-            ],
-        'install': [
-            'sudo apt-get -y purge "scrollbar*"',
-            'sudo apt-get -y purge appmenu-gtk appmenu-gtk3 appmenu-qt',
+            'sudo apt-get install -y aptitude',
             ],
     }),
 
@@ -84,58 +24,7 @@ package_info = [
             ('dpkg -s geany', 0),
             ],
         'install': [
-            'sudo apt-get install -y geany',
-            ],
-    }),
-
-    ('restricted-extras (fonts)', {
-        'options': {
-            'stdout_redirect': False,
-            },
-        'exists': [
-            ('dpkg -s ubuntu-restricted-extras', 0)
-            ],
-        'install': [
-            'sudo apt-get install -y ubuntu-restricted-extras'
-            ],
-    }),
-
-    ('adobe reader', {
-        'options': {
-            'stdout_redirect': False,
-            },
-        'exists': [
-            ('dpkg -s acroread', 0),
-            ],
-        'install': [
-            'sudo apt-add-repository -y "deb http://archive.canonical.com/ $(lsb_release -sc) partner"',
-            'sudo apt-get update',
-            'sudo apt-get install -y acroread',
-            ],
-    }),
-
-    ('ccsm',
-     {
-         'exists': [
-             ('dpkg -s compizconfig-settings-manager', 0),
-             ],
-         'install': [
-             'sudo apt-get install -y compizconfig-settings-manager',
-             ],
-     }),
-
-    ('diffuse', {
-        'exists': [
-            ('dpkg -s diffuse', 0),
-            ],
-        'install': [
-            'sudo apt-get install -y diffuse',
-            '''
-            if grep -q "alias diffuse" ~/.bashrc; then
-                echo "alias diffuse already exists"
-            else
-                echo "alias diffuse='/usr/bin/python /usr/bin/diffuse'" >> ~/.bashrc
-            fi''',
+            'sudo aptitude install -y geany',
             ],
     }),
 
@@ -144,7 +33,22 @@ package_info = [
             ('dpkg -s git', 0),
             ],
         'install': [
-            'sudo apt-get install -y git',
+            'sudo aptitude install -y git',
+            ],
+    }),
+
+    ('diffuse', {
+        'exists': [
+            ('dpkg -s diffuse', 0),
+            ],
+        'install': [
+            'sudo aptitude install -y diffuse',
+            '''
+            if grep -q "alias diffuse" ~/.bashrc; then
+                echo "alias diffuse already exists"
+            else
+                echo "alias diffuse='/usr/bin/python /usr/bin/diffuse'" >> ~/.bashrc
+            fi''',
             ],
     }),
 
@@ -172,7 +76,7 @@ package_info = [
             ('dpkg -s build-essential', 0),
             ],
         'install': [
-            'sudo apt-get install -y build-essential',
+            'sudo aptitude install -y build-essential',
             ],
     }),
 
@@ -181,16 +85,7 @@ package_info = [
             ('dpkg -s python-dev', 0),
             ],
         'install': [
-            'sudo apt-get install -y python-dev',
-            ],
-    }),
-
-    ('python-yaml', {
-        'exists': [
-            ('dpkg -s python-yaml', 0),
-            ],
-        'install': [
-            'sudo apt-get install -y python-yaml',
+            'sudo aptitude install -y python-dev',
             ],
     }),
 
@@ -199,7 +94,7 @@ package_info = [
             ('dpkg -s python-setuptools', 0),
             ],
         'install': [
-            'sudo apt-get install -y python-setuptools',
+            'sudo aptitude install -y python-setuptools',
             ],
     }),
 
@@ -208,16 +103,7 @@ package_info = [
             ('dpkg -s ipython', 0),
             ],
         'install': [
-            'sudo apt-get install -y ipython',
-            ],
-    }),
-
-    ('pylint', {
-        'exists': [
-            ('dpkg -s pylint', 0),
-            ],
-        'install': [
-            'sudo apt-get install -y pylint',
+            'sudo aptitude install -y ipython',
             ],
     }),
 
@@ -226,7 +112,7 @@ package_info = [
             ('dpkg -s python-pip', 0),
             ],
         'install': [
-            'sudo apt-get install -y python-pip',
+            'sudo aptitude install -y python-pip',
             ],
     }),
 
@@ -235,16 +121,16 @@ package_info = [
             ('dpkg -s python-imaging', 0),
             ],
         'install': [
-            'sudo apt-get install -y python-imaging',
+            'sudo aptitude install -y python-imaging',
             ],
     }),
 
     ('virtualenvwrapper', {
         'exists': [
-            ('dpkg -s virtualenvwrapper', 0),
+            ('dpkg -s python-virtualenv', 0),
             ],
         'install': [
-            'sudo apt-get install -y virtualenvwrapper',
+            'sudo aptitude install -y python-virtualenv',
             ],
     }),
 
@@ -253,7 +139,7 @@ package_info = [
             ('dpkg -s vim', 0),
             ],
         'install': [
-            'sudo apt-get install -y vim',
+            'sudo aptitude install -y vim',
             ],
     }),
 
@@ -262,7 +148,7 @@ package_info = [
             ('dpkg -s openssh-server', 0),
             ],
         'install': [
-            'sudo apt-get install -y openssh-server',
+            'sudo aptitude install -y openssh-server',
             ],
     }),
 
@@ -271,7 +157,7 @@ package_info = [
             ('dpkg -s postgresql', 0),
             ],
         'install': [
-            'sudo apt-get install -y postgresql',
+            'sudo aptitude install -y postgresql',
             ],
     }),
 
@@ -280,7 +166,7 @@ package_info = [
             ('dpkg -s pgadmin3', 0),
             ],
         'install': [
-            'sudo apt-get install -y pgadmin3',
+            'sudo aptitude install -y pgadmin3',
             ],
     }),
 
@@ -291,32 +177,31 @@ package_info = [
             ('dpkg -s libtiff4-dev', 0),
             ],
         'install': [
-            'sudo apt-get install -y zlibc',
-            'sudo apt-get install -y libjpeg8-dev',
-            'sudo apt-get install -y libtiff4-dev',
+            'sudo aptitude install -y zlibc',
+            'sudo aptitude install -y libjpeg8-dev',
+            'sudo aptitude install -y libtiff4-dev',
             ],
     }),
 
-    ('apt-cleanup', {
-        'install': [
-            'sudo apt-get -fy install',
-            'sudo apt-get -y autoclean',
-            'sudo apt-get -y autoremove',
-        ],
-    }),
 
     ('create-virt-env', {
+        'options': {
+            'as_user': WEB_USER
+        },
         'exists': [
-            ('[ -d %s/%s ]' % (VENV_FOLDER, VENV_NAME), 0)
+            ('[ -d %s ]' % (VENV_FOLDER), 0)
             ],
         'install': [
-            'mkdir -p %s; cd %s; virtualenv %s' % (VENV_FOLDER, VENV_FOLDER, VENV_NAME),
+            'mkdir -p %s; cd %s; virtualenv %s' % (VENV_ROOT_FOLDER, VENV_ROOT_FOLDER, VENV_NAME),
             ],
     }),
 
     ('install-virt-pkgs', {
+        'options': {
+            'as_user': WEB_USER
+        },
         'install': [
-            '/bin/bash -c "source %s/%s/bin/activate; pip install -r requirements_cms.txt"' % (VENV_FOLDER, VENV_NAME),
+            'source %s/bin/activate; pip install -r %s/requirements_cms.txt' % (VENV_FOLDER, THIS_DIR),
             ],
     }),
 
