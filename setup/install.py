@@ -82,7 +82,7 @@ def install_package(pkg, info):
     stdout_redirect = options.get('stdout_redirect', True)
     ignore_result = options.get('ignore_result', False)
     verify_install = options.get('verify_install', None)
-    as_user = options.get(as_user, None)
+    as_user = options.get('as_user', None)
 
     if (cmds is None) or (cmds == []):
         return False
