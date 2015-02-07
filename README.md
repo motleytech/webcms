@@ -27,7 +27,7 @@ Name the file as env_webcms.sh.
 Get the installation bootstrap script and execute it
 
 <pre>
-wget https://raw.githubusercontent.com/motleytech/webcms/master/setup/bootstrap.sh -o bootstrap.sh
+wget https://raw.githubusercontent.com/motleytech/webcms/master/setup/bootstrap.sh
 
 bash ./bootstrap.sh
 </pre>
