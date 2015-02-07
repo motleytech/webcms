@@ -1,9 +1,9 @@
 ## webcms
 
-### Installation direcions
+### Installation directions
 
 Create the <code>~/envs</code> folder and copy your environment file into it.
-If you don't have an environment file, use below contents to create one
+If you don't have an environment file, use below contents as a starting point
 
 <pre>
 export WEB_USER="webuser"
@@ -16,7 +16,7 @@ export REPO_NAME="webcms"
 
 
 export PG_USER="webdbuser"
-export PG_PW="pgsqlpassword"
+export PG_PW="something random and long here"
 export PG_DB="webcmsdb"
 </pre>
 

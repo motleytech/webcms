@@ -4,8 +4,15 @@ WEB_ROOT_FOLDER = os.environ.get('WEB_ROOT_FOLDER', '/webserver')
 WEB_USER = os.environ.get('WEB_USER', 'webuser')
 
 VENV_ROOT_FOLDER = os.path.join(WEB_ROOT_FOLDER, 'venvs')
-VENV_NAME = os.path.join(WEB_ROOT_FOLDER, 'cms')
+VENV_NAME = os.environ.get('VENV_NAME', 'cms')
 VENV_FOLDER = os.path.join(VENV_ROOT_FOLDER, VENV_NAME)
+
+MEDIA_FOLDER = os.path.join(WEB_ROOT_FOLDER, 'media')
+LOGS_FOLDER = os.path.join(WEB_ROOT_FOLDER, 'logs')
+
+PG_USER = os.environ.get('PG_USER', 'webdbuser')
+PG_PW = os.environ.get('PG_PW', 'somerandomstringhere')
+PG_DB = os.environ.get('PG_DB', 'webcmsdb')
 
 THIS_DIR = os.path.dirname(os.path.abspath(__file__))
 
@@ -80,12 +87,48 @@ package_info = [
             ],
     }),
 
+    ('libpq-dev', {
+        'exists': [
+            ('dpkg -s libpq-dev', 0),
+            ],
+        'install': [
+            'sudo aptitude install -y libpq-dev',
+            ],
+    }),
+
     ('python-dev', {
         'exists': [
             ('dpkg -s python-dev', 0),
             ],
         'install': [
             'sudo aptitude install -y python-dev',
+            ],
+    }),
+
+    ('postgresql', {
+        'exists': [
+            ('dpkg -s postgresql', 0),
+            ],
+        'install': [
+            'sudo aptitude install -y postgresql',
+            ],
+    }),
+
+    ('pgadmin3', {
+        'exists': [
+            ('dpkg -s pgadmin3', 0),
+            ],
+        'install': [
+            'sudo aptitude install -y pgadmin3',
+            ],
+    }),
+
+    ('postgresql-contrib', {
+        'exists': [
+            ('dpkg -s postgresql-contrib', 0),
+            ],
+        'install': [
+            'sudo aptitude install -y postgresql-contrib',
             ],
     }),
 
@@ -125,7 +168,7 @@ package_info = [
             ],
     }),
 
-    ('virtualenvwrapper', {
+    ('python-virtualenv', {
         'exists': [
             ('dpkg -s python-virtualenv', 0),
             ],
@@ -152,24 +195,6 @@ package_info = [
             ],
     }),
 
-    ('postgresql', {
-        'exists': [
-            ('dpkg -s postgresql', 0),
-            ],
-        'install': [
-            'sudo aptitude install -y postgresql',
-            ],
-    }),
-
-    ('pgadmin3', {
-        'exists': [
-            ('dpkg -s pgadmin3', 0),
-            ],
-        'install': [
-            'sudo aptitude install -y pgadmin3',
-            ],
-    }),
-
     ('pillow-libs', {
         'exists': [
             ('dpkg -s libjpeg8-dev', 0),
@@ -183,6 +208,53 @@ package_info = [
             ],
     }),
 
+
+
+    ('create-pgsql-user', {
+        'install': [
+            'sudo su postgres -c \'psql -q -c "CREATE ROLE %s WITH CREATEDB LOGIN PASSWORD \'%s\';"\'' % (PG_USER, PG_PW),
+            ],
+    }),
+
+
+    ('create-pgsql-db', {
+        'install': [
+            'sudo su postgres -c "createdb -O %s -E UTF8 %s"' % (PG_USER, PG_DB),
+            ],
+    }),
+
+
+    ('modify-pgsql-config', {
+        'exists': [
+            ('sudo su -c "cat /etc/postgresql/9.1/main/pg_hba.conf | grep %s"' % PG_USER, 0),
+            ('sudo su -c "cat /etc/postgresql/9.1/main/pg_hba.conf | grep %s"' % PG_DB, 0),
+            ],
+        'install': [
+            "sudo su -c 'echo \"local   %s   %s       md5\" >> /etc/postgresql/9.1/main/pg_hba.conf'" % (PG_DB, PG_USER),
+            ],
+    }),
+
+
+    ('restart-postgres', {
+        'install': [
+            'sudo service postgresql restart',
+            ],
+    }),
+
+
+    ('create-folders', {
+        'options': {
+            'as_user': WEB_USER
+        },
+        'exists': [
+            ('[ -d %s ]' % MEDIA_FOLDER, 0),
+            ('[ -d %s ]' % LOGS_FOLDER, 0),
+            ],
+        'install': [
+            'mkdir -p %s' % MEDIA_FOLDER,
+            'mkdir -p %s' % LOGS_FOLDER,
+            ],
+    }),
 
     ('create-virt-env', {
         'options': {
