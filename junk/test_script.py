@@ -1,6 +1,8 @@
-#!/bin/python
+#!/bin/bash
 
-print "hooray... the script started"
-inp = raw_input("Did you see this?")
+echo "hey... this works"
 
-print "Yes, I did. You typed - %s" % inp
+#print "hooray... the script started"
+#inp = raw_input("Did you see this?")
+
+#print "Yes, I did. You typed - %s" % inp
