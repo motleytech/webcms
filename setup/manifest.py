@@ -207,7 +207,7 @@ package_info = [
 
     ('create-pgsql-user', {
         'install': [
-            'sudo su postgres -c \'psql -q -c "CREATE ROLE %s WITH CREATEDB LOGIN PASSWORD \'%s\';"\'' % (PG_USER, PG_PW),
+            'sudo su postgres -c \'psql -q -c "CREATE ROLE %s WITH CREATEDB LOGIN PASSWORD \'\\\'\'c82qIrm7qGxzUrdaXYAXmbdiuvfras1hTjsEG5F7w73LIiprFJPQJhq3Ljb\'\\\'\'";\'' % (PG_USER, PG_PW),
             ],
     }),
 
