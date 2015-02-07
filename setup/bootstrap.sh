@@ -14,10 +14,8 @@ else
 fi
 
 # install aptitude
-echo -e "\n\nInstalling aptitude... \n\n"
+echo -e "\n\nInstalling and updating aptitude... \n\n"
 sudo apt-get install -y aptitude
-
-# update and upgrade aptitude
 sudo aptitude -y update
 sudo aptitude -y upgrade
 
@@ -31,6 +29,7 @@ sudo mkdir -p $WEB_ROOT_FOLDER
 sudo mkdir -p $WEB_ROOT_FOLDER/envs
 sudo cp -n ~/envs/env_webcms.sh $WEB_ROOT_FOLDER/envs
 
+sudo chown -R `whoami`:`whoami` $WEB_ROOT_FOLDER
 
 # clone git repo
 echo -e "\n\nCloning git repo... \n\n"
