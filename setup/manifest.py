@@ -49,13 +49,8 @@ package_info = [
             ('dpkg -s diffuse', 0),
             ],
         'install': [
-            'sudo aptitude install -y diffuse',
-            '''
-            if grep -q "alias diffuse" ~/.bashrc; then
-                echo "alias diffuse already exists"
-            else
-                echo "alias diffuse='/usr/bin/python /usr/bin/diffuse'" >> ~/.bashrc
-            fi''',
+            "sudo aptitude install -y diffuse",
+            "sudo python %s/patch_diffuse.py" % THIS_DIR,
             ],
     }),
 
