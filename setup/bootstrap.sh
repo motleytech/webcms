@@ -37,19 +37,18 @@ cd $WEB_ROOT_FOLDER
 git clone $REPO_URL $WEB_ROOT_FOLDER/$REPO_NAME
 
 
+# create user webuser and group webapps
+echo -e "\n\nCreating users and groups... \n\n"
+sudo groupadd -f --system $WEB_GROUP
+sudo useradd --system --gid $WEB_GROUP --shell /bin/bash --home $WEB_ROOT_FOLDER $WEB_USER
+sudo usermod -a -G $WEB_GROUP `whoami`
+
+
 # execute the real installer script now
 echo -e "\n\nRunning the main install script now... \n\n"
 cd $REPO_NAME
 python setup/install.py
 
-
-# create user webuser and group webapps
-echo -e "\n\nCreating users and groups... \n\n"
-sudo groupadd -f --system $WEB_GROUP
-sudo useradd --system --gid $WEB_GROUP --shell /bin/bash --home $WEB_ROOT_FOLDER $WEB_USER
-
-# add current user to group users
-sudo usermod -a -G $WEB_GROUP `whoami`
 
 # at the end... change permissions of folders
 sudo chown -R $WEB_USER:$WEB_GROUP $WEB_ROOT_FOLDER
