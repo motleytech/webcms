@@ -94,12 +94,12 @@ def run_install():
         logging.info("Processing package {}{}{}".format(bcolors.OKBLUE, package, bcolors.ENDC))
         exists = check_exists(package, info)
         if exists is False:
-            logging.info("{}{}{} does not exist. Installing...".format(
+            logging.info("{}{}{} not satisfied. Processing...".format(
                 bcolors.WARNING, package, bcolors.ENDC))
             install_package(package, info)
-            logging.info("{}Installed{}".format(bcolors.WARNING, bcolors.ENDC))
+            logging.info("{}Satisfactory{}".format(bcolors.WARNING, bcolors.ENDC))
         else:
-            logging.info("{}{}{} already installed. Skipping.".format(
+            logging.info("{}{}{} already satisfied. Skipping.".format(
                 bcolors.OKGREEN, package, bcolors.ENDC))
 
 
