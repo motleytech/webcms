@@ -1,5 +1,11 @@
 import os
 
+################################################
+#
+#  CONSTANTS
+#
+################################################
+
 WEB_ROOT_FOLDER = os.environ.get('WEB_ROOT_FOLDER', '/webserver')
 WEB_USER = os.environ.get('WEB_USER', 'webuser')
 
@@ -15,6 +21,13 @@ PG_PW = os.environ.get('PG_PW', 'somerandomstringhere')
 PG_DB = os.environ.get('PG_DB', 'webcmsdb')
 
 THIS_DIR = os.path.dirname(os.path.abspath(__file__))
+
+
+################################################
+#
+#  CONFIGURATION
+#
+################################################
 
 package_info = [
     ('aptitude', {
