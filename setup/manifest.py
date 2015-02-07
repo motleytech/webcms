@@ -238,9 +238,6 @@ package_info = [
 
 
     ('create-folders', {
-        'options': {
-            'as_user': WEB_USER
-        },
         'exists': [
             ('[ -d %s ]' % MEDIA_FOLDER, 0),
             ('[ -d %s ]' % LOGS_FOLDER, 0),
@@ -252,9 +249,6 @@ package_info = [
     }),
 
     ('create-virt-env', {
-        'options': {
-            'as_user': WEB_USER
-        },
         'exists': [
             ('[ -d %s ]' % (VENV_FOLDER), 0)
             ],
@@ -264,9 +258,6 @@ package_info = [
     }),
 
     ('install-virt-pkgs', {
-        'options': {
-            'as_user': WEB_USER
-        },
         'install': [
             'source %s/bin/activate; pip install -r %s/requirements_cms.txt' % (VENV_FOLDER, THIS_DIR),
             ],
