@@ -259,7 +259,8 @@ package_info = [
 
     ('install-virt-pkgs', {
         'install': [
-            'source %s/bin/activate; pip install -r %s/requirements_cms.txt' % (VENV_FOLDER, THIS_DIR),
+            # this needs bash for the source command
+            '/bin/bash -c "source %s/bin/activate; pip install -r %s/requirements_cms.txt"' % (VENV_FOLDER, THIS_DIR),
             ],
     }),
 
