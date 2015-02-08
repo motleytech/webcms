@@ -214,6 +214,15 @@ package_info = [
             ],
     }),
 
+    ('nginx', {
+        'exists': [
+            ('dpkg -s nginx', 0),
+            ],
+        'install': [
+            'sudo aptitude install -y nginx',
+            ],
+    }),
+
     ('pillow-libs', {
         'exists': [
             ('dpkg -s libjpeg8-dev', 0),
@@ -291,13 +300,17 @@ package_info = [
             ],
     }),
 
-    ('supervisor-config', {
+    ('final-config', {
         'install': [
             # this needs bash for the source command
             'sudo cp %s/../config/webcms.conf /etc/supervisor/conf.d/webcms.conf' % THIS_DIR,
             'sudo supervisorctl reread',
             'sudo supervisorctl update',
             'sudo supervisorctl restart webcms',
+
+            'sudo cp %s/../config/webcms.nginx.conf /etc/nginx/sites-available/webcms',
+            'sudo ln -s /etc/nginx/sites-available/webcms /etc/nginx/sites-enabled/webcms',
+            'sudo service nginx restart',
             ],
     }),
 
