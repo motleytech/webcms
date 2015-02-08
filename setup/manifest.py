@@ -306,6 +306,13 @@ package_info = [
             ],
     }),
 
+    ('syncdb&migrate', {
+        'install': [
+            # this needs bash for the source command
+            '/bin/bash -d "source %s/bin/activate; source %s/envs/env_webcms.sh; cd %s/webcms/djcms; python manage.py syncdb; python manage.py migrate"' % (VENV_FOLDER, WEB_ROOT_FOLDER, WEB_ROOT_FOLDER),
+            ],
+    }),
+
     ('final-config', {
         'install': [
             # this needs bash for the source command
