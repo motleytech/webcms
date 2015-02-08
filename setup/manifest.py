@@ -10,9 +10,9 @@ WEB_ROOT_FOLDER = os.environ.get('WEB_ROOT_FOLDER', '/webserver')
 WEB_USER = os.environ.get('WEB_USER', 'webuser')
 VENV_NAME = os.environ.get('VENV_NAME', 'cms')
 PG_USER = os.environ.get('PG_USER', 'webdbuser')
-PG_PW = os.environ.get('PG_PW', 'somerandomstringhere')
+PG_USER_PW = os.environ.get('PG_USER_PW', 'somerandomstringhere')
 PG_DB = os.environ.get('PG_DB', 'webcmsdb')
-
+PG_ADMIN_PW = os.environ.get('PG_ADMIN_PW', 'someotherrandomstringhere')
 
 VENV_ROOT_FOLDER = os.path.join(WEB_ROOT_FOLDER, 'venvs')
 VENV_FOLDER = os.path.join(VENV_ROOT_FOLDER, VENV_NAME)
@@ -240,7 +240,13 @@ package_info = [
 
     ('create-pgsql-user', {
         'install': [
-            'sudo su postgres -c \'psql -q -c "CREATE ROLE %s WITH CREATEDB LOGIN PASSWORD \'\\\'\'%s\'\\\'\'";\'' % (PG_USER, PG_PW),
+            'sudo su postgres -c \'psql -q -c "CREATE ROLE %s WITH CREATEDB LOGIN PASSWORD \'\\\'\'%s\'\\\'\'";\'' % (PG_USER, PG_USER_PW),
+            ],
+    }),
+
+    ('create-pgsql-user', {
+        'install': [
+            'echo "ALTER USER postgres WITH PASSWORD \'%s\';" | sudo -u postgres psql postgres' % (PG_ADMIN_PW),
             ],
     }),
 

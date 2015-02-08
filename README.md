@@ -16,8 +16,9 @@ export REPO_NAME="webcms"
 
 
 export PG_USER="webdbuser"
-export PG_PW="something random and long here"
+export PG_USER_PW="something random and long here"
 export PG_DB="webcmsdb"
+export PG_ADMIN_PW="something equally big here"
 </pre>
 
 Name the file as env_webcms.sh.
