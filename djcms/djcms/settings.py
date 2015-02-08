@@ -12,8 +12,13 @@ https://docs.djangoproject.com/en/1.6/ref/settings/
 """
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
-import os
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
+
+
+if os.environ.get('PG_USER', None) is None:
+    print "\n\nFATAL ERROR: Environment is not set properly.\n"
+    exit(1)
+
 PG_USER = os.environ.get('PG_USER', 'webdbuser')
 PG_USER_PW = os.environ.get('PG_USER_PW', 'somerandomstringhere')
 PG_DB = os.environ.get('PG_DB', 'webcmsdb')
@@ -25,7 +30,7 @@ PG_DB = os.environ.get('PG_DB', 'webcmsdb')
 SECRET_KEY = '5f+2nreb_i&7roc6o-qf5jv=&f1oe+-v9_l8t3orz%4%u(zx1c'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = (os.environ.get('DJANGO_DEBUG', "True") == "True")
 
 TEMPLATE_DEBUG = True
 
@@ -73,6 +78,7 @@ STATIC_ROOT = os.path.join(DATA_DIR, 'static')
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'djcms', 'static'),
 )
+
 SITE_ID = 1
 
 TEMPLATE_LOADERS = (

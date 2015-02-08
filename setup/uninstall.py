@@ -73,7 +73,7 @@ if PG_DB is not None:
     os.system('sudo su postgres -c "dropdb %s"' % PG_DB )
 
 if PG_USER is not None:
-    os.system('sudo -u postgres psql -q -c "DROP ROLE %s;"' % PG_USER )
+    os.system('sudo -u postgres psql -c "DROP ROLE %s;"' % PG_USER )
 
 os.system('sudo supervisorctl stop webcms')
 os.system('sudo rm -f /etc/supervisor/conf.d/webcms.conf')

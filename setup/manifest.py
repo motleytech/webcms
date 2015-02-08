@@ -325,6 +325,12 @@ package_info = [
             ],
     }),
 
+    ('create_django_site', {
+        'install': [
+            '/bin/bash -c "source %s/bin/activate; source %s/envs/env_webcms.sh; cd %s/webcms/djcms; python setup_sites.py"' % (VENV_FOLDER, WEB_ROOT_FOLDER, WEB_ROOT_FOLDER),
+            ],
+    }),
+
     ('final-config', {
         'install': [
             # this needs bash for the source command
@@ -336,6 +342,7 @@ package_info = [
             'sudo cp %s/../config/webcms.nginx.conf /etc/nginx/sites-available/webcms' % THIS_DIR,
             'sudo ln -s /etc/nginx/sites-available/webcms /etc/nginx/sites-enabled/webcms',
             'sudo service nginx restart',
+            'cp %s/webcms/config/env.sh %s/env.sh' % WEB_ROOT_FOLDER,
             ],
     }),
 
