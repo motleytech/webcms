@@ -205,6 +205,15 @@ package_info = [
             ],
     }),
 
+    ('supervisor', {
+        'exists': [
+            ('dpkg -s supervisor', 0),
+            ],
+        'install': [
+            'sudo aptitude install -y supervisor',
+            ],
+    }),
+
     ('pillow-libs', {
         'exists': [
             ('dpkg -s libjpeg8-dev', 0),
@@ -226,13 +235,11 @@ package_info = [
             ],
     }),
 
-
     ('create-pgsql-db', {
         'install': [
             'sudo su postgres -c "createdb -O %s -E UTF8 %s"' % (PG_USER, PG_DB),
             ],
     }),
-
 
     ('modify-pgsql-config', {
         'exists': [
@@ -243,7 +250,6 @@ package_info = [
             "sudo su -c 'echo \"local   %s   %s       md5\" >> /etc/postgresql/9.1/main/pg_hba.conf'" % (PG_DB, PG_USER),
             ],
     }),
-
 
     ('restart-postgres', {
         'install': [
@@ -264,8 +270,10 @@ package_info = [
             'mkdir -p %s' % LOGS_FOLDER,
             'mkdir -p %s' % BACKUP_FOLDER,
             'mkdir -p %s' % RUN_FOLDER,
+            'touch %s/gunicorn_supervisor.log' % LOGS_FOLDER,
             ],
     }),
+
 
     ('create-virt-env', {
         'exists': [
@@ -280,6 +288,16 @@ package_info = [
         'install': [
             # this needs bash for the source command
             '/bin/bash -c "source %s/bin/activate; pip install -r %s/requirements_cms.txt"' % (VENV_FOLDER, THIS_DIR),
+            ],
+    }),
+
+    ('supervisor-config', {
+        'install': [
+            # this needs bash for the source command
+            'sudo cp %s/../config/webcms.conf /etc/supervisor/conf.d/webcms.conf' % THIS_DIR,
+            'sudo supervisorctl reread',
+            'sudo supervisorctl update',
+            'sudo supervisorctl restart webcms',
             ],
     }),
 

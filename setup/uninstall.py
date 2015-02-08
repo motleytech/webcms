@@ -74,3 +74,7 @@ if PG_DB is not None:
 
 if PG_USER is not None:
     os.system('sudo -u postgres psql -q -c "DROP ROLE %s;"' % PG_USER )
+
+os.system('sudo rm -f /etc/supervisor/conf.d/webcms.conf')
+os.system('sudo supervisorctl reread')
+os.system('sudo supervisorctl update')
