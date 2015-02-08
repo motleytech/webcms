@@ -1,6 +1,7 @@
 import os
 gettext = lambda s: s
 DATA_DIR = os.path.dirname(os.path.dirname(__file__))
+
 """
 Django settings for djcms project.
 
@@ -19,6 +20,7 @@ if os.environ.get('PG_USER', None) is None:
     print "\n\nFATAL ERROR: Environment is not set properly.\n"
     exit(1)
 
+WEB_ROOT_FOLDER = os.environ.get('WEB_ROOT_FOLDER')
 PG_USER = os.environ.get('PG_USER', 'webdbuser')
 PG_USER_PW = os.environ.get('PG_USER_PW', 'somerandomstringhere')
 PG_DB = os.environ.get('PG_DB', 'webcmsdb')
@@ -72,8 +74,8 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(DATA_DIR, 'media')
-STATIC_ROOT = os.path.join(DATA_DIR, 'static')
+MEDIA_ROOT = os.path.join(WEB_ROOT_FOLDER, 'media')
+STATIC_ROOT = os.path.join(WEB_ROOT_FOLDER, 'static')
 
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'djcms', 'static'),
