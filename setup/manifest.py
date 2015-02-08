@@ -8,17 +8,18 @@ import os
 
 WEB_ROOT_FOLDER = os.environ.get('WEB_ROOT_FOLDER', '/webserver')
 WEB_USER = os.environ.get('WEB_USER', 'webuser')
+VENV_NAME = os.environ.get('VENV_NAME', 'cms')
+PG_USER = os.environ.get('PG_USER', 'webdbuser')
+PG_PW = os.environ.get('PG_PW', 'somerandomstringhere')
+PG_DB = os.environ.get('PG_DB', 'webcmsdb')
+
 
 VENV_ROOT_FOLDER = os.path.join(WEB_ROOT_FOLDER, 'venvs')
-VENV_NAME = os.environ.get('VENV_NAME', 'cms')
 VENV_FOLDER = os.path.join(VENV_ROOT_FOLDER, VENV_NAME)
 
 MEDIA_FOLDER = os.path.join(WEB_ROOT_FOLDER, 'media')
 LOGS_FOLDER = os.path.join(WEB_ROOT_FOLDER, 'logs')
-
-PG_USER = os.environ.get('PG_USER', 'webdbuser')
-PG_PW = os.environ.get('PG_PW', 'somerandomstringhere')
-PG_DB = os.environ.get('PG_DB', 'webcmsdb')
+BACKUP_FOLDER = os.path.join(WEB_ROOT_FOLDER, 'backup')
 
 THIS_DIR = os.path.dirname(os.path.abspath(__file__))
 
@@ -254,10 +255,12 @@ package_info = [
         'exists': [
             ('[ -d %s ]' % MEDIA_FOLDER, 0),
             ('[ -d %s ]' % LOGS_FOLDER, 0),
+            ('[ -d %s ]' % BACKUP_FOLDER, 0),
             ],
         'install': [
             'mkdir -p %s' % MEDIA_FOLDER,
             'mkdir -p %s' % LOGS_FOLDER,
+            'mkdir -p %s' % BACKUP_FOLDER,
             ],
     }),
 
