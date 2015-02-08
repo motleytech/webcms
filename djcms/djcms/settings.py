@@ -189,14 +189,12 @@ META_USE_SITES = True
 PARLER_LANGUAGES = {
     1: (
         {'code': 'en',},
-        {'code': 'de',},
     ),
 }
 
 LANGUAGES = (
     ## Customize this
     ('en', gettext('en')),
-    ('de', gettext('de')),
 )
 
 CMS_LANGUAGES = {
@@ -212,13 +210,6 @@ CMS_LANGUAGES = {
             'code': 'en',
             'hide_untranslated': False,
             'name': gettext('en'),
-            'redirect_on_fallback': True,
-        },
-        {
-            'public': True,
-            'code': 'de',
-            'hide_untranslated': False,
-            'name': gettext('de'),
             'redirect_on_fallback': True,
         },
     ],
