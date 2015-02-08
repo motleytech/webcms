@@ -239,18 +239,27 @@ package_info = [
 
 
     ('create-pgsql-user', {
+        'options': {
+            'ignore_result': True,
+            },
         'install': [
             'sudo su postgres -c \'psql -q -c "CREATE ROLE %s WITH CREATEDB LOGIN PASSWORD \'\\\'\'%s\'\\\'\'";\'' % (PG_USER, PG_USER_PW),
             ],
     }),
 
     ('create-pgsql-user', {
+        'options': {
+            'ignore_result': True,
+            },
         'install': [
             'echo "ALTER USER postgres WITH PASSWORD \'%s\';" | sudo -u postgres psql postgres' % (PG_ADMIN_PW),
             ],
     }),
 
     ('create-pgsql-db', {
+        'options': {
+            'ignore_result': True,
+            },
         'install': [
             'sudo su postgres -c "createdb -O %s -E UTF8 %s"' % (PG_USER, PG_DB),
             ],
@@ -307,6 +316,9 @@ package_info = [
     }),
 
     ('syncdb&migrate', {
+        'options': {
+            'stdout_redirect': False,
+            },
         'install': [
             # this needs bash for the source command
             '/bin/bash -c "source %s/bin/activate; source %s/envs/env_webcms.sh; cd %s/webcms/djcms; python manage.py syncdb; python manage.py migrate"' % (VENV_FOLDER, WEB_ROOT_FOLDER, WEB_ROOT_FOLDER),

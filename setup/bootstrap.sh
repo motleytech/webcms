@@ -47,7 +47,7 @@ sudo usermod -a -G $WEB_GROUP `whoami`
 # execute the real installer script now
 echo -e "\n\nRunning the main install script now... \n\n"
 cd $REPO_NAME
-python setup/install.py
+python setup/install.py debug
 
 
 # at the end... change permissions of folders
