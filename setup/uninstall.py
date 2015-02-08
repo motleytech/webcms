@@ -56,7 +56,22 @@ if not WEB_ROOT_FOLDER.startswith('/'):
     print "Invalid path : '%s'" % WEB_ROOT_FOLDER
     exit(1)
 
-# finally delete folder
+os.system('sudo supervisorctl stop webcms')
+os.system('sudo rm -f /etc/supervisor/conf.d/webcms.conf')
+
+os.system('sudo rm -f /etc/nginx/sites-enabled/webcms')
+os.system('sudo service nginx restart')
+
+# remove database and db user
+confirm("\n\nAbout to delete DATABASE.\nYou should consider taking a backup first. Continue? : ")
+
+if PG_DB is not None:
+    os.system('sudo su postgres -c "dropdb %s"' % PG_DB )
+
+if PG_USER is not None:
+    os.system('sudo -u postgres psql -c "DROP ROLE %s;"' % PG_USER )
+
+# delete folder
 confirm("About to delete '%s' folder. Continue? : " % WEB_ROOT_FOLDER)
 os.system('sudo rm -rf %s' % (WEB_ROOT_FOLDER))
 
@@ -66,18 +81,4 @@ os.system('sudo userdel %s' % WEB_USER)
 os.system('sudo groupdel %s' % WEB_GROUP)
 
 
-# remove database and db user
-confirm("About to delete DATABASE.\nYou should consider taking a backup first. Continue? : ")
-
-if PG_DB is not None:
-    os.system('sudo su postgres -c "dropdb %s"' % PG_DB )
-
-if PG_USER is not None:
-    os.system('sudo -u postgres psql -c "DROP ROLE %s;"' % PG_USER )
-
-os.system('sudo supervisorctl stop webcms')
-os.system('sudo rm -f /etc/supervisor/conf.d/webcms.conf')
-
-os.system('sudo rm -f /etc/nginx/sites-enabled/webcms')
-os.system('sudo service nginx restart')
 
