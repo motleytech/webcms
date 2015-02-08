@@ -316,7 +316,7 @@ package_info = [
     ('final-config', {
         'install': [
             # this needs bash for the source command
-            'sudo cp %s/../config/webcms.conf /etc/supervisor/conf.d/webcms.conf' % THIS_DIR,
+            'sudo cp %s/../config/webcms.supervisor.conf /etc/supervisor/conf.d/webcms.conf' % THIS_DIR,
             'sudo supervisorctl reread',
             'sudo supervisorctl update',
             'sudo supervisorctl restart webcms',

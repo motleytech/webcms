@@ -32,9 +32,10 @@ def check_and_apply_patch(diffuse_path):
         # fix problem
         tempfile = "/tmp/diffuse"
         fix_diffuse_python_path(diffuse_path, tempfile)
-        result = os.system("mv %s %s" % (tempfile, diffuse_path))
+        result1 = os.system("mv %s %s" % (tempfile, diffuse_path))
+        result2 = os.system("chmod a+x %s" % (diffuse_path))
 
-        if result == 0:
+        if result1 == 0 and result2 == 0:
             print "Successfully patched diffuse"
         else:
             print "Error in patching diffuse"
