@@ -20,6 +20,7 @@ VENV_FOLDER = os.path.join(VENV_ROOT_FOLDER, VENV_NAME)
 MEDIA_FOLDER = os.path.join(WEB_ROOT_FOLDER, 'media')
 LOGS_FOLDER = os.path.join(WEB_ROOT_FOLDER, 'logs')
 BACKUP_FOLDER = os.path.join(WEB_ROOT_FOLDER, 'backup')
+RUN_FOLDER = os.path.join(WEB_ROOT_FOLDER, 'run')
 
 THIS_DIR = os.path.dirname(os.path.abspath(__file__))
 
@@ -256,11 +257,13 @@ package_info = [
             ('[ -d %s ]' % MEDIA_FOLDER, 0),
             ('[ -d %s ]' % LOGS_FOLDER, 0),
             ('[ -d %s ]' % BACKUP_FOLDER, 0),
+            ('[ -d %s ]' % RUN_FOLDER, 0),
             ],
         'install': [
             'mkdir -p %s' % MEDIA_FOLDER,
             'mkdir -p %s' % LOGS_FOLDER,
             'mkdir -p %s' % BACKUP_FOLDER,
+            'mkdir -p %s' % RUN_FOLDER,
             ],
     }),
 
