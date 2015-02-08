@@ -14,7 +14,7 @@ def confirm(msg):
     return True
 
 # verify that user wants to uninstall
-confirm("Are you sure you want to uninstall everything? : ")
+confirm("Are you sure you want to uninstall the webcms server? : ")
 
 
 ENV_FILE = '~/envs/env_webcms.sh'
@@ -67,7 +67,7 @@ os.system('sudo groupdel %s' % WEB_GROUP)
 
 
 # remove database and db user
-confirm("About to delete DATABASE. Continue? : ")
+confirm("About to delete DATABASE.\nYou should consider taking a backup first. Continue? : ")
 
 if PG_DB is not None:
     os.system('sudo su postgres -c "dropdb %s"' % PG_DB )
