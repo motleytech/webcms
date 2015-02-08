@@ -309,7 +309,7 @@ package_info = [
     ('syncdb&migrate', {
         'install': [
             # this needs bash for the source command
-            '/bin/bash -d "source %s/bin/activate; source %s/envs/env_webcms.sh; cd %s/webcms/djcms; python manage.py syncdb; python manage.py migrate"' % (VENV_FOLDER, WEB_ROOT_FOLDER, WEB_ROOT_FOLDER),
+            '/bin/bash -c "source %s/bin/activate; source %s/envs/env_webcms.sh; cd %s/webcms/djcms; python manage.py syncdb; python manage.py migrate"' % (VENV_FOLDER, WEB_ROOT_FOLDER, WEB_ROOT_FOLDER),
             ],
     }),
 
@@ -321,7 +321,7 @@ package_info = [
             'sudo supervisorctl update',
             'sudo supervisorctl restart webcms',
 
-            'sudo cp %s/../config/webcms.nginx.conf /etc/nginx/sites-available/webcms',
+            'sudo cp %s/../config/webcms.nginx.conf /etc/nginx/sites-available/webcms' % THIS_DIR,
             'sudo ln -s /etc/nginx/sites-available/webcms /etc/nginx/sites-enabled/webcms',
             'sudo service nginx restart',
             ],
