@@ -81,8 +81,6 @@ STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'djcms', 'static'),
 )
 
-SITE_ID = 1
-
 TEMPLATE_LOADERS = (
     'django.template.loaders.filesystem.Loader',
     'django.template.loaders.app_directories.Loader',
@@ -235,3 +233,7 @@ DATABASES = {
         'PORT': ''
     }
 }
+
+import site_list
+SITE_ID = site_list.SITE_ID
+

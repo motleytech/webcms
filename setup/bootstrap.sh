@@ -34,7 +34,17 @@ sudo chown -R `whoami`:`whoami` $WEB_ROOT_FOLDER
 # clone git repo
 echo -e "\n\nCloning git repo... \n\n"
 cd $WEB_ROOT_FOLDER
-git clone $REPO_URL $WEB_ROOT_FOLDER/$REPO_NAME
+
+if [ -d $WEB_ROOT_FOLDER/$REPO_NAME ]; then
+	echo "git repo already exists"
+	cd $WEB_ROOT_FOLDER/$REPO_NAME
+	sudo su $WEB_USER -c "git checkout ."
+	sudo su $WEB_USER -c "git fetch origin"
+	sudo su $WEB_USER -c "git merge origin/master"
+else
+	echo "cloning git repo now..."
+	git clone $REPO_URL $WEB_ROOT_FOLDER/$REPO_NAME
+fi
 
 
 # create user webuser and group webapps
