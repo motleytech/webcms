@@ -342,6 +342,8 @@ package_info = [
             },
         'install': [
             # this needs bash for the source command
+            'cp %s/webcms/config/env.sh %s/env.sh' % (WEB_ROOT_FOLDER, WEB_ROOT_FOLDER),
+
             'sudo cp %s/../config/webcms_motleytech.supervisor.conf /etc/supervisor/conf.d/webcms_motleytech.conf' % THIS_DIR,
             'sudo cp %s/../config/webcms_nagrajan.supervisor.conf /etc/supervisor/conf.d/webcms_nagrajan.conf' % THIS_DIR,
             'sudo supervisorctl reread',
@@ -350,9 +352,8 @@ package_info = [
             'sudo supervisorctl restart webcms_nagrajan',
 
             'sudo cp %s/../config/webcms.nginx.conf /etc/nginx/sites-available/webcms' % THIS_DIR,
-            'sudo ln -s /etc/nginx/sites-available/webcms /etc/nginx/sites-enabled/webcms',
+            'sudo ln -sf /etc/nginx/sites-available/webcms /etc/nginx/sites-enabled/webcms',
             'sudo service nginx restart',
-            'cp %s/webcms/config/env.sh %s/env.sh' % (WEB_ROOT_FOLDER, WEB_ROOT_FOLDER),
             ],
     }),
 
