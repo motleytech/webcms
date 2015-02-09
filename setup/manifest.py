@@ -294,7 +294,8 @@ package_info = [
             'mkdir -p %s' % LOGS_FOLDER,
             'mkdir -p %s' % BACKUP_FOLDER,
             'mkdir -p %s' % RUN_FOLDER,
-            'touch %s/gunicorn_supervisor.log' % LOGS_FOLDER,
+            'touch %s/gunicorn_motleytech_supervisor.log' % LOGS_FOLDER,
+            'touch %s/gunicorn_nagrajan_supervisor.log' % LOGS_FOLDER,
             ],
     }),
 
@@ -338,10 +339,12 @@ package_info = [
     ('final-config', {
         'install': [
             # this needs bash for the source command
-            'sudo cp %s/../config/webcms.supervisor.conf /etc/supervisor/conf.d/webcms.conf' % THIS_DIR,
+            'sudo cp %s/../config/webcms.motleytech.supervisor.conf /etc/supervisor/conf.d/webcms.motleytech.conf' % THIS_DIR,
+            'sudo cp %s/../config/webcms.nagrajan.supervisor.conf /etc/supervisor/conf.d/webcms.nagrajan.conf' % THIS_DIR,
             'sudo supervisorctl reread',
             'sudo supervisorctl update',
-            'sudo supervisorctl restart webcms',
+            'sudo supervisorctl restart webcms_moteleytech',
+            'sudo supervisorctl restart webcms_nagrajan',
 
             'sudo cp %s/../config/webcms.nginx.conf /etc/nginx/sites-available/webcms' % THIS_DIR,
             'sudo ln -s /etc/nginx/sites-available/webcms /etc/nginx/sites-enabled/webcms',
