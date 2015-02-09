@@ -3,7 +3,7 @@
 source /webserver/envs/env_webcms.sh
 export INSTANCE_SITE_NAME="www.motleytech.net"
 
-NAME="Motleytech server"                                     # Name of the application
+NAME="MotleytechServer"                                     # Name of the application
 DJANGODIR=/webserver/$REPO_NAME/djcms                 # Django project directory
 SOCKFILE=/webserver/run/gunicorn_motleytech.sock                 # we will communicte using this unix socket
 USER=$WEB_USER                                        # the user to run as
