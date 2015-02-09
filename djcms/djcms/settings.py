@@ -36,7 +36,7 @@ DEBUG = (os.environ.get('DJANGO_DEBUG', "True") == "True")
 
 TEMPLATE_DEBUG = True
 
-ALLOWED_HOSTS = ['.motleytech.net', ]
+ALLOWED_HOSTS = ['.motleytech.net', '.nagrajan.net', '.nagrajan.com']
 
 
 # Application definition
