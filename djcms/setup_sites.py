@@ -16,7 +16,7 @@ print "\n\nSite www.nagrajan.com created with id : %s\n" % new_site.id
 site_dict["www.nagrajan.com"] = new_site.id
 
 
-os.system('echo "\nSITES_DICT = %s" >> djcms/settins.py' % pformat(sites))
+os.system('echo "\nSITES_DICT = %s" >> djcms/settings.py' % pformat(site_dict))
 os.system('echo "\nSITE_ID = SITES_DICT[os.environ.get(\'INSTANCE_SITE_NAME\')]" >> djcms/settings.py')
 
 print "Site ids appended to settings."
