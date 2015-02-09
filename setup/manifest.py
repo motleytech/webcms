@@ -337,13 +337,16 @@ package_info = [
     }),
 
     ('final-config', {
+        'options': {
+            'stdout_redirect': False,
+            },
         'install': [
             # this needs bash for the source command
-            'sudo cp %s/../config/webcms.motleytech.supervisor.conf /etc/supervisor/conf.d/webcms.motleytech.conf' % THIS_DIR,
-            'sudo cp %s/../config/webcms.nagrajan.supervisor.conf /etc/supervisor/conf.d/webcms.nagrajan.conf' % THIS_DIR,
+            'sudo cp %s/../config/webcms_motleytech.supervisor.conf /etc/supervisor/conf.d/webcms_motleytech.conf' % THIS_DIR,
+            'sudo cp %s/../config/webcms_nagrajan.supervisor.conf /etc/supervisor/conf.d/webcms_nagrajan.conf' % THIS_DIR,
             'sudo supervisorctl reread',
             'sudo supervisorctl update',
-            'sudo supervisorctl restart webcms_moteleytech',
+            'sudo supervisorctl restart webcms_motleytech',
             'sudo supervisorctl restart webcms_nagrajan',
 
             'sudo cp %s/../config/webcms.nginx.conf /etc/nginx/sites-available/webcms' % THIS_DIR,

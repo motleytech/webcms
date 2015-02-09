@@ -58,8 +58,8 @@ if not WEB_ROOT_FOLDER.startswith('/'):
 
 os.system('sudo supervisorctl stop webcms_motleytech')
 os.system('sudo supervisorctl stop webcms_nagrajan')
-os.system('sudo rm -f /etc/supervisor/conf.d/webcms.motleytech.conf')
-os.system('sudo rm -f /etc/supervisor/conf.d/webcms.nagrajan.conf')
+os.system('sudo rm -f /etc/supervisor/conf.d/webcms_motleytech.conf')
+os.system('sudo rm -f /etc/supervisor/conf.d/webcms_nagrajan.conf')
 
 os.system('sudo rm -f /etc/nginx/sites-enabled/webcms')
 os.system('sudo service nginx restart')
