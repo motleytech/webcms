@@ -21,6 +21,7 @@ MEDIA_FOLDER = os.path.join(WEB_ROOT_FOLDER, 'media')
 LOGS_FOLDER = os.path.join(WEB_ROOT_FOLDER, 'logs')
 BACKUP_FOLDER = os.path.join(WEB_ROOT_FOLDER, 'backup')
 RUN_FOLDER = os.path.join(WEB_ROOT_FOLDER, 'run')
+PIP_CACHE_FOLDER = os.environ.get('PIP_CACHE_FOLDER', '/pip-cache')
 
 THIS_DIR = os.path.dirname(os.path.abspath(__file__))
 
@@ -288,6 +289,7 @@ package_info = [
             ('[ -d %s ]' % LOGS_FOLDER, 0),
             ('[ -d %s ]' % BACKUP_FOLDER, 0),
             ('[ -d %s ]' % RUN_FOLDER, 0),
+            ('[ -d %s ]') % PIP_CACHE_FOLDER, 0),
             ],
         'install': [
             'mkdir -p %s' % MEDIA_FOLDER,
@@ -296,6 +298,9 @@ package_info = [
             'mkdir -p %s' % RUN_FOLDER,
             'touch %s/gunicorn_motleytech_supervisor.log' % LOGS_FOLDER,
             'touch %s/gunicorn_nagrajan_supervisor.log' % LOGS_FOLDER,
+            'sudo mkdir -p %s' % PIP_CACHE_FOLDER,
+            'sudo chown -R `whoami`:`whoami` %s' % PIP_CACHE_FOLDER,
+            'sudo chmod -R a+w %s' % PIP_CACHE_FOLDER,
             ],
     }),
 
@@ -312,7 +317,7 @@ package_info = [
     ('install-virt-pkgs', {
         'install': [
             # this needs bash for the source command
-            '/bin/bash -c "source %s/bin/activate; pip install -r %s/requirements_cms.txt"' % (VENV_FOLDER, THIS_DIR),
+            '/bin/bash -c "source %s/bin/activate; pip install --download-cache %s -r %s/requirements_cms.txt"' % (VENV_FOLDER, PIP_CACHE_FOLDER, THIS_DIR),
             ],
     }),
 
