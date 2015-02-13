@@ -53,7 +53,6 @@ print "Creating project directory (%s) and cloning git repo" % PROJECT_ROOT
 os.makedirs(CONF_PATH)
 if not os.path.exists(REPO_PATH) or \
         confirm("Git repo already exists. Overwrite (yes, no)?"):
-    os.makedirs(PROJECT_ROOT)
     if os.path.exists(REPO_PATH):
         run_command("rm -rf %s" % REPO_PATH)
     os.chdir(PROJECT_ROOT)
