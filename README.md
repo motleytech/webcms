@@ -1,36 +1,36 @@
 ## webcms
 
+A djangocms and djangocms-blog based personal webserver.
+
+It has frontend editing, bootstrap themes, disqus based comments and python goodness.
+
 ### Installation directions
 
-Create the <code>~/envs</code> folder and copy your environment file into it.
-If you don't have an environment file, use below contents as a starting point
+Installation is a simple 4 step process
+
+1. Use the bootstrap.py file to clone the repo locally.
+
+`wget https://raw.githubusercontent.com/motleytech/webcms/master/setup/bootstrap.py`
+
+2. Create a shell script `ws_project/conf/env_webcms.sh` to hold your webserver secret keys and passwords. Sample script shown below. Be sure to change these values.
+
+2b. (Optional) Modify the setup/install_settings.py file to configure the installation. You can change the number / names of sites and django processes per site.
+
+3. Run the install script.
+
+```
+cd setup;
+python install.py
+```
+
+and that's it. Your personal webserver is ready.
+
+####Sample shell script 
 
 <pre>
-export WEB_USER="webuser"
-export WEB_GROUP="webapps"
-export WEB_ROOT_FOLDER="/webserver"
-export VENV_NAME="cms_venv"
-
-export REPO_URL="https://github.com/motleytech/webcms.git"
-export REPO_NAME="webcms"
-
-
-export PG_USER="webdbuser"
 export PG_USER_PW="something random and long here"
-export PG_DB="webcmsdb"
 export PG_ADMIN_PW="something equally big here"
+export DJANGO_SECRET="something perplexing here"
 </pre>
 
-Name the file as env_webcms.sh.
-
-#### Bootstrapping the installation
-
-Get the installation bootstrap script and execute it
-
-<pre>
-wget https://raw.githubusercontent.com/motleytech/webcms/master/setup/bootstrap.sh
-
-bash ./bootstrap.sh
-</pre>
-
-That's it.
+You can copy these fields, modify them and save the file as env_webcms.sh.
