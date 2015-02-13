@@ -1,109 +1,82 @@
 #!/usr/bin/python
 
 import os
-import ws_settings as settings
 
-def run_command(cmd):
+PROJECT_ROOT = os.path.abspath("~/ws_project")
+REPO_URL = "https://github.com/motleytech/webcms.git"
+REPO_NAME = "webcms"
+REPO_PATH = '%s/%s' % (PROJECT_ROOT, REPO_NAME)
+CONF_PATH = "%s/%s" % (PROJECT_ROOT, "conf")
+
+
+class bcolors:
+    HEADER = '\033[95m'
+    OKBLUE = '\033[94m'
+    OKGREEN = '\033[92m'
+    WARNING = '\033[93m'
+    FAIL = '\033[91m'
+    ENDC = '\033[0m'
+    BOLD = '\033[1m'
+    UNDERLINE = '\033[4m'
+
+def run_command(cmd, ignore_error=False):
     print "\nRunning cmd : %s" % cmd
     rv = os.system(cmd)
     if rv != 0:
-        print "Error while running %s. Stopping" % cmd
-        exit(1)
+        if ignore_error is False:
+            print "{}Error while running {}. Stopping{}".format(bcolors.FAIL, cmd, bcolors.ENDC)
+            exit(1)
+        print "{}Error while running command. {}\n{}".format(bcolors.WARNING, cmd, bcolors.ENDC)
+    print "{}Success{}".format(bcolors.OKGREEN, bcolors.ENDC)
 
 
-def apt_get_install(package):
-    cmd = "sudo apt-get install -y %s" % package
-    print "\n\nInstalling %s...\n" % package
-    run_command(cmd)
+def confirm(msg, abort=False):
+    inp = raw_input(msg)
 
-def aptitude_update_and_upgrade():
-    run_command("sudo aptitude -y update")
-    run_command("sudo aptitude -y upgrade")
+    if inp != "yes":
+        if abort:
+            print "Aborting."
+            exit(1)
+        print "Skipping step...\n\n"
+        retun False
 
-def aptitude_install(package):
-    cmd = "sudo aptitude install -y %s" % package
-    print "\n\nInstalling %s...\n" % package
-    run_command(cmd)
+    print "Continuing...\n\n"
+    return True
 
-def make_directory(dpath):
-    cmd = "sudo mkdir -p %s" % dpath
-    run_command(cmd)
+run_command("sudo apt-get -y install aptitude")
+run_command("sudo aptitude -y update")
+run_command("sudo aptitude -y upgrade")
+run_command("sudo aptitude -y install git")
 
-def take_ownership(dpath):
-    cmd = "sudo chown -R `whoami`:`whoami` %s" % dpath
-    run_command(cmd)
+print "Creating project directory (%s) and cloning git repo" % PROJECT_ROOT
 
-def set_permission(dpath, perm):
-    cmd = "sudo chmod -R %s %s" % (perm, dpath)
-    run_command(cmd)
-
-def git_clone(repo, directory):
-    cmd = "cd %s; git clone %s" % (directory, repo)
-    run_command(cmd)
-
-def delete_dir(dpath):
-    cmd = "sudo rm -rf %s" % dpath
-    run_command(cmd)
+os.makedirs(CONF_PATH)
+if not os.path.exists(REPO_PATH) or \
+        confirm("Git repo already exists. Overwrite (yes, no)?"):
+    os.path.makedirs(PROJECT_ROOT)
+    if os.path.exists(REPO_PATH):
+        run_command("rm -rf %s" % REPO_PATH)
+    os.chdir(PROJECT_ROOT)
+    run_command("git clone %s" % REPO_URL)
 
 
+print """\
 
-WS_ROOT_FOLDER = settings.server_root_folder
-PIP_CACHE_FOLDER = settings.pip_cache_folder
-REPO_NAME = settings.repo_url.split("/")[-1].split(".")[0]
+NOTE
+====
+Repository cloned into %s.
 
-apt_get_install("aptitude")
-aptitude_update_and_upgrade()
-aptitude_install("git")
+Please create a file %s in %s to store PG_PW and DJANGO_SECRET.
+These values should be kept scrictly secret in a production environment.
 
+You can additionally modify %s to configure installation settings.
 
-print "Creating top level directories"
+To start the installation, run command
 
-make_directory(WS_ROOT_FOLDER)
-make_directory(PIP_CACHE_FOLDER)
-make_directory(os.path.join(WS_ROOT_FOLDER, 'conf')
+python %s
 
-take_ownership(WS_ROOT_FOLDER)
-take_ownership(PIP_CACHE_FOLDER)
-set_permission(PIP_CACHE_FOLDER, 'a+rw')
+""" % (REPO_PATH, "env_webcms.sh",
+    CONF_PATH, "%s/setup/install_settings.py" % REPO_PATH,
+    "%s/setup/install.py" % REPO_PATH)
 
-
-if not os.path.exists(os.path.join(WS_ROOT_FOLDER, REPO_NAME)):
-    print "Cloning git repository"
-    make_clone = True
-else:
-    make_clone = False
-    decision = raw_input("Git repo already exists. Overwrite (yes, no)? ")
-    while decision.lower() not in ('yes', 'no'):
-        print "Sorry... you need to enter 'yes' or 'no'."
-        decision = raw_input("Git repo already exists. Overwrite (yes, no)? ")
-
-    if decision == 'yes':
-        make_clone = True
-        delete_dir(os.path.join(WS_ROOT_FOLDER, REPO_NAME))
-
-
-if make_clone is True:
-    print "Cloning git repository..."
-    git_clone(settings.repo_url, WS_ROOT_FOLDER)
-
-
-# create user webuser and group webapps
-print "\n\nCreating users and groups... \n\n"
-run_command("sudo groupadd -f --system %s" % settings.user_group)
-run_command("sudo useradd --system --gid %s --shell /bin/bash --home %s %s" % (settings.user_group, WS_ROOT_FOLDER, settings.user_name))
-run_command("sudo usermod -a -G %s `whoami`" % settings.user_group)
-
-
-# execute the real installer script now
-print "\n\nRunning the main install script now... \n\n"
-run_command("cd %s; python setup/install.py debug" % os.path.join(WS_ROOT_FOLDER, REPO_NAME))
-
-# at the end... change permissions of folders
-
-run_command("sudo chown -R %s:%s %s" % (settings.user_name, settings.user_group, WS_ROOT_FOLDER)
-run_command("sudo chmod -R g+w %s" % WS_ROOT_FOLDER)
-
-print "Setup Complete."
-print "\n\nIf you intend to run the server in production, you should now copy your secrets file to %s folder." % os.path.join(WS_ROOT_FOLDER, 'conf')
-print "\n\nYou should also edit the secrets file to change all the keys. The keys can be any random set of characters. The more and random, the better."
 
