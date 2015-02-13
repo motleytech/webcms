@@ -8,9 +8,13 @@ It has frontend editing, bootstrap themes, disqus based comments and python good
 
 Installation is a simple 4 step process
 
-* Use the bootstrap.py file to clone the repo locally.
+* Download the bootstrap.py file and run it to set initial things up.
 
-```wget https://raw.githubusercontent.com/motleytech/webcms/master/setup/bootstrap.py```
+```
+rm bootstrap.py*
+wget https://raw.githubusercontent.com/motleytech/webcms/master/setup/bootstrap.py
+python bootstrap.py
+```
 
 * Create a shell script `ws_project/conf/env_webcms.sh` to hold your webserver secret keys and passwords. Sample script shown below. Be sure to change these values.
 
