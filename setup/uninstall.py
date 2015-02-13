@@ -2,19 +2,23 @@
 import os
 import subprocess
 from pprint import pprint as pp
+import ws_settings as settings
 
-def confirm(msg):
+def confirm(msg, abort=False):
     inp = raw_input(msg)
 
     if inp != "yes":
-        print "Aborting."
-        exit(1)
+        if abort:
+            print "Aborting."
+            exit(1)
+        print "Skipping step...\n\n"
+        retun False
 
     print "Continuing...\n\n"
     return True
 
 # verify that user wants to uninstall
-confirm("Are you sure you want to uninstall the webcms server? : ")
+confirm("Are you sure you want to uninstall the webcms server? : ", True)
 
 
 ENV_FILE = '~/envs/env_webcms.sh'
@@ -41,6 +45,8 @@ WEB_USER = os.environ.get('WEB_USER', None)
 WEB_GROUP = os.environ.get('WEB_GROUP', None)
 PG_USER = os.environ.get('PG_USER', None)
 PG_DB = os.environ.get('PG_DB', None)
+REPO_NAME = os.environ.get('REPO_NAME', None)
+BACKUP_FOLDER = 
 
 if WEB_ROOT_FOLDER is None:
     print "Failed to import environment."
@@ -65,22 +71,26 @@ os.system('sudo rm -f /etc/nginx/sites-enabled/webcms')
 os.system('sudo service nginx restart')
 
 # remove database and db user
-confirm("\n\nAbout to delete DATABASE.\nYou should consider taking a backup first. Continue? : ")
+if confirm("\n\nDelete the DATABASE and DB user ? :"):
+    os.system("sudo su postgres -c 'pg_dumpall > %s/%s'" % (settings.WS_ROOT_FOLDER, "backup.sql"))
+    if PG_DB is not None:
+        os.system('sudo su postgres -c "dropdb %s"' % PG_DB )
 
-if PG_DB is not None:
-    os.system('sudo su postgres -c "dropdb %s"' % PG_DB )
-
-if PG_USER is not None:
-    os.system('sudo -u postgres psql -c "DROP ROLE %s;"' % PG_USER )
+    if PG_USER is not None:
+        os.system('sudo -u postgres psql -c "DROP ROLE %s;"' % PG_USER )
 
 # delete folder
-confirm("About to delete '%s' folder. Continue? : " % WEB_ROOT_FOLDER)
-os.system('sudo rm -rf %s' % (WEB_ROOT_FOLDER))
+if confirm("About to delete git repository and virtualenv folders. Continue? : "):
+    os.system('sudo rm -rf %s/envs' % (WEB_ROOT_FOLDER))
+    os.system('sudo rm -rf %s/venvs' % (WEB_ROOT_FOLDER))
+    os.system('sudo rm -rf %s/%s' % (WEB_ROOT_FOLDER, REPO_NAME))
+    os.system('sudo chown -R `whoami`:`whoami` %s' % WEB_ROOT_FOLDER)
+    os.system('sudo userdel %s' % WEB_USER)
+    os.system('sudo groupdel %s' % WEB_GROUP)
+
 
 
 # remove user and group
-os.system('sudo userdel %s' % WEB_USER)
-os.system('sudo groupdel %s' % WEB_GROUP)
 
 
 
