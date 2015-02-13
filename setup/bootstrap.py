@@ -1,5 +1,10 @@
 #!/usr/bin/python
 
+"""
+Bootstrapping script for webcms personal webserver.
+"""
+
+
 import os
 
 PROJECT_ROOT = os.path.abspath("~/ws_project")
@@ -9,7 +14,8 @@ REPO_PATH = '%s/%s' % (PROJECT_ROOT, REPO_NAME)
 CONF_PATH = "%s/%s" % (PROJECT_ROOT, "conf")
 
 
-class bcolors:
+class bcolors(object):
+    """Colors for the terminal"""
     HEADER = '\033[95m'
     OKBLUE = '\033[94m'
     OKGREEN = '\033[92m'
@@ -20,6 +26,7 @@ class bcolors:
     UNDERLINE = '\033[4m'
 
 def run_command(cmd, ignore_error=False):
+    """run a shell command"""
     print "\nRunning cmd : %s" % cmd
     rv = os.system(cmd)
     if rv != 0:
@@ -31,6 +38,7 @@ def run_command(cmd, ignore_error=False):
 
 
 def confirm(msg, abort=False):
+    """Get user input to confirm action"""
     inp = raw_input(msg)
 
     if inp != "yes":
@@ -50,7 +58,7 @@ run_command("sudo aptitude -y install git")
 
 print "Creating project directory (%s) and cloning git repo" % PROJECT_ROOT
 
-try
+try:
     os.makedirs(CONF_PATH)
 except:
     # arrive here if folders exist
@@ -80,7 +88,7 @@ To start the installation, run command
 python %s
 
 """ % (REPO_PATH, "env_webcms.sh",
-    CONF_PATH, "%s/setup/install_settings.py" % REPO_PATH,
-    "%s/setup/install.py" % REPO_PATH)
+       CONF_PATH, "%s/setup/install_settings.py" % REPO_PATH,
+       "%s/setup/install.py" % REPO_PATH)
 
 
