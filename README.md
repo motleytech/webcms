@@ -11,7 +11,8 @@ Installation is a simple 4 step process
 * Download the bootstrap.py file and run it to set initial things up.
 
 ```
-rm bootstrap.py*
+cd ~;
+rm bootstrap.py
 wget https://raw.githubusercontent.com/motleytech/webcms/master/setup/bootstrap.py
 python bootstrap.py
 ```

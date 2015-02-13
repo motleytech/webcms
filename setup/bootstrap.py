@@ -38,7 +38,7 @@ def confirm(msg, abort=False):
             print "Aborting."
             exit(1)
         print "Skipping step...\n\n"
-        retun False
+        return False
 
     print "Continuing...\n\n"
     return True
