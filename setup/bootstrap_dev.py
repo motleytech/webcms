@@ -7,7 +7,7 @@ Bootstrapping script for webcms personal webserver.
 
 import os
 
-PROJECT_ROOT = os.path.abspath("~/ws_project")
+PROJECT_ROOT = "~/ws_project"
 REPO_URL = "https://github.com/motleytech/webcms.git"
 REPO_NAME = "webcms"
 REPO_PATH = '%s/%s' % (PROJECT_ROOT, REPO_NAME)
@@ -35,6 +35,7 @@ def run_command(cmd, ignore_error=False):
             exit(1)
         print "{}Error while running command. {}\n{}".format(bcolors.WARNING, cmd, bcolors.ENDC)
     print "{}Success{}".format(bcolors.OKGREEN, bcolors.ENDC)
+    return True
 
 
 def confirm(msg, abort=False):
@@ -51,25 +52,20 @@ def confirm(msg, abort=False):
     print "Continuing...\n\n"
     return True
 
-run_command("sudo apt-get -y install aptitude")
-run_command("sudo aptitude -y update")
-run_command("sudo aptitude -y upgrade")
-run_command("sudo aptitude -y install git")
+#run_command("sudo apt-get -y install aptitude")
+#run_command("sudo aptitude -y update")
+#run_command("sudo aptitude -y upgrade")
+#run_command("sudo aptitude -y install git")
 
 print "Creating project directory (%s) and cloning git repo" % PROJECT_ROOT
 
-try:
-    os.makedirs(CONF_PATH)
-except:
-    # arrive here if folders exist
-    pass
+run_command("mkdir -p %s " % CONF_PATH)
 
-if not os.path.exists(REPO_PATH) or \
+if not run_command("[ -d %s ]" % REPO_PATH) or \
         confirm("Git repo already exists. Overwrite (yes, no)?"):
-    if os.path.exists(REPO_PATH):
+    if run_command("[ -d %s ]" % REPO_PATH):
         run_command("rm -rf %s" % REPO_PATH)
-    os.chdir(PROJECT_ROOT)
-    run_command("git clone %s" % REPO_URL)
+    run_command("cd %s; git clone %s" % (PROJECT_ROOT, REPO_URL))
 
 
 print """\
