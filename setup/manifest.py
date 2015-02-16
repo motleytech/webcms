@@ -107,25 +107,6 @@ package_info = [
             ],
     }),
 
-    ('git-configuration', {
-        'exists': [
-            ('cat ~/.gitconfig | grep motleytech', 0),
-            ('cat ~/.gitconfig | grep motleytechnet', 0),
-            ],
-        'install': [
-            'git config --global user.name motleytech',
-            'git config --global user.email motleytechnet@gmail.com',
-            'git config --global alias.st "status"',
-            'git config --global alias.stat "status"',
-            'git config --global alias.wdiff "diff --color-words"',
-            'git config --global merge.tool diffuse',
-            'git config --global merge.summary true',
-            'git config --global difftool.prompt false',
-            'git config --global diff.tool diffuse',
-            'git config --global color.ui true',
-            ],
-    }),
-
     ('build-essential', {
         'exists': [
             ('dpkg -s build-essential', 0),
@@ -337,8 +318,6 @@ package_info = [
             'sudo chmod -R a+w %s' % BACKUP_FOLDER,
 
             'mkdir -p %s' % RUN_FOLDER,
-            'touch %s/gunicorn_motleytech_supervisor.log' % LOGS_FOLDER,
-            'touch %s/gunicorn_nagrajan_supervisor.log' % LOGS_FOLDER,
 
             'sudo mkdir -p %s' % PIP_CACHE_FOLDER,
             'sudo chown -R `whoami`:`whoami` %s' % PIP_CACHE_FOLDER,
@@ -391,15 +370,14 @@ package_info = [
             # this needs bash for the source command
             'cp %s/webcms/config/env.sh %s/env.sh' % (WS_ROOT_FOLDER, WS_ROOT_FOLDER),
 
-            'sudo cp %s/../config/webcms_motleytech.supervisor.conf /etc/supervisor/conf.d/webcms_motleytech.conf' % THIS_DIR,
-            'sudo cp %s/../config/webcms_nagrajan.supervisor.conf /etc/supervisor/conf.d/webcms_nagrajan.conf' % THIS_DIR,
+            # TODO : create template files for gunicorn
             'sudo supervisorctl reread',
             'sudo supervisorctl update',
-            'sudo supervisorctl restart webcms_motleytech',
-            'sudo supervisorctl restart webcms_nagrajan',
+            # TODO : direct supervisor to start processes
 
-            'sudo cp %s/../config/webcms.nginx.conf /etc/nginx/sites-available/webcms' % THIS_DIR,
-            'sudo ln -sf /etc/nginx/sites-available/webcms /etc/nginx/sites-enabled/webcms',
+            # TODO : enable sites in nginx
+            #'sudo cp %s/../config/webcms.nginx.conf /etc/nginx/sites-available/webcms' % THIS_DIR,
+            #'sudo ln -sf /etc/nginx/sites-available/webcms /etc/nginx/sites-enabled/webcms',
             'sudo service nginx restart',
             ],
     }),
