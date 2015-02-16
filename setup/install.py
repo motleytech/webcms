@@ -6,6 +6,7 @@ import manifest
 logger = logging.getLogger()
 logger.setLevel(logging.INFO)
 DEBUG = False
+DEV_ENV = False
 
 class bcolors:
     HEADER = '\033[95m'
@@ -35,16 +36,22 @@ def run_command(cmd,
                 check_res=True,
                 stdout_redirect=True,
                 as_user=None):
-    logging.info("Running command \n{}{}{}".format(bcolors.OKBLUE, cmd, bcolors.ENDC))
-    if (stdout_redirect is True) and (DEBUG is False):
-        cmd += " > /dev/null"
+    if isinstance(cmd, basestring):
+        logging.info("Running command \n{}{}{}".format(bcolors.OKBLUE, cmd, bcolors.ENDC))
+        if (stdout_redirect is True) and (DEBUG is False):
+            cmd += " > /dev/null"
 
-    if as_user is not None:
-        cmd = "sudo su %s -c '%s'" % (as_user, cmd)
+        if as_user is not None:
+            cmd = "sudo su %s -c '%s'" % (as_user, cmd)
 
-    result = os.system(cmd)
-    if check_res is True:
-        return check_result(result, cmd, exit_on_error)
+        result = os.system(cmd)
+        if check_res is True:
+            return check_result(result, cmd, exit_on_error)
+    elif callable(cmd):
+        result = cmd()
+        if check_res is True:
+            return check_result(result, cmd.__name__, exit_on_error)
+
     return result
 
 
@@ -83,6 +90,10 @@ def install_package(pkg, info):
     ignore_result = options.get('ignore_result', False)
     verify_install = options.get('verify_install', None)
     as_user = options.get('as_user', None)
+    ignore_in_dev = options.get('ignore_in_dev', False)
+
+    if (ignore_in_dev is True) and (DEV_ENV is True):
+        return True
 
     if (cmds is None) or (cmds == []):
         return False
@@ -114,4 +125,6 @@ def run_install():
 if __name__ == "__main__":
     if 'debug' in sys.argv:
         DEBUG = True
+    if "dev" in sys.argv:
+        DEV_ENV = True
     run_install()

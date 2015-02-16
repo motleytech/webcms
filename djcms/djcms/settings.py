@@ -1,4 +1,8 @@
 import os
+import sys
+
+import site_list
+
 gettext = lambda s: s
 DATA_DIR = os.path.dirname(os.path.dirname(__file__))
 
@@ -12,31 +16,44 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/1.6/ref/settings/
 """
 
+
+def load_ws_settings():
+    THIS_DIR = os.path.dirname(os.path.abspath(__file__))
+    setup_folder = os.path.abspath(os.path.join(THIS_DIR, "../../setup"))
+
+    sys.path.append(setup_folder)
+
+    import ws_settings
+    from ws_utils import import_env_variables
+    ENV_WEBCMS_PATH = os.path.join(wx_settings.WS_ROOT_FOLDER, "conf/env_webcms.sh")
+    env_vars = import_env_variables(ENV_WEBCMS_PATH)
+
+    sys.path.pop()
+    return ws_settings, env_vars
+
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
+ws_settings, env_vars = load_ws_settings()
 
-if os.environ.get('PG_USER', None) is None:
-    print "\n\nFATAL ERROR: Environment is not set properly.\n"
-    exit(1)
-
-WEB_ROOT_FOLDER = os.environ.get('WEB_ROOT_FOLDER')
-PG_USER = os.environ.get('PG_USER', 'webdbuser')
-PG_USER_PW = os.environ.get('PG_USER_PW', 'somerandomstringhere')
-PG_DB = os.environ.get('PG_DB', 'webcmsdb')
+WS_ROOT_FOLDER = ws_settings.WS_ROOT_FOLDER
+PG_USER = ws_settings.PG_USER
+PG_USER_PW = env_vars["PG_USER_PW"]
+PG_DB = ws_settings.PG_DB
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.6/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '5f+2nreb_i&7roc6o-qf5jv=&f1oe+-v9_l8t3orz%4%u(zx1c'
+# '5f+2nreb_i&7roc6o-qf5jv=&f1oe+-v9_l8t3orz%4%u(zx1c'
+SECRET_KEY = env_vars["DJANGO_SECRET"]
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = (os.environ.get('DJANGO_DEBUG', "True") == "True")
+DEBUG = ws_settings.DJANGO_DEBUG
 
 TEMPLATE_DEBUG = True
 
-ALLOWED_HOSTS = ['.motleytech.net', '.nagrajan.com']
+ALLOWED_HOSTS = ["*"]
 
 
 # Application definition
@@ -74,8 +91,8 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(WEB_ROOT_FOLDER, 'media')
-STATIC_ROOT = os.path.join(WEB_ROOT_FOLDER, 'static')
+MEDIA_ROOT = os.path.join(WS_ROOT_FOLDER, 'media')
+STATIC_ROOT = os.path.join(WS_ROOT_FOLDER, 'static')
 
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'djcms', 'static'),
@@ -163,11 +180,9 @@ INSTALLED_APPS = (
     'djangocms_blog',
 
     'cmsplugin_disqus',
-
-
 )
 
-DISQUS_SHORTNAME = "motleytech"
+DISQUS_SHORTNAME = ws_settings.DISQUS_SHORTNAME
 
 SOUTH_MIGRATION_MODULES = {
     'easy_thumbnails': 'easy_thumbnails.south_migrations',
@@ -234,6 +249,5 @@ DATABASES = {
     }
 }
 
-import site_list
 SITE_ID = site_list.SITE_ID
 

@@ -1,29 +1,57 @@
 import os
 
+import ws_settings as settings
+from ws_utils import import_env_variables, print_fatal, print_info
+
 ################################################
 #
 #  CONSTANTS
 #
 ################################################
 
-WEB_ROOT_FOLDER = os.environ.get('WEB_ROOT_FOLDER', '/webserver')
-WEB_USER = os.environ.get('WEB_USER', 'webuser')
-VENV_NAME = os.environ.get('VENV_NAME', 'cms')
-PG_USER = os.environ.get('PG_USER', 'webdbuser')
-PG_USER_PW = os.environ.get('PG_USER_PW', 'somerandomstringhere')
-PG_DB = os.environ.get('PG_DB', 'webcmsdb')
-PG_ADMIN_PW = os.environ.get('PG_ADMIN_PW', 'someotherrandomstringhere')
+ENV_WEBCMS_PATH = os.path.abspath(os.path.join(os.path.dirname(__file__), "../../conf/env_webcms.sh"))
+env_vars = import_env_variables(ENV_WEBCMS_PATH)
 
-VENV_ROOT_FOLDER = os.path.join(WEB_ROOT_FOLDER, 'venvs')
-VENV_FOLDER = os.path.join(VENV_ROOT_FOLDER, VENV_NAME)
+WS_ROOT_FOLDER = settings.WS_ROOT_FOLDER
+WS_USER = settings.WS_USER
+VENV_ROOT_FOLDER = settings.VENV_ROOT_FOLDER
+VENV_NAME = settings.VENV_NAME
+VENV_FOLDER = settings.VENV_FOLDER
+VENV_ACTIVATE_PATH = "%s/bin/activate" % VENV_FOLDER
 
-MEDIA_FOLDER = os.path.join(WEB_ROOT_FOLDER, 'media')
-LOGS_FOLDER = os.path.join(WEB_ROOT_FOLDER, 'logs')
-BACKUP_FOLDER = os.path.join(WEB_ROOT_FOLDER, 'backup')
-RUN_FOLDER = os.path.join(WEB_ROOT_FOLDER, 'run')
-PIP_CACHE_FOLDER = os.environ.get('PIP_CACHE_FOLDER', '/pip-cache')
+
+PG_USER = settings.PG_USER
+PG_DB = settings.PG_DB
+
+try:
+    PG_USER_PW = env_vars["PG_USER_PW"]
+    PG_ADMIN_PW = env_vars["PG_ADMIN_PW"]
+except:
+    print_fatal("Could not load environment variables from conf/env_webcms.sh")
+    print_fatal("Please follow install directions.\n\nAborting")
+    exit(1)
+
+BACKUP_FOLDER = settings.WS_BACKUP_FOLDER
+PIP_CACHE_FOLDER = settings.WS_PIP_CACHE
+
+MEDIA_FOLDER = os.path.join(WS_ROOT_FOLDER, 'media')
+STATIC_FOLDER = os.path.join(WS_ROOT_FOLDER, 'static')
+LOGS_FOLDER = os.path.join(WS_ROOT_FOLDER, 'logs')
+RUN_FOLDER = os.path.join(WS_ROOT_FOLDER, 'run')
 
 THIS_DIR = os.path.dirname(os.path.abspath(__file__))
+
+
+################################################
+#
+#  methods
+#
+################################################
+
+def check_debug_setting():
+    if settings.DJANGO_DEBUG:
+        return 1  # debug is True
+    return 0  # debug is False
 
 
 ################################################
@@ -33,6 +61,15 @@ THIS_DIR = os.path.dirname(os.path.abspath(__file__))
 ################################################
 
 package_info = [
+    ('check-debug', {
+        'options': {
+            'ignore_in_dev': True,
+            },
+        'install': [
+            check_debug_setting,
+            ],
+    }),
+
     ('aptitude', {
         'exists': [
             ('dpkg -s aptitude', 0),
@@ -289,15 +326,20 @@ package_info = [
             ('[ -d %s ]' % LOGS_FOLDER, 0),
             ('[ -d %s ]' % BACKUP_FOLDER, 0),
             ('[ -d %s ]' % RUN_FOLDER, 0),
-            ('[ -d %s ]') % PIP_CACHE_FOLDER, 0),
+            ('[ -d %s ]' % PIP_CACHE_FOLDER, 0),
             ],
         'install': [
             'mkdir -p %s' % MEDIA_FOLDER,
             'mkdir -p %s' % LOGS_FOLDER,
-            'mkdir -p %s' % BACKUP_FOLDER,
+
+            'sudo mkdir -p %s' % BACKUP_FOLDER,
+            'sudo chown -R `whoami`:`whoami` %s' % BACKUP_FOLDER,
+            'sudo chmod -R a+w %s' % BACKUP_FOLDER,
+
             'mkdir -p %s' % RUN_FOLDER,
             'touch %s/gunicorn_motleytech_supervisor.log' % LOGS_FOLDER,
             'touch %s/gunicorn_nagrajan_supervisor.log' % LOGS_FOLDER,
+
             'sudo mkdir -p %s' % PIP_CACHE_FOLDER,
             'sudo chown -R `whoami`:`whoami` %s' % PIP_CACHE_FOLDER,
             'sudo chmod -R a+w %s' % PIP_CACHE_FOLDER,
@@ -317,7 +359,7 @@ package_info = [
     ('install-virt-pkgs', {
         'install': [
             # this needs bash for the source command
-            '/bin/bash -c "source %s/bin/activate; pip install --download-cache %s -r %s/requirements_cms.txt"' % (VENV_FOLDER, PIP_CACHE_FOLDER, THIS_DIR),
+            '/bin/bash -c "source %s; pip install --download-cache %s -r %s/requirements_cms.txt"' % (VENV_ACTIVATE_PATH, PIP_CACHE_FOLDER, THIS_DIR),
             ],
     }),
 
@@ -327,8 +369,8 @@ package_info = [
             },
         'install': [
             # this needs bash for the source command
-            '/bin/bash -c "source %s/bin/activate; source %s/envs/env_webcms.sh; cd %s/webcms/djcms; python manage.py syncdb; python manage.py migrate"' % (VENV_FOLDER, WEB_ROOT_FOLDER, WEB_ROOT_FOLDER),
-            '/bin/bash -c "source %s/bin/activate; source %s/envs/env_webcms.sh; cd %s/webcms/djcms; python manage.py collectstatic"' % (VENV_FOLDER, WEB_ROOT_FOLDER, WEB_ROOT_FOLDER),
+            '/bin/bash -c "source %s; source %s/conf/env_webcms.sh; cd %s/webcms/djcms; python manage.py syncdb; python manage.py migrate"' % (VENV_ACTIVATE_PATH, WS_ROOT_FOLDER, WS_ROOT_FOLDER),
+            '/bin/bash -c "source %s/bin/activate; source %s/conf/env_webcms.sh; cd %s/webcms/djcms; python manage.py collectstatic"' % (VENV_FOLDER, WS_ROOT_FOLDER, WS_ROOT_FOLDER),
             ],
     }),
 
@@ -337,7 +379,7 @@ package_info = [
             'stdout_redirect': False,
             },
         'install': [
-            '/bin/bash -c "source %s/bin/activate; source %s/envs/env_webcms.sh; cd %s/webcms/djcms; python setup_sites.py"' % (VENV_FOLDER, WEB_ROOT_FOLDER, WEB_ROOT_FOLDER),
+            '/bin/bash -c "source %s/bin/activate; source %s/conf/env_webcms.sh; cd %s/webcms/djcms; python setup_sites.py"' % (VENV_FOLDER, WS_ROOT_FOLDER, WS_ROOT_FOLDER),
             ],
     }),
 
@@ -347,7 +389,7 @@ package_info = [
             },
         'install': [
             # this needs bash for the source command
-            'cp %s/webcms/config/env.sh %s/env.sh' % (WEB_ROOT_FOLDER, WEB_ROOT_FOLDER),
+            'cp %s/webcms/config/env.sh %s/env.sh' % (WS_ROOT_FOLDER, WS_ROOT_FOLDER),
 
             'sudo cp %s/../config/webcms_motleytech.supervisor.conf /etc/supervisor/conf.d/webcms_motleytech.conf' % THIS_DIR,
             'sudo cp %s/../config/webcms_nagrajan.supervisor.conf /etc/supervisor/conf.d/webcms_nagrajan.conf' % THIS_DIR,

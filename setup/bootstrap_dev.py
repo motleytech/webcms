@@ -57,41 +57,44 @@ def confirm(msg, abort=False):
     print "Continuing...\n\n"
     return True
 
-run_command("sudo apt-get -y install aptitude")
-run_command("sudo aptitude -y update")
-run_command("sudo aptitude -y upgrade")
-run_command("sudo aptitude -y install git")
 
-print "Creating project directory (%s) and cloning git repo" % PROJECT_ROOT
+def main():
+    run_command("sudo apt-get -y install aptitude")
+    run_command("sudo aptitude -y update")
+    run_command("sudo aptitude -y upgrade")
+    run_command("sudo aptitude -y install git")
 
-run_command("mkdir -p %s " % CONF_PATH, True)
+    print "Creating project directory (%s) and cloning git repo" % PROJECT_ROOT
 
-repo_exists = run_command("[ -d %s ]" % REPO_PATH, True, True)
+    run_command("mkdir -p %s " % CONF_PATH, True)
 
-if not repo_exists or \
-        confirm("\nGit repo already exists. Overwrite (yes, no)? "):
-    if repo_exists:
-        run_command("rm -rf %s" % REPO_PATH)
-    run_command("cd %s; git clone %s" % (PROJECT_ROOT, REPO_URL))
+    repo_exists = run_command("[ -d %s ]" % REPO_PATH, True, True)
 
-
-print """\
-
-NOTE
-====
-Repository cloned into %s.
-
-Please create a file %s in %s to store PG_PW and DJANGO_SECRET.
-These values should be kept scrictly secret in a production environment.
-
-You can additionally modify %s to configure installation settings.
-
-To start the installation, run command
-
-python %s
-
-""" % (REPO_PATH, "env_webcms.sh",
-       CONF_PATH, "%s/setup/install_settings.py" % REPO_PATH,
-       "%s/setup/install.py" % REPO_PATH)
+    if not repo_exists or \
+            confirm("\nGit repo already exists. Overwrite (yes, no)? "):
+        if repo_exists:
+            run_command("rm -rf %s" % REPO_PATH)
+        run_command("cd %s; git clone %s" % (PROJECT_ROOT, REPO_URL))
 
 
+    print """\
+
+    NOTE
+    ====
+    Repository cloned into %s.
+
+    Please create a file %s in %s to store PG_PW and DJANGO_SECRET.
+    These values should be kept scrictly secret in a production environment.
+
+    You can additionally modify %s to configure installation settings.
+
+    To start the installation, run command
+
+    python %s
+
+    """ % (REPO_PATH, "env_webcms.sh",
+           CONF_PATH, "%s/setup/install_settings.py" % REPO_PATH,
+           "%s/setup/install.py" % REPO_PATH)
+
+if __name__ == "__main__":
+    main()
