@@ -25,16 +25,21 @@ class bcolors(object):
     BOLD = '\033[1m'
     UNDERLINE = '\033[4m'
 
-def run_command(cmd, ignore_error=False):
+def run_command(cmd, ignore_error=False, quiet=False):
     """run a shell command"""
-    print "\nRunning cmd : %s" % cmd
+    if not quiet:
+        print "\nRunning cmd : %s" % cmd
     rv = os.system(cmd)
     if rv != 0:
         if ignore_error is False:
-            print "{}Error while running {}. Stopping{}".format(bcolors.FAIL, cmd, bcolors.ENDC)
+            if not quiet:
+                print "{}Error while running {}. Stopping{}".format(bcolors.FAIL, cmd, bcolors.ENDC)
             exit(1)
-        print "{}Error while running command. {}\n{}".format(bcolors.WARNING, cmd, bcolors.ENDC)
-    print "{}Success{}".format(bcolors.OKGREEN, bcolors.ENDC)
+        if not quiet:
+            print "{}Error while running command. {}\n{}".format(bcolors.WARNING, cmd, bcolors.ENDC)
+        return False
+    if not quiet:
+        print "{}Success{}".format(bcolors.OKGREEN, bcolors.ENDC)
     return True
 
 
@@ -59,11 +64,13 @@ def confirm(msg, abort=False):
 
 print "Creating project directory (%s) and cloning git repo" % PROJECT_ROOT
 
-run_command("mkdir -p %s " % CONF_PATH)
+run_command("mkdir -p %s " % CONF_PATH, True)
 
-if not run_command("[ -d %s ]" % REPO_PATH) or \
-        confirm("Git repo already exists. Overwrite (yes, no)?"):
-    if run_command("[ -d %s ]" % REPO_PATH):
+repo_exists = run_command("[ -d %s ]" % REPO_PATH, True, True)
+
+if not repo_exists or \
+        confirm("\nGit repo already exists. Overwrite (yes, no)? "):
+    if repo_exists:
         run_command("rm -rf %s" % REPO_PATH)
     run_command("cd %s; git clone %s" % (PROJECT_ROOT, REPO_URL))
 

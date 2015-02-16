@@ -40,7 +40,7 @@ python install.py
 
 <pre>
 mkdir ~/ws_project
-cd ws_project
+cd ~/ws_project
 wget https://raw.githubusercontent.com/motleytech/webcms/master/setup/bootstrap_dev.py -O bootstrap_dev.py
 python bootstrap_dev.py
 </pre>
