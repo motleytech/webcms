@@ -57,10 +57,10 @@ def confirm(msg, abort=False):
     print "Continuing...\n\n"
     return True
 
-#run_command("sudo apt-get -y install aptitude")
-#run_command("sudo aptitude -y update")
-#run_command("sudo aptitude -y upgrade")
-#run_command("sudo aptitude -y install git")
+run_command("sudo apt-get -y install aptitude")
+run_command("sudo aptitude -y update")
+run_command("sudo aptitude -y upgrade")
+run_command("sudo aptitude -y install git")
 
 print "Creating project directory (%s) and cloning git repo" % PROJECT_ROOT
 
