@@ -16,29 +16,23 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/1.6/ref/settings/
 """
 
-
 def load_ws_settings():
     THIS_DIR = os.path.dirname(os.path.abspath(__file__))
     setup_folder = os.path.abspath(os.path.join(THIS_DIR, "../../setup"))
 
     sys.path.append(setup_folder)
-
     import ws_settings
-    from ws_utils import import_env_variables
-    ENV_WEBCMS_PATH = os.path.join(wx_settings.WS_ROOT_FOLDER, "conf/env_webcms.sh")
-    env_vars = import_env_variables(ENV_WEBCMS_PATH)
-
     sys.path.pop()
-    return ws_settings, env_vars
+    return ws_settings
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
-ws_settings, env_vars = load_ws_settings()
+ws_settings = load_ws_settings()
 
 WS_ROOT_FOLDER = ws_settings.WS_ROOT_FOLDER
 PG_USER = ws_settings.PG_USER
-PG_USER_PW = env_vars["PG_USER_PW"]
+PG_USER_PW = os.environ["PG_USER_PW"]
 PG_DB = ws_settings.PG_DB
 
 # Quick-start development settings - unsuitable for production
@@ -46,7 +40,7 @@ PG_DB = ws_settings.PG_DB
 
 # SECURITY WARNING: keep the secret key used in production secret!
 # '5f+2nreb_i&7roc6o-qf5jv=&f1oe+-v9_l8t3orz%4%u(zx1c'
-SECRET_KEY = env_vars["DJANGO_SECRET"]
+SECRET_KEY = os.environ["DJANGO_SECRET"]
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = ws_settings.DJANGO_DEBUG
@@ -57,10 +51,6 @@ ALLOWED_HOSTS = ["*"]
 
 
 # Application definition
-
-
-
-
 
 ROOT_URLCONF = 'djcms.urls'
 

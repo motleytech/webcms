@@ -2,6 +2,7 @@ import os
 
 import ws_settings as settings
 from ws_utils import import_env_variables, print_fatal, print_info
+from traceback import print_exc
 
 ################################################
 #
@@ -52,6 +53,30 @@ def check_debug_setting():
     if settings.DJANGO_DEBUG:
         return 1  # debug is True
     return 0  # debug is False
+
+
+def create_sites_and_configs():
+    from ws_utils import createSitesAndConfigs
+    try:
+        result = createSitesAndConfigs()
+        if result is True:
+            return 0
+        return 1
+    except:
+        print_exc()
+        return 1
+
+def configure_supervisor_and_nginx():
+    from ws_utils import configure_supervisor_and_nginx
+
+    try:
+        result = configure_supervisor_and_nginx()
+        if result is True:
+            return 0
+        return 1
+    except:
+        print_exc()
+        return 1
 
 
 ################################################
@@ -302,22 +327,15 @@ package_info = [
 
 
     ('create-folders', {
-        'exists': [
-            ('[ -d %s ]' % MEDIA_FOLDER, 0),
-            ('[ -d %s ]' % LOGS_FOLDER, 0),
-            ('[ -d %s ]' % BACKUP_FOLDER, 0),
-            ('[ -d %s ]' % RUN_FOLDER, 0),
-            ('[ -d %s ]' % PIP_CACHE_FOLDER, 0),
-            ],
         'install': [
             'mkdir -p %s' % MEDIA_FOLDER,
             'mkdir -p %s' % LOGS_FOLDER,
+            'mkdir -p %s' % RUN_FOLDER,
 
             'sudo mkdir -p %s' % BACKUP_FOLDER,
             'sudo chown -R `whoami`:`whoami` %s' % BACKUP_FOLDER,
             'sudo chmod -R a+w %s' % BACKUP_FOLDER,
 
-            'mkdir -p %s' % RUN_FOLDER,
 
             'sudo mkdir -p %s' % PIP_CACHE_FOLDER,
             'sudo chown -R `whoami`:`whoami` %s' % PIP_CACHE_FOLDER,
@@ -353,13 +371,12 @@ package_info = [
             ],
     }),
 
-    ('create_django_site', {
-        'options': {
-            'stdout_redirect': False,
-            },
+    ('create_sites_and_configs', {
         'install': [
-            '/bin/bash -c "source %s/bin/activate; source %s/conf/env_webcms.sh; cd %s/webcms/djcms; python setup_sites.py"' % (VENV_FOLDER, WS_ROOT_FOLDER, WS_ROOT_FOLDER),
-            ],
+            create_sites_and_configs,
+            configure_supervisor_and_nginx,
+            'cp %s/webcms/config/env.sh %s/env.sh' % (WS_ROOT_FOLDER, WS_ROOT_FOLDER),
+        ],
     }),
 
     ('final-config', {
@@ -367,19 +384,6 @@ package_info = [
             'stdout_redirect': False,
             },
         'install': [
-            # this needs bash for the source command
-            'cp %s/webcms/config/env.sh %s/env.sh' % (WS_ROOT_FOLDER, WS_ROOT_FOLDER),
-
-            # TODO : create template files for gunicorn
-            'sudo supervisorctl reread',
-            'sudo supervisorctl update',
-            # TODO : direct supervisor to start processes
-
-            # TODO : enable sites in nginx
-            #'sudo cp %s/../config/webcms.nginx.conf /etc/nginx/sites-available/webcms' % THIS_DIR,
-            #'sudo ln -sf /etc/nginx/sites-available/webcms /etc/nginx/sites-enabled/webcms',
-            'sudo service nginx restart',
             ],
     }),
-
 ]

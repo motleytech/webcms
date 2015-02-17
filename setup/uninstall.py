@@ -43,12 +43,13 @@ def main():
         print "Invalid path : '%s'" % WS_ROOT_FOLDER
         exit(1)
 
-    os.system('sudo supervisorctl stop webcms_motleytech')
-    os.system('sudo supervisorctl stop webcms_nagrajan')
-    os.system('sudo rm -f /etc/supervisor/conf.d/webcms_motleytech.conf')
-    os.system('sudo rm -f /etc/supervisor/conf.d/webcms_nagrajan.conf')
+    for site in settings.SITE_DETAILS:
+        site_name = "webcms_%s" % site['name']
+        os.system('sudo supervisorctl stop %s' % site_name)
+        os.system('sudo rm -f /etc/supervisor/conf.d/%s.conf' % site_name)
 
-    os.system('sudo rm -f /etc/nginx/sites-enabled/webcms')
+        os.system('sudo rm -f /etc/nginx/sites-enabled/%s' % site_name)
+
     os.system('sudo service nginx restart')
 
     # remove database and db user

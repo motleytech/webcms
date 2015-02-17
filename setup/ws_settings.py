@@ -5,6 +5,16 @@ DJANGO_DEBUG = True
 
 # make sure this path is absolute. Do not give relative paths here.
 WS_ROOT_FOLDER   = "/webserver"
+SITE_DETAILS = [
+    # name(unique), domain, forwarding, num_processes
+    # site will be created for 'domain' field.
+    # with forwarding, opening 'myblog.com' or '*.myblog.com' will lead to 'www.myblog.com'
+
+    ('myblog', 'www.myblog.com', '.myblog.com', 1)
+    ('mypersonalweb', 'www.mypersonalweb.com', '.mypersonalweb.com', 1)
+    ('myprojects', 'www.myprojects.com', '.myprojects.com', 1)
+]
+
 WS_PIP_CACHE    = "/webserver_pip_cache"
 WS_BACKUP_FOLDER = "/webserver_backup"
 
