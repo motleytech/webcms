@@ -42,7 +42,7 @@ def main():
     for name, domain, forw, nump in settings.SITE_DETAILS:
         sup_fname = "supervisor_%s.conf" % name
 
-        os.system("sudo supervisorctl stop webcms_%s" % (cmd, name))
+        os.system("sudo supervisorctl stop webcms_%s" % name)
         # delete supervisor config
         os.system("sudo rm /etc/supervisor/conf.d/%s" % (sup_fname))
 
@@ -54,13 +54,13 @@ def main():
     os.system('sudo service nginx restart')
 
     # remove database
-    if confirm("\n\nDelete the DATABASE and DB user ? :"):
+    if confirm("\n\nDelete the DATABASE ? :"):
         os.system("sudo su postgres -c 'pg_dumpall > %s/%s'" % (settings.WS_BACKUP_FOLDER, "backup.sql"))
         if PG_DB is not None:
             os.system('sudo su postgres -c "dropdb %s"' % PG_DB )
 
     # delete folder
-    if confirm("About to delete git repository and virtualenv folders. Continue? : "):
+    if confirm("About to delete git repository. Continue? : "):
         os.system('sudo rm -rf %s/conf' % (WS_ROOT_FOLDER))
         os.system('sudo rm -rf %s/%s' % (WS_ROOT_FOLDER, REPO_NAME))
         os.system('sudo chown -R `whoami`:`whoami` %s' % WS_ROOT_FOLDER)

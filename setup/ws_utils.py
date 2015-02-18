@@ -195,7 +195,7 @@ def conf_supervisor_and_nginx():
     return True
 
 
-def start_supervisor_and_nginx():
+def startSupervisorAndNginx():
     import ws_settings as settings
 
     os.system("sudo supervisorctl reread")
