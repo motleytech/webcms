@@ -4,6 +4,8 @@ import subprocess
 from pprint import pprint as pp
 import ws_settings as settings
 
+THIS_DIR = os.path.dirname(os.path.abspath(__file__))
+
 def confirm(msg, abort=False):
     inp = raw_input(msg)
 
@@ -55,7 +57,7 @@ def main():
 
     # remove database
     if confirm("\n\nDelete the DATABASE ? :"):
-        os.system("sudo su postgres -c 'pg_dumpall > %s/%s'" % (settings.WS_BACKUP_FOLDER, "backup.sql"))
+        os.system("sudo python %s/backup.py" % THIS_DIR)
         if PG_DB is not None:
             os.system('sudo su postgres -c "dropdb %s"' % PG_DB )
 

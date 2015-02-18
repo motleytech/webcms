@@ -3,6 +3,7 @@ import os
 import time
 import ws_settings as settings
 import glob
+import server_ctl
 
 def get_backup_prefix():
     return time.strftime("%Y_%m_%d__%H_%M_%S")
@@ -29,13 +30,17 @@ def create_daily_backup():
     os.system("sudo chmod -R a+rw %s" % temp_folder)
 
     filename = get_daily_backup_name()
-    out_temp_file = os.path.join(temp_folder, filename)
+    out_temp_file = os.path.join(temp_folder, "backup.sql")
     out_file = os.path.join(out_folder, filename)
 
-    os.system("sudo su postgres -c 'pg_dumpall > %s'" % out_temp_file)
+    server_ctl.main("stop")
+
+    os.system("sudo su postgres -c 'pg_dump --create %s > %s'" % (settings.PG_DB, out_temp_file))
+    os.system("sudo cp -r %s/%s %s" % (settings.WS_ROOT_FOLDER, "media", temp_folder))
 
     os.system("sudo zip -r9 %s %s" % (out_file, temp_folder))
     print "Written backup file: %s" % out_file
+    server_ctl.main("start")
     return out_file
 
 
