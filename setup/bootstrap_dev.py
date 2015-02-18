@@ -31,7 +31,7 @@ class bcolors(object):
 def run_command(cmd, ignore_error=False, quiet=False):
     """run a shell command"""
     if not quiet:
-        print "\nRunning cmd : %s" % cmd
+        print "\nRunning cmd : {}{}{}".format(bcolors.OKBLUE, cmd, bcolors.ENDC)
     rv = os.system(cmd)
     if rv != 0:
         if ignore_error is False:
