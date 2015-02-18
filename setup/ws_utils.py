@@ -111,7 +111,6 @@ def createSupervisorConfig():
 
     input_filepath = os.path.join(template_dir, "supervisor_conf.template")
 
-
     for name, domain, forw, nump in settings.SITE_DETAILS:
         args = dict(
             WS_ROOT_FOLDER = settings.WS_ROOT_FOLDER,
@@ -178,6 +177,9 @@ def configure_supervisor_and_nginx():
 
         # copy supervisor config
         os.system("sudo cp %s /etc/supervisor/conf.d/%s" % (sup_op_fpath, sup_fname))
+        # create supervisor log files
+        os.system("touch %s/logs/supervisor_gunicorn_%s.log" % (
+            settings.WS_ROOT_FOLDER, name))
 
         nginx_fname = "nginx_%s" % name
         nginx_op_fpath = os.path.join(out_conf_dir, nginx_fname)

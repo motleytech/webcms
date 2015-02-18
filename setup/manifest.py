@@ -15,6 +15,7 @@ env_vars = import_env_variables(ENV_WEBCMS_PATH)
 
 WS_ROOT_FOLDER = settings.WS_ROOT_FOLDER
 WS_USER = settings.WS_USER
+WS_GROUP = settings.WS_GROUP
 VENV_ROOT_FOLDER = settings.VENV_ROOT_FOLDER
 VENV_NAME = settings.VENV_NAME
 VENV_FOLDER = settings.VENV_FOLDER
@@ -379,11 +380,17 @@ package_info = [
         ],
     }),
 
-    ('final-config', {
+    ('set_owner_and_permissions', {
         'options': {
             'stdout_redirect': False,
+            'ignore_result': True,
             },
         'install': [
+            "sudo groupadd -f --system %s" % WS_GROUP,
+            "sudo useradd --system --gid %s --shell /bin/bash --home %s %s" % (WS_GROUP, WS_ROOT_FOLDER, WS_USER),
+            "sudo usermod -a -G %s `whoami`" % WS_GROUP,
+            "sudo chown -R %s:%s %s" % (WS_USER, WS_GROUP, WS_ROOT_FOLDER),
+            "sudo chmod -R g+w %s" % WS_ROOT_FOLDER,
             ],
     }),
 ]
