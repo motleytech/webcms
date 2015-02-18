@@ -103,7 +103,6 @@ def createGunicornConfig():
             WS_USER = settings.WS_USER,
             WS_GROUP = settings.WS_GROUP,
             NUM_WORKERS = nump,
-            VENV_FOLDER = settings.VENV_FOLDER,
             WSGI_MODULE = "${DJANGO_WSGI_MODULE}",
         )
 
