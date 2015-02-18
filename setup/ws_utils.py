@@ -25,6 +25,17 @@ def import_env_variables(env_file_path):
     proc.communicate()
     return env_vars
 
+#def get_command_output(cmd):
+    #output = []
+    #command = ['bash', '-c', cmd]
+    #proc = subprocess.Popen(command, stdout = subprocess.PIPE)
+
+    #for line in proc.stdout:
+        #output.append(line)
+
+    #proc.communicate()
+    #return output
+
 def print_fatal(msg):
     print "{}{}{}".format(bcolors.FAIL, msg, bcolors.ENDC)
 

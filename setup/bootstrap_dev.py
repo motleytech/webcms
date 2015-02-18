@@ -6,6 +6,8 @@ Bootstrapping script for webcms personal webserver.
 
 
 import os
+import time
+import subprocess
 
 THIS_DIR = os.path.dirname(os.path.abspath(__file__))
 
@@ -43,6 +45,16 @@ def run_command(cmd, ignore_error=False, quiet=False):
         print "{}Success{}".format(bcolors.OKGREEN, bcolors.ENDC)
     return True
 
+def get_command_output(cmd):
+    output = []
+    command = ['bash', '-c', cmd]
+    proc = subprocess.Popen(command, stdout = subprocess.PIPE)
+
+    for line in proc.stdout:
+        output.append(line)
+
+    proc.communicate()
+    return output
 
 def confirm(msg, abort=False):
     """Get user input to confirm action"""
@@ -60,10 +72,17 @@ def confirm(msg, abort=False):
 
 
 def main():
-    run_command("sudo apt-get -y install aptitude")
-    run_command("sudo aptitude -y update")
-    run_command("sudo aptitude -y upgrade")
-    run_command("sudo aptitude -y install git")
+    if run_command("dpkg -s aptitude", ignore_error=True) != 0:
+        run_command("sudo apt-get -y install aptitude")
+
+    now = time.time()
+    update_time = int(get_command_output("stat -c %Y /var/lib/apt/periodic/update-success-stamp")[0].strip())
+    if ((now - update_time) > 3600*24):
+        run_command("sudo aptitude -y update")
+        run_command("sudo aptitude -y upgrade")
+
+    if run_command("dpkg -s git", ignore_error=True) != 0:
+        run_command("sudo aptitude -y install git")
 
     run_command("mkdir -p %s " % CONF_PATH, True)
 
