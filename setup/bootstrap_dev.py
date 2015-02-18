@@ -72,7 +72,7 @@ def confirm(msg, abort=False):
 
 
 def main():
-    if run_command("dpkg -s aptitude", ignore_error=True) != 0:
+    if run_command("dpkg -s aptitude", ignore_error=True) is False:
         run_command("sudo apt-get -y install aptitude")
 
     now = time.time()
@@ -81,7 +81,7 @@ def main():
         run_command("sudo aptitude -y update")
         run_command("sudo aptitude -y upgrade")
 
-    if run_command("dpkg -s git", ignore_error=True) != 0:
+    if run_command("dpkg -s git", ignore_error=True) is False:
         run_command("sudo aptitude -y install git")
 
     run_command("mkdir -p %s " % CONF_PATH, True)
