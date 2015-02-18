@@ -32,7 +32,7 @@ def main():
     run_command("cp -R %s/%s %s/%s" % (dev_folder, settings.REPO_NAME, settings.WS_ROOT_FOLDER, settings.REPO_NAME))
 
     # run the main install script with dev=true
-    run_command("cd %s/%s/%s; python install.py dev=true" % (settings.WS_ROOT_FOLDER, settings.REPO_NAME, "setup"))
+    run_command("cd %s/%s/%s; python install.py debug developer_mode" % (settings.WS_ROOT_FOLDER, settings.REPO_NAME, "setup"))
 
 
 if __name__ == "__main__":

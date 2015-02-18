@@ -19,12 +19,15 @@ class bcolors:
     UNDERLINE = '\033[4m'
 
 
-def check_result(result, cmd, exit_on_error=True):
+def check_result(result, cmd, exit_on_error=True, no_echo=False):
     if result == 0:
         logging.info("{}Success.{}".format(bcolors.OKGREEN, bcolors.ENDC))
         return True
     else:
-        logging.error("Failed during command \n{}{}{}".format(bcolors.FAIL, cmd, bcolors.ENDC))
+        if no_echo is False:
+            logging.error("Failed during command \n{}{}{}".format(bcolors.FAIL, cmd, bcolors.ENDC))
+        else:
+            logging.error("Failed during command... (command hidden)")
         if exit_on_error is True:
             logging.error("Quitting!!")
             exit(1)
@@ -35,9 +38,13 @@ def run_command(cmd,
                 exit_on_error=True,
                 check_res=True,
                 stdout_redirect=True,
-                as_user=None):
+                as_user=None,
+                no_echo=False):
     if isinstance(cmd, basestring):
-        logging.info("Running command \n{}{}{}".format(bcolors.OKBLUE, cmd, bcolors.ENDC))
+        if not no_echo:
+            logging.info("Running command \n{}{}{}".format(bcolors.OKBLUE, cmd, bcolors.ENDC))
+        else:
+            logging.info("Running command... (command line hidden)")
         if (stdout_redirect is True) and (DEBUG is False):
             cmd += " > /dev/null"
 
@@ -46,11 +53,11 @@ def run_command(cmd,
 
         result = os.system(cmd)
         if check_res is True:
-            return check_result(result, cmd, exit_on_error)
+            return check_result(result, cmd, exit_on_error, no_echo)
     elif callable(cmd):
         result = cmd()
         if check_res is True:
-            return check_result(result, cmd.__name__, exit_on_error)
+            return check_result(result, cmd.__name__, exit_on_error, no_echo)
 
     return result
 
@@ -59,14 +66,16 @@ def run_commands(cmds,
                  exit_on_error=True,
                  check_res=True,
                  stdout_redirect=True,
-                 as_user=None):
+                 as_user=None,
+                 no_echo=False):
     result = True
     for cmd in cmds:
         rv = run_command(cmd,
                          exit_on_error,
                          check_res,
                          stdout_redirect,
-                         as_user)
+                         as_user,
+                         no_echo)
         result = result and rv
     return result
 
@@ -91,6 +100,7 @@ def install_package(pkg, info):
     verify_install = options.get('verify_install', None)
     as_user = options.get('as_user', None)
     ignore_in_dev = options.get('ignore_in_dev', False)
+    no_echo = options.get('no_echo', False)
 
     if (ignore_in_dev is True) and (DEV_ENV is True):
         return True
@@ -101,7 +111,8 @@ def install_package(pkg, info):
     run_commands(cmds,
                  exit_on_error=(not ignore_result),
                  stdout_redirect=stdout_redirect,
-                 as_user=as_user)
+                 as_user=as_user,
+                 no_echo=no_echo)
 
     if verify_install is not None:
         run_command(verify_install)
@@ -125,6 +136,6 @@ def run_install():
 if __name__ == "__main__":
     if 'debug' in sys.argv:
         DEBUG = True
-    if "dev" in sys.argv:
+    if "developer_mode" in sys.argv:
         DEV_ENV = True
     run_install()

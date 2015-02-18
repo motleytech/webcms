@@ -68,17 +68,30 @@ def create_sites_and_configs():
         return 1
 
 def configure_supervisor_and_nginx():
-    from ws_utils import configure_supervisor_and_nginx
+    from ws_utils import conf_supervisor_and_nginx
 
     try:
-        result = configure_supervisor_and_nginx()
+        result = conf_supervisor_and_nginx()
         if result is True:
             return 0
         return 1
     except:
         print_exc()
         return 1
+    return 0
 
+
+def start_supervisor_and_nginx():
+    from ws_utils import startSupervisorAndNginx
+    try:
+        result = startSupervisorAndNginx()
+        if result is True:
+            return 0
+        return 1
+    except:
+        print_exc()
+        return 1
+    return 0
 
 ################################################
 #
@@ -157,15 +170,6 @@ package_info = [
             ],
         'install': [
             'sudo aptitude install -y python-dev',
-            ],
-    }),
-
-    ('python-pip', {
-        'exists': [
-            ('dpkg -s python-pip', 0),
-            ],
-        'install': [
-            'sudo aptitude install -y python-pip',
             ],
     }),
 
@@ -295,15 +299,18 @@ package_info = [
     ('create-pgsql-user', {
         'options': {
             'ignore_result': True,
+            'no_echo': True,
             },
         'install': [
             'sudo su postgres -c \'psql -q -c "CREATE ROLE %s WITH CREATEDB LOGIN PASSWORD \'\\\'\'%s\'\\\'\'";\'' % (PG_USER, PG_USER_PW),
+            'echo "ALTER USER %s WITH PASSWORD \'%s\';" | sudo -u postgres psql postgres' % (PG_USER, PG_USER_PW),
             ],
     }),
 
     ('create-pgsql-user', {
         'options': {
             'ignore_result': True,
+            'no_echo': True,
             },
         'install': [
             'echo "ALTER USER postgres WITH PASSWORD \'%s\';" | sudo -u postgres psql postgres' % (PG_ADMIN_PW),
@@ -401,5 +408,11 @@ package_info = [
             "sudo chown -R %s:%s %s" % (WS_USER, WS_GROUP, WS_ROOT_FOLDER),
             "sudo chmod -R g+w %s" % WS_ROOT_FOLDER,
             ],
+    }),
+
+    ('start_supervisor_and_nginx', {
+        'install': [
+            start_supervisor_and_nginx,
+        ],
     }),
 ]

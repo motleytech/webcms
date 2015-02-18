@@ -50,16 +50,6 @@ def print_info(msg):
 
 
 
-SITE_DETAILS = [
-    # name(unique), domain, forwarding, num_processes
-    # site will be created for 'domain' field.
-    # with forwarding, opening 'myblog.com' or '*.myblog.com' will lead to 'www.myblog.com'
-
-    ('myblog', 'www.myblog.com', '.myblog.com', 1)
-    ('mypersonalweb', 'www.mypersonalweb.com', '.mypersonalweb.com', 1)
-    ('myprojects', 'www.myprojects.com', '.myprojects.com', 1)
-]
-
 def createSites():
     import ws_settings as settings
 
@@ -111,6 +101,7 @@ def createGunicornConfig():
 
         # make the file executable
         os.system("chmod a+x %s" % output_filepath)
+    return 0
 
 def createSupervisorConfig():
     import ws_settings as settings
@@ -130,6 +121,7 @@ def createSupervisorConfig():
 
         output_filepath = os.path.join(out_conf_dir, "supervisor_%s.conf" % name)
         write_from_template(input_filepath, output_filepath, args)
+    return 0
 
 
 def createNginxConfig():
@@ -149,11 +141,12 @@ def createNginxConfig():
             SITE_NAME = name,
             DOMAIN = domain,
             REPO_FOLDER = REPO_FOLDER,
-            FWD_DOMAIN = forw,
+            FORWARD_DOMAIN = forw,
         )
 
         output_filepath = os.path.join(out_conf_dir, "nginx_%s" % name)
         write_from_template(input_filepath, output_filepath, args)
+    return 0
 
 
 
@@ -174,8 +167,10 @@ def createSitesAndConfigs():
     if rv != 0:
         return rv
 
+    return True
 
-def configure_supervisor_and_nginx():
+
+def conf_supervisor_and_nginx():
     import ws_settings as settings
 
     this_dir = os.path.dirname(os.path.abspath(__file__))
@@ -197,6 +192,11 @@ def configure_supervisor_and_nginx():
         # copy nginx config
         os.system("sudo cp %s /etc/nginx/sites-available/%s" % (nginx_op_fpath, nginx_fname))
         os.system("sudo ln -sf /etc/nginx/sites-available/%s /etc/nginx/sites-enabled/%s" % (nginx_fname, nginx_fname))
+    return True
+
+
+def start_supervisor_and_nginx():
+    import ws_settings as settings
 
     os.system("sudo supervisorctl reread")
     os.system("sudo supervisorctl update")
@@ -204,3 +204,4 @@ def configure_supervisor_and_nginx():
         os.system("sudo supervisorctl restart webcms_%s" % name)
 
     os.system("sudo service nginx restart")
+    return True

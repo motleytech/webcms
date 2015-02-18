@@ -2,6 +2,7 @@ import os
 from pprint import pformat
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "djcms.settings")
 from django.contrib.sites.models import Site
+import sys
 
 def load_ws_settings():
     THIS_DIR = os.path.dirname(os.path.abspath(__file__))
