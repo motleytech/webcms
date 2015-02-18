@@ -7,11 +7,12 @@ Bootstrapping script for webcms personal webserver.
 
 import os
 
-PROJECT_ROOT = "~/ws_project"
+THIS_DIR = os.path.dirname(os.path.abspath(__file__))
+
 REPO_URL = "https://github.com/motleytech/webcms.git"
 REPO_NAME = "webcms"
-REPO_PATH = '%s/%s' % (PROJECT_ROOT, REPO_NAME)
-CONF_PATH = "%s/%s" % (PROJECT_ROOT, "conf")
+REPO_PATH = os.path.join(THIS_DIR, REPO_NAME)
+CONF_PATH = os.path.join(THIS_DIR, "conf")
 
 
 class bcolors(object):
@@ -64,18 +65,18 @@ def main():
     run_command("sudo aptitude -y upgrade")
     run_command("sudo aptitude -y install git")
 
-    print "Creating project directory (%s) and cloning git repo" % PROJECT_ROOT
-
     run_command("mkdir -p %s " % CONF_PATH, True)
 
+    print "Cloning git repo..."
     repo_exists = run_command("[ -d %s ]" % REPO_PATH, True, True)
 
     if not repo_exists or \
             confirm("\nGit repo already exists. Overwrite (yes, no)? "):
         if repo_exists:
             run_command("rm -rf %s" % REPO_PATH)
-        run_command("cd %s; git clone %s" % (PROJECT_ROOT, REPO_URL))
+        run_command("git clone %s" % REPO_URL)
 
+    run_command("cp %s/config/sample_env_webcms.sh %s/conf/" % (REPO_PATH, THIS_DIR))
 
     print """\
 
@@ -83,7 +84,7 @@ def main():
     ====
     Repository cloned into %s.
 
-    Please create a file %s in %s to store PG_PW and DJANGO_SECRET.
+    Please rename the %s in %s to env_webcms.sh and change the passowords/secrets.
     These values should be kept scrictly secret in a production environment.
 
     You can additionally modify %s to configure installation settings.
@@ -92,7 +93,7 @@ def main():
 
     python %s
 
-    """ % (REPO_PATH, "env_webcms.sh",
+    """ % (REPO_PATH, "sample_env_webcms.sh",
            CONF_PATH, "%s/setup/install_settings.py" % REPO_PATH,
            "%s/setup/install.py" % REPO_PATH)
 

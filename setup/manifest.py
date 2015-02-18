@@ -160,6 +160,15 @@ package_info = [
             ],
     }),
 
+    ('python-pip', {
+        'exists': [
+            ('dpkg -s python-pip', 0),
+            ],
+        'install': [
+            'sudo aptitude install -y python-pip',
+            ],
+    }),
+
     ('postgresql', {
         'exists': [
             ('dpkg -s postgresql', 0),
