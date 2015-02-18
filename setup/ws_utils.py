@@ -201,7 +201,7 @@ def startSupervisorAndNginx():
     os.system("sudo supervisorctl reread")
     os.system("sudo supervisorctl update")
     for name, domain, forw, nump in settings.SITE_DETAILS:
-        os.system("sudo supervisorctl restart webcms_%s" % name)
+        os.system("sudo supervisorctl start webcms_%s" % name)
 
     os.system("sudo service nginx restart")
     return True

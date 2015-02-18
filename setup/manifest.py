@@ -415,4 +415,13 @@ package_info = [
             start_supervisor_and_nginx,
         ],
     }),
+
+    ("setup_backup_cron", {
+        'exists': [
+            ('sudo crontab -l | grep %s/backup.py' % (THIS_DIR), 0)
+            ],
+        'install': [
+            "sudo su -c 'crontab -l | { cat; echo \"30 3 * * * python %s/backup.py 2>&1 | logger\"; } | crontab -'" % (THIS_DIR),
+        ],
+    }),
 ]
