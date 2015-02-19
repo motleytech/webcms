@@ -57,7 +57,7 @@ def main():
 
     # remove database
     if confirm("\n\nDelete the DATABASE ? :"):
-        os.system("sudo python %s/backup.py" % THIS_DIR)
+        os.system("sudo python %s/backup.py --no-process-restart" % THIS_DIR)
         if PG_DB is not None:
             os.system('sudo su postgres -c "dropdb %s"' % PG_DB )
 
@@ -66,6 +66,8 @@ def main():
         os.system('sudo rm -rf %s/conf' % (WS_ROOT_FOLDER))
         os.system('sudo rm -rf %s/%s' % (WS_ROOT_FOLDER, REPO_NAME))
         os.system('sudo chown -R `whoami`:`whoami` %s' % WS_ROOT_FOLDER)
+
+    os.system("sudo su -c 'crontab -l | grep -v \"webcms\" | crontab -'")
 
 if __name__ == "__main__":
     main()

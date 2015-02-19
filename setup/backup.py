@@ -4,6 +4,7 @@ import time
 import ws_settings as settings
 import glob
 import server_ctl
+import sys
 
 def get_backup_prefix():
     return time.strftime("%Y_%m_%d__%H_%M_%S")
@@ -21,7 +22,7 @@ def get_yearly_backup_name():
     return "%s__%s" % (get_backup_prefix(), "Yearly.zip")
 
 
-def create_daily_backup():
+def create_daily_backup(restartProcesses=True):
     temp_folder = "/tmp/ws_backup"
     out_folder = settings.WS_BACKUP_FOLDER
 
@@ -33,14 +34,17 @@ def create_daily_backup():
     out_temp_file = os.path.join(temp_folder, "backup.sql")
     out_file = os.path.join(out_folder, filename)
 
-    server_ctl.main("stop")
+    if restartProcesses is True:
+        server_ctl.main("stop")
 
     os.system("sudo su postgres -c 'pg_dump --create %s > %s'" % (settings.PG_DB, out_temp_file))
     os.system("sudo cp -r %s/%s %s" % (settings.WS_ROOT_FOLDER, "media", temp_folder))
 
     os.system("sudo zip -r9 %s %s" % (out_file, temp_folder))
     print "Written backup file: %s" % out_file
-    server_ctl.main("start")
+
+    if restartProcesses is True:
+        server_ctl.main("start")
     return out_file
 
 
@@ -90,7 +94,11 @@ def prune_backups():
 
 def main():
     print "Creating daily backup"
-    out_file = create_daily_backup()
+    restartProcesses = True
+    if "--no-process-restart" in sys.argv:
+        restartProcesses = False
+
+    out_file = create_daily_backup(restartProcesses)
 
     create_weekly_backup(out_file)
     create_monthly_backup(out_file)

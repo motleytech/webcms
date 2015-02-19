@@ -86,7 +86,7 @@ def main():
         run_command("sudo aptitude -y install git")
 
     run_command("sudo mkdir -p %s" % WS_ROOT_FOLDER, ignore_error=True)
-    run_command("sudo chown -R 'whoami':'whoami' %s" % WS_ROOT_FOLDER)
+    run_command("sudo chown -R `whoami`:`whoami` %s" % WS_ROOT_FOLDER)
 
     print "Cloning git repo..."
     repo_exists = run_command("[ -d %s ]" % REPO_PATH, True, True)
