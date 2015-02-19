@@ -26,7 +26,7 @@ cp /webserver/webcms/conf/sample_env_webcms.sh /webserver/conf/env_webcms.sh
 </pre>
 Now, edit the secrets file in `/webserver/conf/env_webcms.sh`. Make up your own secret passwords.
 
-* Modify the server settings file `/webserver/webcms/setup/install_settings.py` to configure the server install. You can change the domain names and sites that you want to support here.
+* Modify the server settings file `/webserver/webcms/setup/ws_settings.py` to configure the server install. You can change the domain names and sites that you want to support here.
 
 * Run the install script.
 <pre>
@@ -47,7 +47,7 @@ python bootstrap_dev.py
 
 * Modify the shell script `~/ws_project/conf/env_webcms.sh` to hold your webserver secret keys and passwords. Sample script shown below. Be sure to change these values.
 
-* (Optional) Modify the `~/ws_project/setup/install_settings.py` file to configure the installation. You can change the number / names of sites and django processes per site.
+* (Optional) Modify the `~/ws_project/setup/ws_settings.py` file to configure the installation. You can change the number / names of sites and django processes per site.
 
 * You can modify the code in `~/ws_project/webcms/`.
 
