@@ -8,6 +8,7 @@ Bootstrapping script for webcms personal webserver.
 import os
 import time
 import subprocess
+import logging
 
 THIS_DIR = os.path.dirname(os.path.abspath(__file__))
 
@@ -77,7 +78,11 @@ def main():
         run_command("sudo apt-get -y install aptitude")
 
     now = time.time()
-    update_time = int(get_command_output("stat -c %Y /var/lib/apt/periodic/update-success-stamp")[0].strip())
+    try:
+        update_time = int(get_command_output("stat -c %Y /var/lib/apt/periodic/update-success-stamp")[0].strip())
+    except:
+        logging.error("Warning: Error while getting last success time of apt-get update. Maybe it never succeded. Can be ignored safely.")
+        update_time = now
     if ((now - update_time) > 3600*24):
         run_command("sudo aptitude -y update")
         run_command("sudo aptitude -y upgrade")
