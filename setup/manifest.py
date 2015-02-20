@@ -118,15 +118,6 @@ package_info = [
             ],
     }),
 
-    ('geany', {
-        'exists': [
-            ('dpkg -s geany', 0),
-            ],
-        'install': [
-            'sudo aptitude install -y geany',
-            ],
-    }),
-
     ('git', {
         'exists': [
             ('dpkg -s git', 0),
