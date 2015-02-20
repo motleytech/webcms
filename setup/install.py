@@ -120,6 +120,9 @@ def install_package(pkg, info):
 
 def run_install():
     for package, info in manifest.package_info:
+        if info is None:
+            # package is not relevant
+            continue
         print "\n"
         logging.info("Processing package {}{}{}".format(bcolors.OKBLUE, package, bcolors.ENDC))
         exists = check_exists(package, info)

@@ -8,7 +8,7 @@ WS_ROOT_FOLDER   = "/webserver"
 SITE_DETAILS = [
     # name(unique), domain, forwarding, num_processes
     # site will be created for 'domain' field.
-    # with forwarding, opening 'myblog.com' or '*.myblog.com' will lead to 'www.myblog.com'
+    # with forwarding, 'myblog.com' or '*.myblog.com' will lead to 'www.myblog.com'
 
     ('myblog', 'www.myblog.com', '.myblog.com', 1),
     ('mypersonalweb', 'www.mypersonalweb.com', '.mypersonalweb.com', 1),
@@ -36,9 +36,10 @@ VENV_ROOT_FOLDER = os.path.join(WS_ROOT_FOLDER, 'venvs')
 VENV_NAME = "cms_venv"
 VENV_FOLDER = os.path.join(VENV_ROOT_FOLDER, VENV_NAME)
 
-
 REPO_URL  = "https://github.com/motleytech/webcms.git"
 REPO_NAME = REPO_URL.split("/")[-1].split(".")[0]
+
+DESKTOP_INSTALL = (os.system("sudo dpkg -l ubuntu-desktop") == 0)
 
 # installing
 # wget https://raw.githubusercontent.com/motleytech/webcms/master/setup/bootstrap.sh

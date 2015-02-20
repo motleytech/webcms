@@ -135,7 +135,16 @@ package_info = [
             "sudo aptitude install -y diffuse",
             "sudo python %s/patch_diffuse.py" % THIS_DIR,
             ],
-    }),
+    } if settings.DESKTOP_INSTALL is True else None),
+
+    ('geany', {
+        'exists': [
+            ('dpkg -s geany', 0),
+            ],
+        'install': [
+            'sudo aptitude install -y geany',
+            ],
+    } if settings.DESKTOP_INSTALL is True else None),
 
     ('build-essential', {
         'exists': [
@@ -180,7 +189,7 @@ package_info = [
         'install': [
             'sudo aptitude install -y pgadmin3',
             ],
-    }),
+    } if settings.DESKTOP_INSTALL is True else None),
 
     ('postgresql-contrib', {
         'exists': [
@@ -298,7 +307,7 @@ package_info = [
             ],
     }),
 
-    ('create-pgsql-user', {
+    ('modify-postgres-pw', {
         'options': {
             'ignore_result': True,
             'no_echo': True,
