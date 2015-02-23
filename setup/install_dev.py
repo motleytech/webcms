@@ -20,7 +20,11 @@ def main():
 
     dev_folder = os.path.abspath(os.path.join(os.path.dirname(__file__), "../../"))
 
-    # create directories
+    # if old stuff exists, run uninstall
+    if os.path.exists("%s/webcms" % settings.WS_ROOT_FOLDER):
+        run_command("sudo chown -R `whoami`:`whoami` %s" % settings.WS_ROOT_FOLDER)
+        run_command("python %s/webcms/setup/uninstall.py" % settings.WS_ROOT_FOLDER)
+
     run_command("sudo mkdir -p %s" % settings.WS_ROOT_FOLDER)
     run_command("sudo chown -R `whoami`:`whoami` %s" % settings.WS_ROOT_FOLDER)
 
@@ -37,4 +41,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
