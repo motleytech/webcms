@@ -3,13 +3,10 @@ import os
 # make this FALSE in production
 DJANGO_DEBUG = True
 
-# make sure this path is absolute. Do not give relative paths here.
-WS_ROOT_FOLDER   = "/webserver"
+# site will be created for 'domain' field.
+# with forwarding, 'myblog.com' or '*.myblog.com' will lead to 'www.myblog.com'
 SITE_DETAILS = [
-    # name(unique), domain, forwarding, num_processes
-    # site will be created for 'domain' field.
-    # with forwarding, 'myblog.com' or '*.myblog.com' will lead to 'www.myblog.com'
-
+    # name(unique), domain, forwarding, num_django_processes
     ('myblog', 'www.myblog.com', '.myblog.com', 1),
     ('mypersonalweb', 'www.mypersonalweb.com', '.mypersonalweb.com', 1),
     ('myprojects', 'www.myprojects.com', '.myprojects.com', 1),
@@ -31,6 +28,7 @@ DISQUS_SHORTNAME = ""
 # DO NOT CHANGE ANYTHING BELOW THIS
 #
 #########################################
+WS_ROOT_FOLDER   = "/webserver"
 
 VENV_ROOT_FOLDER = os.path.join(WS_ROOT_FOLDER, 'venvs')
 VENV_NAME = "cms_venv"
