@@ -95,7 +95,7 @@ def main():
             run_command("rm -rf %s" % REPO_PATH)
         run_command("git clone %s" % REPO_URL)
 
-    run_command("cp %s/config/sample_env_webcms.sh %s/conf/" % (REPO_PATH, THIS_DIR))
+    run_command("cp %s/config/sample_env_webcms.sh %s/conf/env_webcms.sh" % (REPO_PATH, THIS_DIR))
 
     print """\
 

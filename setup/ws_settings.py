@@ -1,7 +1,7 @@
 import os
 
 # make this FALSE in production
-DJANGO_DEBUG = True
+DJANGO_DEBUG = (os.environ["DJANGO_DEBUG"] == "True")
 
 # site will be created for 'domain' field.
 # with forwarding, 'myblog.com' or '*.myblog.com' will lead to 'www.myblog.com'
