@@ -47,7 +47,7 @@ python bootstrap_dev.py
 
 You should now have the git repository cloned in `~/dev/ws_project/webcms` folder.
 
-* In `~/dev/ws_project/conf` folder, modify the file `env_webcms.sh` and populate the values for passwords and django_secret. You should create your own values or use `makepasswd`  to generate random passwords (section on makepasswd below). Keep the values in the `env_webcms.sh` file secret... these are essential to the security of your website.
+* In `~/dev/ws_project/conf` folder, modify the file `env_webcms.sh` and populate the values for passwords and django_secret. You should create your own values or use `makepasswd`  to generate random passwords (section on makepasswd below). Keep the values in the `env_webcms.sh` file secret... these are essential to the security of your website. You might also want to set DJANGO_DEBUG="True" in dev mode.
 
 * Modify the server settings file `~/dev/ws_project/webcms/setup/ws_settings.py` to configure the server install. You should change the domains that you want to support by changing `SITE_DETAILS`. By default, there are 3 predefined domains with 1 django process assigned to handle each domain.
 

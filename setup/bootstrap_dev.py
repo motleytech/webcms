@@ -76,7 +76,11 @@ def main():
         run_command("sudo apt-get -y install aptitude")
 
     now = time.time()
-    update_time = int(get_command_output("stat -c %Y /var/lib/apt/periodic/update-success-stamp")[0].strip())
+    try:
+        update_time = int(get_command_output("stat -c %Y /var/lib/apt/periodic/update-success-stamp")[0].strip())
+    except:
+        update_time = 0
+
     if ((now - update_time) > 3600*24):
         run_command("sudo aptitude -y update")
         run_command("sudo aptitude -y upgrade")
@@ -103,7 +107,7 @@ def main():
     ====
     Repository cloned into %s.
 
-    Please rename the %s in %s to env_webcms.sh and change the passowords/secrets.
+    Please edit %s in %s folder and change the passowords/secrets.
     These values should be kept scrictly secret in a production environment.
 
     You can additionally modify %s to configure installation settings.
@@ -112,7 +116,7 @@ def main():
 
     python %s
 
-    """ % (REPO_PATH, "sample_env_webcms.sh",
+    """ % (REPO_PATH, "env_webcms.sh",
            CONF_PATH, "%s/setup/install_settings.py" % REPO_PATH,
            "%s/setup/install.py" % REPO_PATH)
 

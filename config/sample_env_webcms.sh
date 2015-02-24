@@ -8,3 +8,4 @@ export PG_ADMIN_PW="sample_admin_pw"
 # only set this to True in development mode
 # not recommended in production.
 export DJANGO_DEBUG="False"
+export PRODUCTION_ENV="True"

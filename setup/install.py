@@ -99,10 +99,14 @@ def install_package(pkg, info):
     ignore_result = options.get('ignore_result', False)
     verify_install = options.get('verify_install', None)
     as_user = options.get('as_user', None)
-    ignore_in_dev = options.get('ignore_in_dev', False)
+    only_in_prod = options.get('only_in_prod', False)
     no_echo = options.get('no_echo', False)
+    only_in_dev = options.get('only_in_dev', False)
 
-    if (ignore_in_dev is True) and (DEV_ENV is True):
+    if (only_in_prod is True) and (DEV_ENV is True):
+        return True
+
+    if (only_in_dev is True) and (DEV_ENV is False):
         return True
 
     if (cmds is None) or (cmds == []):

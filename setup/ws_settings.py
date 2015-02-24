@@ -1,4 +1,8 @@
 import os
+from ws_utils import import_env_variables
+
+ENV_WEBCMS_PATH = os.path.abspath(os.path.join(os.path.dirname(__file__), "../../conf/env_webcms.sh"))
+import_env_variables(ENV_WEBCMS_PATH)
 
 # make this FALSE in production
 DJANGO_DEBUG = (os.environ["DJANGO_DEBUG"] == "True")
@@ -8,8 +12,8 @@ DJANGO_DEBUG = (os.environ["DJANGO_DEBUG"] == "True")
 SITE_DETAILS = [
     # name(unique), domain, forwarding, num_django_processes
     ('myblog', 'www.myblog.com', '.myblog.com', 1),
-    ('mypersonalweb', 'www.mypersonalweb.com', '.mypersonalweb.com', 1),
-    ('myprojects', 'www.myprojects.com', '.myprojects.com', 1),
+    # we can also serve multiple domains using the same server (different processes).
+    #('mypersonalweb', 'www.mypersonalweb.com', '.mypersonalweb.com', 1),
 ]
 
 WS_PIP_CACHE    = "/webserver_pip_cache"
@@ -28,7 +32,7 @@ DISQUS_SHORTNAME = ""
 # DO NOT CHANGE ANYTHING BELOW THIS
 #
 #########################################
-WS_ROOT_FOLDER   = "/webserver"
+WS_ROOT_FOLDER   = "/webserver" if os.environ['PRODUCTION_ENV'] == "True" else "
 
 VENV_ROOT_FOLDER = os.path.join(WS_ROOT_FOLDER, 'venvs')
 VENV_NAME = "cms_venv"

@@ -111,7 +111,7 @@ def main():
     ====
     Repository cloned into %s.
 
-    Please rename the %s in %s to env_webcms.sh and change the passowords/secrets.
+    Please edit %s in %s folder and change the passowords/secrets.
     These values should be kept scrictly secret in a production environment.
 
     You can additionally modify %s to configure installation settings.
@@ -120,7 +120,7 @@ def main():
 
     python %s
 
-    """ % (REPO_PATH, "sample_env_webcms.sh",
+    """ % (REPO_PATH, "env_webcms.sh",
            CONF_PATH, "%s/setup/install_settings.py" % REPO_PATH,
            "%s/setup/install.py" % REPO_PATH)
 
