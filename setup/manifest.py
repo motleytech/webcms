@@ -418,11 +418,9 @@ package_info = [
 
     ('set_owner_and_permissions', {
         'options': {
-            'only_in_prod': True,
-            },
-        'options': {
             'stdout_redirect': False,
             'ignore_result': True,
+            'only_in_prod': True,
             },
         'install': [
             "sudo groupadd -f --system %s" % WS_GROUP,
