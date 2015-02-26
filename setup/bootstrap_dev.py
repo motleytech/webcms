@@ -91,7 +91,7 @@ def main():
     run_command("mkdir -p %s " % CONF_PATH, True)
 
     print "Cloning git repo..."
-    repo_exists = run_command("[ -d %s ]" % REPO_PATH, True, True)
+    repo_exists = run_command("[ -d %s ]" % REPO_PATH, True, False)
 
     if not repo_exists or \
             confirm("\nGit repo already exists. Overwrite (yes, no)? "):
