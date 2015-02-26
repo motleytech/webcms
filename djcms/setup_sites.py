@@ -33,8 +33,10 @@ def main():
         site_dict[name] = site_id
         print "\n\nSite %s id : %s\n" % (name, site_id)
 
+    existing_sites = dict([(s.name, s.id) for s in Site.objects.all()])
+
     outstr0 = "import os"
-    outstr1 = "SITES_DICT = %s" % pformat(site_dict)
+    outstr1 = "SITES_DICT = %s" % pformat(existing_sites)
     outstr2 = "# INSTANCE_SITE_NAME is set in gunicorn run script"
     outstr3 = "SITE_ID = SITES_DICT.get(os.environ.get('INSTANCE_SITE_NAME'), 2)"
     outstr = "%s\n\n%s\n\n%s\n%s\n" % (outstr0, outstr1, outstr2, outstr3)
