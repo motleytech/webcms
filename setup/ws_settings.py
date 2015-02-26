@@ -1,11 +1,10 @@
 import os
-from ws_utils import import_env_variables
 
-ENV_WEBCMS_PATH = os.path.abspath(os.path.join(os.path.dirname(__file__), "../../conf/env_webcms.sh"))
-import_env_variables(ENV_WEBCMS_PATH)
-
-# this should be FALSE in production
-DJANGO_DEBUG = (os.environ["DJANGO_DEBUG"] == "True")
+###############################################################
+#
+# CONFIGURABLE VALUES FOLLOW
+#
+###############################################################
 
 # site will be created for 'domain' field.
 # with forwarding, 'myblog.com' or '*.myblog.com' will lead to 'www.myblog.com'
@@ -16,7 +15,8 @@ SITE_DETAILS = [
     #('mypersonalweb', 'www.mypersonalweb.com', '.mypersonalweb.com', 1),
 ]
 
-WS_PIP_CACHE    = "/webserver_pip_cache"
+WS_ROOT_FOLDER   = "/webserver"
+WS_PIP_CACHE     = "/webserver_pip_cache"
 WS_BACKUP_FOLDER = "/webserver_backup"
 
 WS_USER  = "webuser"
@@ -27,12 +27,22 @@ PG_DB    = "webcmsdb"
 # set this to a valid disqus shortname, if you want to use disqus comments
 DISQUS_SHORTNAME = ""
 
-#########################################
+
+###############################################################
 #
-# DO NOT CHANGE ANYTHING BELOW THIS
+# NOT CONFIGURABLE - DO NOT MODIFY ANYTHING BELOW THIS LINE
 #
-#########################################
-WS_ROOT_FOLDER   = "/webserver" if os.environ['PRODUCTION_ENV'] == "True" else \
+###############################################################
+
+from ws_utils import import_env_variables
+
+ENV_WEBCMS_PATH = os.path.abspath(os.path.join(os.path.dirname(__file__), "../../conf/env_webcms.sh"))
+import_env_variables(ENV_WEBCMS_PATH)
+
+# this should be FALSE in production
+DJANGO_DEBUG = (os.environ["DJANGO_DEBUG"] == "True")
+
+WS_ROOT_FOLDER   = WS_ROOT_FOLDER if os.environ['PRODUCTION_ENV'] == "True" else \
     os.path.abspath(os.path.join(os.path.abspath(os.path.dirname(__file__)), "../../"))
 
 VENV_ROOT_FOLDER = os.path.join(WS_ROOT_FOLDER, 'venvs')
@@ -42,7 +52,7 @@ VENV_FOLDER = os.path.join(VENV_ROOT_FOLDER, VENV_NAME)
 REPO_URL  = "https://github.com/motleytech/webcms.git"
 REPO_NAME = REPO_URL.split("/")[-1].split(".")[0]
 
-DESKTOP_INSTALL = (os.system("sudo dpkg -l ubuntu-desktop") == 0)
+DESKTOP_INSTALL = (os.system("dpkg -l ubuntu-desktop > /dev/null ") == 0)
 
 # installing
 # wget https://raw.githubusercontent.com/motleytech/webcms/master/setup/bootstrap.sh
