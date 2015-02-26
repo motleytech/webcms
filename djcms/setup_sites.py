@@ -36,7 +36,7 @@ def main():
     outstr0 = "import os"
     outstr1 = "SITES_DICT = %s" % pformat(site_dict)
     outstr2 = "# INSTANCE_SITE_NAME is set in gunicorn run script"
-    outstr3 = "SITE_ID = SITES_DICT.get(os.environ.get('INSTANCE_SITE_NAME'), 1)"
+    outstr3 = "SITE_ID = SITES_DICT.get(os.environ.get('INSTANCE_SITE_NAME'), 2)"
     outstr = "%s\n\n%s\n\n%s\n%s\n" % (outstr0, outstr1, outstr2, outstr3)
 
     os.system('echo "%s" > djcms/site_list.py' % outstr)
