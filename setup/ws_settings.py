@@ -4,7 +4,7 @@ from ws_utils import import_env_variables
 ENV_WEBCMS_PATH = os.path.abspath(os.path.join(os.path.dirname(__file__), "../../conf/env_webcms.sh"))
 import_env_variables(ENV_WEBCMS_PATH)
 
-# make this FALSE in production
+# this should be FALSE in production
 DJANGO_DEBUG = (os.environ["DJANGO_DEBUG"] == "True")
 
 # site will be created for 'domain' field.
@@ -32,7 +32,8 @@ DISQUS_SHORTNAME = ""
 # DO NOT CHANGE ANYTHING BELOW THIS
 #
 #########################################
-WS_ROOT_FOLDER   = "/webserver" if os.environ['PRODUCTION_ENV'] == "True" else "
+WS_ROOT_FOLDER   = "/webserver" if os.environ['PRODUCTION_ENV'] == "True" else \
+    os.path.abspath(os.path.join(os.path.abspath(os.path.dirname(__file__)), "../../"))
 
 VENV_ROOT_FOLDER = os.path.join(WS_ROOT_FOLDER, 'venvs')
 VENV_NAME = "cms_venv"

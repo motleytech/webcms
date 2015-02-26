@@ -149,12 +149,14 @@ def createNginxConfig():
     return 0
 
 
-
-def createSitesAndConfigs():
+def createDjangoSites():
     rv = createSites()
     if rv != 0:
         return rv
+    return True
 
+
+def createGuniSuperAndNginxConfigs():
     rv = createGunicornConfig()
     if rv != 0:
         return rv
@@ -192,6 +194,7 @@ def conf_supervisor_and_nginx():
         # copy nginx config
         os.system("sudo cp %s /etc/nginx/sites-available/%s" % (nginx_op_fpath, nginx_fname))
         os.system("sudo ln -sf /etc/nginx/sites-available/%s /etc/nginx/sites-enabled/%s" % (nginx_fname, nginx_fname))
+
     return True
 
 
@@ -204,4 +207,5 @@ def startSupervisorAndNginx():
         os.system("sudo supervisorctl start webcms_%s" % name)
 
     os.system("sudo service nginx restart")
+
     return True

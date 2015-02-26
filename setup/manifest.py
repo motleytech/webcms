@@ -55,11 +55,22 @@ def check_debug_setting():
         return 1  # debug is True
     return 0  # debug is False
 
-
-def create_sites_and_configs():
-    from ws_utils import createSitesAndConfigs
+def create_sites():
+    from ws_utils import createDjangoSites
     try:
-        result = createSitesAndConfigs()
+        result = createDjangoSites()
+        if result is True:
+            return 0
+        return 1
+    except:
+        print_exc()
+        return 1
+
+
+def create_configs():
+    from ws_utils import createGuniSuperAndNginxConfigs
+    try:
+        result = createGuniSuperAndNginxConfigs()
         if result is True:
             return 0
         return 1
@@ -102,7 +113,7 @@ def start_supervisor_and_nginx():
 package_info = [
     ('check-debug', {
         'options': {
-            'ignore_in_dev': True,
+            'only_in_prod': True,
             },
         'install': [
             check_debug_setting,
@@ -388,15 +399,27 @@ package_info = [
             ],
     }),
 
-    ('create_sites_and_configs', {
+    ('create_sites', {
         'install': [
-            create_sites_and_configs,
-            configure_supervisor_and_nginx,
+            create_sites,
             'cp %s/webcms/config/env.sh %s/env.sh' % (WS_ROOT_FOLDER, WS_ROOT_FOLDER),
+            ],
+    }),
+
+    ('create_configs', {
+        'options': {
+            'only_in_prod': True,
+            },
+        'install': [
+            create_configs,
+            configure_supervisor_and_nginx,
         ],
     }),
 
     ('set_owner_and_permissions', {
+        'options': {
+            'only_in_prod': True,
+            },
         'options': {
             'stdout_redirect': False,
             'ignore_result': True,
@@ -411,12 +434,18 @@ package_info = [
     }),
 
     ('start_supervisor_and_nginx', {
+        'options': {
+            'only_in_prod': True,
+            },
         'install': [
             start_supervisor_and_nginx,
         ],
     }),
 
     ("setup_backup_cron", {
+        'options': {
+            'only_in_prod': True,
+            },
         'exists': [
             ('sudo crontab -l | grep %s/backup.py' % (THIS_DIR), 0)
             ],
