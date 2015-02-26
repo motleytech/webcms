@@ -17,7 +17,7 @@ def load_ws_settings():
 
 def main():
     site_dict = {}
-    existing_sites = dict([(s.domain, s.id) for s in Site.objects.all()])
+    existing_sites = dict([(s.name, s.id) for s in Site.objects.all()])
 
     site_id = None
 
