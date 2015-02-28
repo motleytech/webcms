@@ -11,7 +11,6 @@ import ws_settings as settings
 from ws_utils import print_fatal, print_info
 
 def main():
-    # assert that we are not in the settings.ws_root_folder
     dev_folder = os.path.abspath(os.path.join(os.path.dirname(__file__), "../../"))
 
     # run the main install script with dev=true

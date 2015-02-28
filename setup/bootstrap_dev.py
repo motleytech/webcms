@@ -123,7 +123,7 @@ def main():
 
     """ % (REPO_PATH, "env_webcms.sh",
            CONF_PATH, "%s/setup/install_settings.py" % REPO_PATH,
-           "%s/setup/install.py" % REPO_PATH)
+           "%s/setup/install_dev.py" % REPO_PATH)
 
 if __name__ == "__main__":
     main()
