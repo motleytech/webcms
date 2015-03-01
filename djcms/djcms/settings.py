@@ -1,5 +1,6 @@
 import os
 import sys
+import logging
 
 gettext = lambda s: s
 DATA_DIR = os.path.dirname(os.path.dirname(__file__))
@@ -236,9 +237,15 @@ DATABASES = {
 # import sites from config directory
 import imp
 
-THIS_DIR = os.path.dirname(os.path.abspath(__file__))
-siteListPath = os.path.abspath(os.path.join(THIS_DIR, "../../../conf/site_list.py"))
-site_list = imp.load_source('module.name', siteListPath)
+try:
+    THIS_DIR = os.path.dirname(os.path.abspath(__file__))
+    siteListPath = os.path.abspath(os.path.join(THIS_DIR, "../../../conf/site_list.py"))
+    site_list = imp.load_source('module.name', siteListPath)
 
-SITE_ID = site_list.SITE_ID
+    SITE_ID = site_list.SITE_ID
+except IOError:
+    # site_list.py file has not been created yet
+    # we are probably in syncdb / migrate step in the install
+    logging.error("Failed to import site_list.py.\nCan be safely ignored during setup")
+    SITE_ID = 1
 
