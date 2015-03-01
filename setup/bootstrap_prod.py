@@ -103,7 +103,7 @@ def main():
         run_command("cd %s; git clone %s" % (WS_ROOT_FOLDER, REPO_URL))
 
     run_command("mkdir -p %s " % CONF_PATH, True)
-    run_command("cp %s/config/sample_env_webcms.sh %s/env_webcms.sh" % (REPO_PATH, CONF_PATH))
+    run_command("cp %s/config/sample_env_webcms_prod.sh %s/env_webcms.sh" % (REPO_PATH, CONF_PATH))
 
     print """\
 

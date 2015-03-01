@@ -102,9 +102,9 @@ def main():
     envcms_exists = run_command("[ -e %s/conf/env_webcms.sh ]" % THIS_DIR, True, False)
     if envcms_exists:
         if confirm("env_webcms.sh already exists. Overwrite (yes, no)? "):
-            run_command("cp %s/config/sample_env_webcms.sh %s/conf/env_webcms.sh" % (REPO_PATH, THIS_DIR))
+            run_command("cp %s/config/sample_env_webcms_dev.sh %s/conf/env_webcms.sh" % (REPO_PATH, THIS_DIR))
     else:
-        run_command("cp %s/config/sample_env_webcms.sh %s/conf/env_webcms.sh" % (REPO_PATH, THIS_DIR))
+        run_command("cp %s/config/sample_env_webcms_dev.sh %s/conf/env_webcms.sh" % (REPO_PATH, THIS_DIR))
 
     print """\
 
