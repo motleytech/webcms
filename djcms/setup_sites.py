@@ -4,8 +4,9 @@ os.environ.setdefault("DJANGO_SETTINGS_MODULE", "djcms.settings")
 from django.contrib.sites.models import Site
 import sys
 
+THIS_DIR = os.path.dirname(os.path.abspath(__file__))
+
 def load_ws_settings():
-    THIS_DIR = os.path.dirname(os.path.abspath(__file__))
     setup_folder = os.path.abspath(os.path.join(THIS_DIR, "../setup"))
 
     sys.path.append(setup_folder)
@@ -41,9 +42,11 @@ def main():
     outstr3 = "SITE_ID = SITES_DICT.get(os.environ.get('INSTANCE_SITE_NAME'), 2)"
     outstr = "%s\n\n%s\n\n%s\n%s\n" % (outstr0, outstr1, outstr2, outstr3)
 
-    os.system('echo "%s" > djcms/site_list.py' % outstr)
+    siteListPath = os.path.abspath(os.path.join(THIS_DIR, "../../conf/site_list.py"))
 
-    print "Site ids added to djcms/site_list.py."
+    os.system('echo "%s" > %s' % outstr, siteListPath)
+
+    print "Site ids added to %s." % siteListPath
 
 
 if __name__ == "__main__":

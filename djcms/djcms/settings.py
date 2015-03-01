@@ -1,8 +1,6 @@
 import os
 import sys
 
-import site_list
-
 gettext = lambda s: s
 DATA_DIR = os.path.dirname(os.path.dirname(__file__))
 
@@ -233,6 +231,14 @@ DATABASES = {
         'PORT': ''
     }
 }
+
+
+# import sites from config directory
+import imp
+
+THIS_DIR = os.path.dirname(os.path.abspath(__file__))
+siteListPath = os.path.abspath(os.path.join(THIS_DIR, "../../../conf/site_list.py"))
+site_list = imp.load_source('module.name', siteListPath)
 
 SITE_ID = site_list.SITE_ID
 
