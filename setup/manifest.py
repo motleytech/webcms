@@ -402,7 +402,7 @@ package_info = [
     ('create_sites', {
         'install': [
             create_sites,
-            'cp %s/webcms/config/env.sh %s/env.sh' % (WS_ROOT_FOLDER, WS_ROOT_FOLDER),
+            'cp %s/webcms/config/env.sh %s/webcms/djcms/env.sh' % (WS_ROOT_FOLDER, WS_ROOT_FOLDER),
             ],
     }),
 

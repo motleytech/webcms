@@ -1,2 +1,4 @@
 *.pyc
 *.sock
+djcms/env.sh
+

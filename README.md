@@ -48,7 +48,7 @@ python bootstrap_dev.py
 
 You should now have the git repository cloned in `~/dev/ws_project/webcms` folder.
 
-* In `~/dev/ws_project/conf` folder, modify the file `env_webcms.sh` and populate the values for passwords and django_secret. You might want to set DJANGO_DEBUG="True" in dev mode. Also, set `PRODUCTION_ENV` to False.
+* In `~/dev/ws_project/conf` folder, modify the file `env_webcms.sh` and change the values for passwords and django_secret.
 
 * Modify the server settings file `~/dev/ws_project/webcms/setup/ws_settings.py` to configure the server install. You should change the domains that you want to support by changing `SITE_DETAILS`.
 
@@ -60,9 +60,8 @@ python install_dev.py
 
 * Run your development server
 <pre>
-cd ~/dev/ws_project/
+cd ~/dev/ws_project/webcms/djcms
 source env.sh
-cd webcms/djcms
 python manage.py runserver 0.0.0.0:8000
 </pre>
 
