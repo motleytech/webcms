@@ -240,7 +240,7 @@ import imp
 try:
     THIS_DIR = os.path.dirname(os.path.abspath(__file__))
     siteListPath = os.path.abspath(os.path.join(THIS_DIR, "../../../conf/site_list.py"))
-    site_list = imp.load_source('module.name', siteListPath)
+    site_list = imp.load_source('site_list', siteListPath)
 
     SITE_ID = site_list.SITE_ID
 except IOError:
