@@ -59,6 +59,7 @@ def main():
     if confirm("\n\nDelete the DATABASE ? :"):
         os.system("sudo python %s/backup.py --no-process-restart" % THIS_DIR)
         if PG_DB is not None:
+            # sudo su postgres -c "dropdb webcmsdb"
             os.system('sudo su postgres -c "dropdb %s"' % PG_DB )
 
     # delete folder

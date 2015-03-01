@@ -9,8 +9,9 @@ Create your own djangocms and djangocms-blog based personal webserver in minutes
 
 ### Installation directions
 
+You want the production environment if you want to get your website up and running asap. If you are interested in developing/modifying the site software (you need to know Python and Django), then you should follow the development directions. If you are not sure what you want, then you want the production environment.
+
 #### Directions for the production environment
-You want the production environment if you want to get your website up and running asap. If you are interested in developing/modifying the site software (you need to know Python and Django), then you should follow the development directions (below). If you are not sure what you want, then you want the production environment.
 
 The installation has 4 easy steps...
 
@@ -25,15 +26,15 @@ This will create the `/webserver` folder and clone the git repository in `/webse
 
 * In `/webserver/conf` folder, edit the file `env_webcms.sh` and populate the values for passwords and django_secret. You should create your own values or use `makepasswd`  to generate random passwords (section on makepasswd below). Keep the values in the `env_webcms.sh` file secret... these are  essential to the security of your website.
 
-* Modify the server settings file `/webserver/webcms/setup/ws_settings.py` to configure the server install. You should change the domains that you want to support by changing `SITE_DETAILS`. By default, there are 3 predefined domains with 1 django process assigned to handle each domain (you can assign more than 1).
+* Modify the server settings file `/webserver/webcms/setup/ws_settings.py` to configure the server install. You should change the domains that you want to support by changing `SITE_DETAILS`. By default, there is 1 domain defined with 1 django process assigned to handle it. You can have multiple domains with multiple django processes serving each domain.
 
-* Run the install script...
+* After the configuration, run the install script...
 <pre>
 cd /webserver/webcms/setup;
 python install.py
 </pre>
 
-The script will prompt you to create an admin user for managing your website. Go ahead and create one with a password of your choice. If the install procedure succeeds, your webserver is ready. Point your browser to http://www.yourwebsite.com/admin and start adding pages.
+The script will install a bunch of stuff and will prompt you to create an admin user for managing your website. Go ahead and create one with a password of your choice. If the install procedure succeeds, your webserver is ready. Point your browser to `http://www.yourwebsite.com/admin` and start adding pages. Remember, `http://localhost/` might not work as nginx is not set to server at the localhost address in the production environment.
 
 #### Directions for creating a dev environment
 
@@ -47,21 +48,28 @@ python bootstrap_dev.py
 
 You should now have the git repository cloned in `~/dev/ws_project/webcms` folder.
 
-* In `~/dev/ws_project/conf` folder, modify the file `env_webcms.sh` and populate the values for passwords and django_secret. You should create your own values or use `makepasswd`  to generate random passwords (section on makepasswd below). Keep the values in the `env_webcms.sh` file secret... these are essential to the security of your website. You might also want to set DJANGO_DEBUG="True" in dev mode.
+* In `~/dev/ws_project/conf` folder, modify the file `env_webcms.sh` and populate the values for passwords and django_secret. You might want to set DJANGO_DEBUG="True" in dev mode. Also, set `PRODUCTION_ENV` to False.
 
-* Modify the server settings file `~/dev/ws_project/webcms/setup/ws_settings.py` to configure the server install. You should change the domains that you want to support by changing `SITE_DETAILS`. By default, there are 3 predefined domains with 1 django process assigned to handle each domain.
+* Modify the server settings file `~/dev/ws_project/webcms/setup/ws_settings.py` to configure the server install. You should change the domains that you want to support by changing `SITE_DETAILS`.
 
-* You can now modify the code in `~/dev/ws_project/webcms/`.
-
-* When you are ready to try out your modifications...
+* Now, execute the following commands to installed the prerequisites...
 <pre>
 cd ~/dev/ws_project/webcms/setup
 python install_dev.py
 </pre>
 
-and that's it. Your personal webserver should be ready.
+* Run your development server
+<pre>
+cd ~/dev/ws_project/
+source env.sh
+cd webcms/djcms
+python manage.py runserver 0.0.0.0:8000
+</pre>
 
-Head over to `http://www.yourwebsite.com` to visit you page. If you have not registered your domain yet or you are running on a local vm to test things out, you can change your `/etc/hosts` file to fool your browser. Keep in mind that `http://localhost` will not work as nginx is not configured to listen on localhost.
+and that's it. Your development webserver is ready. Head over to `http://localhost:8000/` to visit your site.
+
+You can now edit the code in `~/dev/ws_project/webcms/`, commit and push to your git repo and pull changes to your production environment.
+
 
 #### Using makepasswd to generate passwords and secrets
 
