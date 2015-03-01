@@ -11,7 +11,7 @@ import subprocess
 
 THIS_DIR = os.path.dirname(os.path.abspath(__file__))
 
-REPO_URL = "https://github.com/motleytech/webcms.git"
+REPO_URL = "git@github.com:motleytech/webcms.git"
 REPO_NAME = "webcms"
 REPO_PATH = os.path.join(THIS_DIR, REPO_NAME)
 CONF_PATH = os.path.join(THIS_DIR, "conf")

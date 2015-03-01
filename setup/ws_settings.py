@@ -50,7 +50,7 @@ VENV_ROOT_FOLDER = os.path.join(WS_ROOT_FOLDER, 'venvs')
 VENV_NAME = "cms_venv"
 VENV_FOLDER = os.path.join(VENV_ROOT_FOLDER, VENV_NAME)
 
-REPO_URL  = "https://github.com/motleytech/webcms.git"
+REPO_URL  = "git@github.com:motleytech/webcms.git"
 REPO_NAME = REPO_URL.split("/")[-1].split(".")[0]
 
 DESKTOP_INSTALL = (os.system("dpkg -l ubuntu-desktop > /dev/null ") == 0)
