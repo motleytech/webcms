@@ -44,7 +44,7 @@ def main():
 
     siteListPath = os.path.abspath(os.path.join(THIS_DIR, "../../conf/site_list.py"))
 
-    os.system('echo "%s" > %s' % outstr, siteListPath)
+    os.system('echo "%s" > %s' % (outstr, siteListPath))
 
     print "Site ids added to %s." % siteListPath
 
