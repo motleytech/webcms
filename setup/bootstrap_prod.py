@@ -13,7 +13,7 @@ import logging
 THIS_DIR = os.path.dirname(os.path.abspath(__file__))
 
 WS_ROOT_FOLDER = "/webserver"
-REPO_URL = "https://github.com/motleytech/webcms.git"
+REPO_URL = "git@github.com:motleytech/webcms.git"
 REPO_NAME = "webcms"
 REPO_PATH = os.path.join(WS_ROOT_FOLDER, REPO_NAME)
 CONF_PATH = os.path.join(WS_ROOT_FOLDER, "conf")
