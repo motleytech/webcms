@@ -17,6 +17,7 @@ REPO_URL = "git@github.com:motleytech/webcms.git"
 REPO_NAME = "webcms"
 REPO_PATH = os.path.join(WS_ROOT_FOLDER, REPO_NAME)
 CONF_PATH = os.path.join(WS_ROOT_FOLDER, "conf")
+BRANCH_NAME = "motleytechnet"
 
 BLOG_REPO_URL = "git@github.com:motleytech/djangocms-blog.git"
 BLOG_REPO_PATH = os.path.join(REPO_PATH, "djcms/djangocms-blog")
@@ -104,6 +105,7 @@ def main():
         if repo_exists:
             run_command("rm -rf %s" % REPO_PATH)
         run_command("cd %s; git clone %s" % (WS_ROOT_FOLDER, REPO_URL))
+        run_command("cd %s; git checkout %s" % (REPO_PATH, BRANCH_NAME))
 
     blog_repo_exists = run_command("[ -d %s ]" % BLOG_REPO_PATH, True, True)
 
