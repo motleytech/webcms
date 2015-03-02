@@ -1,4 +1,4 @@
-Django==1.6.10
+Django==1.7.5
 Django-Select2==4.2.2
 Pillow==2.7.0
 South==1.0.2
@@ -9,9 +9,9 @@ cmsplugin-filer==0.10.1
 distribute==0.6.24
 dj-database-url==0.3.0
 django-admin-enhancer==1.0.0
-django-appconf==0.6
+django-appconf==1.0.1
 django-classy-tags==0.6.1
-django-cms==3.0.9
+django-cms==3.0.10
 django-filer==0.9.9
 django-meta==0.2.1
 django-meta-mixin==0.1.1
@@ -25,8 +25,8 @@ django-taggit-autosuggest==0.2.6
 django-taggit-templatetags==0.4.6dev
 django-templatetag-sugar==1.0
 djangocms-admin-style==0.2.5
-# might want to change this to 0.4.1
-# djangocms-blog==0.3.1
+# we get this from git
+# djangocms-blog==0.4.0.b1
 djangocms-column==1.5
 djangocms-file==0.1
 djangocms-flash==0.1
