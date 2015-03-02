@@ -4,6 +4,7 @@ import logging
 
 gettext = lambda s: s
 DATA_DIR = os.path.dirname(os.path.dirname(__file__))
+THIS_DIR = os.path.dirname(os.path.abspath(__file__))
 
 """
 Django settings for djcms project.
@@ -16,7 +17,6 @@ https://docs.djangoproject.com/en/1.6/ref/settings/
 """
 
 def load_ws_settings():
-    THIS_DIR = os.path.dirname(os.path.abspath(__file__))
     setup_folder = os.path.abspath(os.path.join(THIS_DIR, "../../setup"))
 
     sys.path.append(setup_folder)
@@ -33,6 +33,11 @@ WS_ROOT_FOLDER = ws_settings.WS_ROOT_FOLDER
 PG_USER = ws_settings.PG_USER
 PG_USER_PW = os.environ["PG_USER_PW"]
 PG_DB = ws_settings.PG_DB
+
+
+# add djangocms_blog's parent folder to python path
+djangocms_blog_folder = os.path.abspath(os.path.join(THIS_DIR, "../djangocms-blog"))
+sys.path.append(djangocms_blog_folder)
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.6/howto/deployment/checklist/
@@ -238,7 +243,6 @@ DATABASES = {
 import imp
 
 try:
-    THIS_DIR = os.path.dirname(os.path.abspath(__file__))
     siteListPath = os.path.abspath(os.path.join(THIS_DIR, "../../../conf/site_list.py"))
     site_list = imp.load_source('site_list', siteListPath)
 

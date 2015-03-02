@@ -1,3 +1,5 @@
 *.pyc
 *.sock
 
+djcms/djangocms-blog
+

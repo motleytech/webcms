@@ -16,6 +16,9 @@ REPO_NAME = "webcms"
 REPO_PATH = os.path.join(THIS_DIR, REPO_NAME)
 CONF_PATH = os.path.join(THIS_DIR, "conf")
 
+BLOG_REPO_URL = "git@github.com:motleytech/djangocms-blog.git"
+BLOG_REPO_PATH = os.path.join(REPO_PATH, "djcms/djangocms-blog")
+BLOG_UPSTREAM = "https://github.com/nephila/djangocms-blog.git"
 
 class bcolors(object):
     """Colors for the terminal"""
@@ -98,6 +101,16 @@ def main():
         if repo_exists:
             run_command("rm -rf %s" % REPO_PATH)
         run_command("git clone %s" % REPO_URL)
+
+    blog_repo_exists = run_command("[ -d %s ]" % BLOG_REPO_PATH, True, True)
+
+    if not blog_repo_exists or \
+            confirm("\nCMS Blog repo already exists. Overwrite (yes, no)? "):
+        if blog_repo_exists:
+            run_command("rm -rf %s" % BLOG_REPO_PATH)
+        run_command("cd %s; git clone %s;" % (os.path.dirname(BLOG_REPO_PATH), BLOG_REPO_URL))
+        run_command("cd %s; git checkout develop" % BLOG_REPO_PATH)
+        run_command("cd %s; git remote add upstream %s" % (BLOG_REPO_PATH, BLOG_UPSTREAM))
 
     envcms_exists = run_command("[ -e %s/conf/env_webcms.sh ]" % THIS_DIR, True, False)
     if envcms_exists:
