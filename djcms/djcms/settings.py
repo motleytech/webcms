@@ -137,6 +137,7 @@ INSTALLED_APPS = (
     'django.contrib.sitemaps',
     'django.contrib.staticfiles',
     'django.contrib.messages',
+    'django.contrib.markup',
     'cms',
     'menus',
     'sekizai',
@@ -169,6 +170,7 @@ INSTALLED_APPS = (
     'djangocms_blog',
 
     'cmsplugin_disqus',
+    'cmsplugin_markdown',
 )
 
 DISQUS_SHORTNAME = ws_settings.DISQUS_SHORTNAME
