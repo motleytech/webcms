@@ -178,13 +178,6 @@ SOUTH_MIGRATION_MODULES = {
     'taggit': 'taggit.south_migrations',
 }
 
-MIGRATION_MODULES = {
-   'cms': 'cms.migrations_django',
-   'menus': 'menus.migrations_django',
-   'filer': 'filer.migrations_django',
-   'cmsplugin_filer_image': 'cmsplugin_filer_image.migrations_django',
-}
-
 THUMBNAIL_PROCESSORS = (
     'easy_thumbnails.processors.colorspace',
     'easy_thumbnails.processors.autocrop',
