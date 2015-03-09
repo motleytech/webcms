@@ -18,7 +18,7 @@ The installation has 4 easy steps...
 * Download and run `bootstrap_prod.py`...
 <pre>
 cd /tmp
-wget https://raw.githubusercontent.com/motleytech/webcms/master/setup/bootstrap_prod.py -O bootstrap_prod.py
+wget https://raw.githubusercontent.com/motleytech/webcms/motleytechnet/setup/bootstrap_prod.py -O bootstrap_prod.py
 python bootstrap_prod.py
 </pre>
 
@@ -42,7 +42,7 @@ The script will install a bunch of stuff and will prompt you to create an admin 
 <pre>
 mkdir -p ~/dev/ws_project
 cd ~/dev/ws_project
-wget https://raw.githubusercontent.com/motleytech/webcms/master/setup/bootstrap_dev.py -O bootstrap_dev.py
+wget https://raw.githubusercontent.com/motleytech/webcms/motleytechnet/setup/bootstrap_dev.py -O bootstrap_dev.py
 python bootstrap_dev.py
 </pre>
 
