@@ -6,6 +6,7 @@ Unidecode==0.04.17
 argparse==1.2.1
 cmsplugin-disqus==1.0
 cmsplugin-filer==0.10.1
+cmsplugin-markdown==0.1.1
 distribute==0.6.24
 dj-database-url==0.3.0
 django-admin-enhancer==1.0.0
