@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="/static/css/bootstrap-theme.min.css">
     <link rel="stylesheet" href="/static/css/mt_theme.css">
   </head>
-  <body style="padding-top:60px">
+  <body>
     {% cms_toolbar %}
         <div class="container">
           <div class="navbar navbar-default" role="navigation">
@@ -20,7 +20,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
               </button>
-              <a class="navbar-brand" href="#">MotleyTech</a>
+              <a class="navbar-brand" href="#"><img src="/static/images/motleytech_logo.svg"></a>
             </div>
             <div class="navbar-collapse collapse">
               <ul class="nav navbar-nav">
@@ -29,9 +29,10 @@
             </div>
           </div>
 
+          <div class="container-content">
           {% block content %}
           {% endblock content %}
-
+          </div>
           <footer>
             <table>
               <tr>

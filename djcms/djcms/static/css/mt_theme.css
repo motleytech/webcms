@@ -1,0 +1,23 @@
+body {
+    background-image: url("/static/images/back_pattern2.png");
+    color: #d8d8d8;
+}
+
+div.container-content {
+    background-color: #222;
+    padding: 25px;
+}
+
+div.navbar {
+    border-radius: 0px 0px 4px 4px;
+    min-height: 28px;
+    margin-bottom: 0px;
+}
+
+.navbar-brand {
+    padding: 8px 15px;
+}
+
+.navbar-nav li a {
+    padding: 10px 15px;
+}
