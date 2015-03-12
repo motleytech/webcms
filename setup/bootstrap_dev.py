@@ -130,6 +130,9 @@ def main():
 
     You can additionally modify %s to configure installation settings.
 
+    To clear the database and start fresh, you can type
+    'sudo su postgres -c "dropdb webcmsdb"'
+
     To start the installation, run command
 
     python %s
