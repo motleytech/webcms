@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% load cms_tags staticfiles sekizai_tags menu_tags %}
+
+{% block content %}
+  <div>
+    {% placeholder "content" %}
+  </div>
+{% endblock content %}
+
+{% block footer-bottom %}
+  <div class="footer-powered-by">
+    <div class="footer-pb-text">
+      <span style="align:center">Powered by...</span>
+    </div>
+    <table class="footer-pb-table">
+      <tr>
+        <td class="td-align-center">
+          <img class="footer-pb-img"
+               src="/static/images/python-logo.svg"
+               alt="python logo"></img>
+        </td>
+        <td class="td-align-center">
+          <img class="footer-pb-img"
+               src="/static/images/django-logo.svg"
+               alt="django logo"></img>
+        </td>
+        <td class="td-align-center">
+          <img class="footer-pb-img"
+               src="/static/images/django-pony.png"
+               alt="pony logo"></img>
+        </td>
+        <td class="td-align-center">
+          <img class="footer-pb-img"
+               src="/static/images/djangocms.png"
+               alt="djangocms logo"></img>
+        </td>
+        <td class="td-align-center">
+          <img class="footer-pb-img"
+               src="/static/images/disqus-logo.svg"
+               alt="disqus logo"></img>
+        </td>
+      </tr>
+    </table>
+  </div>
+{% endblock footer-bottom %}

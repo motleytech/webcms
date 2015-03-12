@@ -39,6 +39,7 @@ div.navbar {
 
 .footer-pb-text {
     text-align: center;
+    color: #666;
 }
 
 .footer-pb-table {
@@ -47,7 +48,7 @@ div.navbar {
 }
 
 .footer-pb-img {
-    width: 150px;
+    width: 120px;
 }
 
 .td-align-left {
@@ -62,4 +63,29 @@ div.navbar {
     text-align: center;
 }
 
+.post-detail li {
+    display: inline;
+    list-style-type: none;
+}
+
+ul.post-detail li {
+    /*display: inline;*/
+    list-style-type: none;
+}
+
+.blog-lead {
+    margin-top: 20px;
+}
+
+.plugin ul.blog-archive, ul.blog-archive li ul {
+    padding-left: 20px;
+}
+
+.plugin ul.blog-categories, ul.blog-categories li ul {
+    padding-left: 20px;
+}
+
+.blog-sidebar h4 {
+    font-size: 1.2em;
+}
 
