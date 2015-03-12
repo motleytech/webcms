@@ -21,3 +21,45 @@ div.navbar {
 .navbar-nav li a {
     padding: 10px 15px;
 }
+
+.footer-message {
+    background-image: linear-gradient(to bottom,#fff 0,#f8f8f8 100%);
+    padding: 10px;
+    border-radius: 0px 0px 4px 4px;
+}
+
+.footer-table {
+    width: 100%;
+    color: #222;
+}
+
+.footer-powered-by {
+    padding: 20px;
+}
+
+.footer-pb-text {
+    text-align: center;
+}
+
+.footer-pb-table {
+    width: 100%;
+    margin: 20px 0px;
+}
+
+.footer-pb-img {
+    width: 150px;
+}
+
+.td-align-left {
+    text-align: left;
+}
+
+.td-align-right {
+    text-align: right;
+}
+
+.td-align-center {
+    text-align: center;
+}
+
+
