@@ -2,7 +2,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>{% block title %}This is my new project home page{% endblock title %}</title>
+    <title>{% block title %}Motley Tech{% endblock title %}</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     {% render_block "css" %}
     <link rel="stylesheet" href="/static/css/bootstrap.min.css">
@@ -11,37 +11,41 @@
   </head>
   <body>
     {% cms_toolbar %}
-        <div class="container">
-          <div class="navbar navbar-default" role="navigation">
-            <div class="navbar-header">
-              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                <span class="sr-only">Toggle navigation</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-              </button>
-              <a class="navbar-brand" href="#"><img src="/static/images/motleytech_logo.svg"></a>
-            </div>
-            <div class="navbar-collapse collapse">
-              <ul class="nav navbar-nav">
-                {% show_menu 0 1 100 100 "menu.html" %}
-              </ul>
-            </div>
-          </div>
-
-          <div class="container-content">
-          {% block content %}
-          {% endblock content %}
-          </div>
-          <footer>
-            <table>
-              <tr>
-                <td>Copyright &copy; 2015 Nagarajan, MotleyTech</td>
-                <td>email : motleytechnet@gmail.com</td>
-              </tr>
-            </table>
-          </footer>
+    <div class="container">
+      <div class="navbar navbar-default" role="navigation">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="#"><img src="/static/images/motleytech_logo.svg"></a>
         </div>
+        <div class="navbar-collapse collapse">
+          <ul class="nav navbar-nav">
+            {% show_menu 0 1 100 100 "menu.html" %}
+          </ul>
+        </div>
+      </div>
+
+      <div class="container-content">
+        {% block content %}
+        {% endblock content %}
+      </div>
+      <footer>
+        <div class="footer-message">
+          <table class="footer-table">
+            <tr>
+              <td align="left">&copy; 2015, MotleyTech</td>
+              <td align="right">email : motleytechnet@gmail.com</td>
+            </tr>
+          </table>
+        </div>
+        <div class="footer-powered-by">
+        </div>
+      </footer>
+    </div>
     <script src="/static/js/jquery.js"></script>
     <script src="/static/js/bootstrap.min.js"></script>
     {% render_block "js" %}
