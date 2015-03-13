@@ -2,4 +2,4 @@
 *.sock
 
 djcms/djangocms-blog
-
+djcms/pybook
