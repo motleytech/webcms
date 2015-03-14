@@ -220,7 +220,8 @@ CMS_LANGUAGES = {
 CMS_TEMPLATES = (
     ## Customize this
     ('page.html', 'Page'),
-    ('feature.html', 'Page with Feature')
+    ('feature.html', 'Page with Feature'),
+    ('about.html', 'About'),
 )
 
 CMS_PERMISSION = True
