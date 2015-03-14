@@ -1,16 +1,15 @@
 #!/usr/bin/python
-
 """
 Bootstrapping script for webcms personal webserver.
 """
 
-
 import os
 import time
 import subprocess
-import logging
 
 THIS_DIR = os.path.dirname(os.path.abspath(__file__))
+
+INSTALL_TYPE = "prod"
 
 WS_ROOT_FOLDER = "/webserver"
 REPO_URL = "https://github.com/motleytech/webcms.git"
@@ -22,6 +21,9 @@ BRANCH_NAME = "motleytechnet"
 BLOG_REPO_URL = "https://github.com/motleytech/djangocms-blog.git"
 BLOG_REPO_PATH = os.path.join(REPO_PATH, "djcms/djangocms-blog")
 BLOG_UPSTREAM = "https://github.com/nephila/djangocms-blog.git"
+
+PYBOOK_REPO = "https://github.com/motleytech/pybook.git"
+PYBOOK_REPO_PATH = os.path.join(REPO_PATH, "djcms/pybook")
 
 class bcolors(object):
     """Colors for the terminal"""
@@ -85,8 +87,8 @@ def main():
     try:
         update_time = int(get_command_output("stat -c %Y /var/lib/apt/periodic/update-success-stamp")[0].strip())
     except:
-        logging.error("Warning: Error while getting last success time of apt-get update. Maybe it never succeded. Can be ignored safely.")
-        update_time = now
+        update_time = 0
+
     if ((now - update_time) > 3600*24):
         run_command("sudo aptitude -y update")
         run_command("sudo aptitude -y upgrade")
@@ -94,11 +96,14 @@ def main():
     if run_command("dpkg -s git", ignore_error=True) is False:
         run_command("sudo aptitude -y install git")
 
-    run_command("sudo mkdir -p %s" % WS_ROOT_FOLDER, ignore_error=True)
-    run_command("sudo chown -R `whoami`:`whoami` %s" % WS_ROOT_FOLDER)
+    if INSTALL_TYPE == 'prod':
+        run_command("sudo mkdir -p %s" % CONF_PATH, ignore_error=True)
+        run_command("sudo chown -R `whoami`:`whoami` %s" % WS_ROOT_FOLDER)
+    else:
+        run_command("mkdir -p %s " % CONF_PATH, True)
 
     print "Cloning git repo..."
-    repo_exists = run_command("[ -d %s ]" % REPO_PATH, True, True)
+    repo_exists = run_command("[ -d %s ]" % REPO_PATH, True, False)
 
     if not repo_exists or \
             confirm("\nGit repo already exists. Overwrite (yes, no)? "):
@@ -117,8 +122,28 @@ def main():
         run_command("cd %s; git checkout develop" % BLOG_REPO_PATH)
         run_command("cd %s; git remote add upstream %s" % (BLOG_REPO_PATH, BLOG_UPSTREAM))
 
-    run_command("mkdir -p %s " % CONF_PATH, True)
-    run_command("cp %s/config/sample_env_webcms_prod.sh %s/env_webcms.sh" % (REPO_PATH, CONF_PATH))
+    pybook_repo_exists = run_command("[ -d %s ]" % PYBOOK_REPO_PATH, True, True)
+
+    if not pybook_repo_exists or \
+            confirm("\nCMS Blog repo already exists. Overwrite (yes, no)? "):
+        if pybook_repo_exists:
+            run_command("rm -rf %s" % PYBOOK_REPO_PATH)
+        run_command("cd %s; git clone %s;" % (os.path.dirname(PYBOOK_REPO_PATH), PYBOOK_REPO))
+
+    envcms_exists = run_command("[ -e %s/env_webcms.sh ]" % CONF_PATH, True, False)
+
+    if INSTALL_TYPE == "prod":
+        ENV_PATH = "%s/config/sample_env_webcms_prod.sh" % REPO_PATH
+        INSTALL_SCRIPT = "%s/setup/install.py" % REPO_PATH
+    else:
+        ENV_PATH = "%s/config/sample_env_webcms_dev.sh" % REPO_PATH
+        INSTALL_SCRIPT = "%s/setup/install_dev.py" % REPO_PATH
+
+    if envcms_exists:
+        if confirm("env_webcms.sh already exists. Overwrite (yes, no)? "):
+            run_command("cp %s %s/env_webcms.sh" % (ENV_PATH, CONF_PATH))
+    else:
+        run_command("cp %s %s/env_webcms.sh" % (ENV_PATH, CONF_PATH))
 
     print """\
 
@@ -131,13 +156,16 @@ def main():
 
     You can additionally modify %s to configure installation settings.
 
+    To clear the database and start fresh, you can type
+    'sudo su postgres -c "dropdb webcmsdb"'
+
     To start the installation, run command
 
     python %s
 
     """ % (REPO_PATH, "env_webcms.sh",
            CONF_PATH, "%s/setup/install_settings.py" % REPO_PATH,
-           "%s/setup/install.py" % REPO_PATH)
+           INSTALL_SCRIPT)
 
 if __name__ == "__main__":
     main()
