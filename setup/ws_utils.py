@@ -124,6 +124,25 @@ def createSupervisorConfig():
     return 0
 
 
+def createPybookSupervisorConfig():
+    import ws_settings as settings
+
+    this_dir = os.path.dirname(os.path.abspath(__file__))
+    template_dir = os.path.abspath(os.path.join(this_dir, "../config"))
+    out_conf_dir = os.path.abspath(os.path.join(this_dir, "../../conf"))
+
+    input_filepath = os.path.join(template_dir, "supervisor_pybook.template")
+
+    args = dict(
+        WS_ROOT_FOLDER = settings.WS_ROOT_FOLDER,
+        WS_USER = settings.WS_USER,
+    )
+
+    output_filepath = os.path.join(out_conf_dir, "supervisor_pybook.conf")
+    write_from_template(input_filepath, output_filepath, args)
+    return True
+
+
 def createNginxConfig():
     import ws_settings as settings
     REPO_FOLDER = "%s/%s" % (settings.WS_ROOT_FOLDER, settings.REPO_NAME)
@@ -198,7 +217,26 @@ def conf_supervisor_and_nginx():
     return True
 
 
-def startSupervisorAndNginx():
+def conf_supervisor_for_pybook():
+    import ws_settings as settings
+
+    this_dir = os.path.dirname(os.path.abspath(__file__))
+    out_conf_dir = os.path.abspath(os.path.join(this_dir, "../../conf"))
+
+    sup_fname = "supervisor_pybook.conf" % name
+    sup_op_fpath = os.path.join(out_conf_dir, sup_fname)
+
+    # copy supervisor config
+    os.system("sudo cp %s /etc/supervisor/conf.d/%s" % (sup_op_fpath, sup_fname))
+    # create supervisor log files
+    os.system("touch %s/logs/supervisor_pybook.log" % (
+        settings.WS_ROOT_FOLDER, name))
+
+    # copy nginx config
+    return True
+
+
+def startSupervisorPybookAndNginx():
     import ws_settings as settings
 
     os.system("sudo supervisorctl reread")
@@ -206,6 +244,7 @@ def startSupervisorAndNginx():
     for name, domain, forw, nump in settings.SITE_DETAILS:
         os.system("sudo supervisorctl start webcms_%s" % name)
 
+    os.system("sudo supervisorctl start pybook")
     os.system("sudo service nginx restart")
 
     return True

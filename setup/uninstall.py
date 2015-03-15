@@ -53,6 +53,11 @@ def main():
         os.system("sudo rm /etc/nginx/sites-enabled/%s" % (nginx_fname))
         os.system("sudo rm /etc/nginx/sites-available/%s" % (nginx_fname))
 
+    # stop pybook and delete its supervisor config
+    os.system("sudo supervisorctl stop pybook")
+    os.system("sudo rm /etc/supervisor/conf.d/supervisor_pybook.conf")
+
+
     os.system('sudo service nginx restart')
 
     # remove database
@@ -69,6 +74,7 @@ def main():
         os.system('sudo chown -R `whoami`:`whoami` %s' % WS_ROOT_FOLDER)
 
     os.system("sudo su -c 'crontab -l | grep -v \"webcms\" | crontab -'")
+    os.system("sudo su -c 'crontab -l | grep -v \"update_from_git\" | crontab -'")
 
 if __name__ == "__main__":
     main()

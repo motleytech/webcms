@@ -78,6 +78,18 @@ def create_configs():
         print_exc()
         return 1
 
+
+def create_pybook_config():
+    from ws_utils import createPybookSupervisorConfig
+    try:
+        result = createPybookSupervisorConfig()
+        if result is True:
+            return 0
+        return 1
+    except:
+        print_exc()
+        return 1
+
 def configure_supervisor_and_nginx():
     from ws_utils import conf_supervisor_and_nginx
 
@@ -92,10 +104,23 @@ def configure_supervisor_and_nginx():
     return 0
 
 
-def start_supervisor_and_nginx():
-    from ws_utils import startSupervisorAndNginx
+def config_supervisor_for_pybook():
+    from ws_utils import conf_supervisor_for_pybook
+
     try:
-        result = startSupervisorAndNginx()
+        result = conf_supervisor_for_pybook()
+        if result is True:
+            return 0
+        return 1
+    except:
+        print_exc()
+        return 1
+    return 0
+
+def start_supervisor_pybook_and_nginx():
+    from ws_utils import startSupervisorPybookAndNginx
+    try:
+        result = startSupervisorPybookAndNginx()
         if result is True:
             return 0
         return 1
@@ -405,12 +430,20 @@ package_info = [
             ],
     }),
 
+    ('install_pybook', {
+        'install': [
+            'cd %s; python install.py' % ("%s/webcms/djcms/pybook/setup" % WS_ROOT_FOLDER),
+            ],
+    }),
+
     ('create_configs', {
         'options': {
             'only_in_prod': True,
             },
         'install': [
             create_configs,
+            create_pybook_config,
+            config_supervisor_for_pybook,
             configure_supervisor_and_nginx,
         ],
     }),
@@ -430,12 +463,12 @@ package_info = [
             ],
     }),
 
-    ('start_supervisor_and_nginx', {
+    ('start_supervisor_pybook_and_nginx', {
         'options': {
             'only_in_prod': True,
             },
         'install': [
-            start_supervisor_and_nginx,
+            start_supervisor_pybook_and_nginx,
         ],
     }),
 
