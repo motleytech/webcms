@@ -56,7 +56,7 @@ def getNamesAndUrls(fpath):
             file_list = glob.glob("%s/*.html" % fpath)
             for path in file_list:
                 name = path.split("/")[-1]
-                url = "cmsplugin_pybook/%s" % name
+                url = "/cmsplugin_pybook/%s" % name
                 namesAndUrls.append((name, url))
         except:
             import traceback

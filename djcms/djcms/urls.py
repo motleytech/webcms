@@ -13,6 +13,7 @@ urlpatterns = i18n_patterns('',
     url(r'^sitemap\.xml$', 'django.contrib.sitemaps.views.sitemap',
         {'sitemaps': {'cmspages': CMSSitemap}}),
     url(r'^taggit_autosuggest/', include('taggit_autosuggest.urls')),
+    url(r'^cmsplugin_pybook/', include('cmsplugin_pybook.urls')),  # NOQA
     url(r'^', include('cms.urls')),
 )
 
