@@ -4,6 +4,7 @@ import glob
 from cms.plugin_base import CMSPluginBase
 from cms.plugin_pool import plugin_pool
 from cms.models.pluginmodel import CMSPlugin
+from django.conf import settings
 
 from .models import PyBookName
 
@@ -13,8 +14,7 @@ class PyBookListPlugin(CMSPluginBase):
     render_template = "pybook_list_plugin.html"
 
     def render(self, context, instance, placeholder):
-        from mycms.settings import PYBOOK_EXPORT_PATH
-        path = os.path.join(PYBOOK_EXPORT_PATH, "full")
+        path = os.path.join(settings.PYBOOK_EXPORT_PATH, "full")
         namesAndUrls, error_string = getNamesAndUrls(path)
         context['namesAndUrls'] = namesAndUrls
         context['errors'] = error_string
@@ -27,8 +27,8 @@ class PyBookBasicView(CMSPluginBase):
     render_template = "pybook_basic_view.html"
 
     def render(self, context, instance, placeholder):
-        from mycms.settings import PYBOOK_EXPORT_PATH
-        path = os.path.join(PYBOOK_EXPORT_PATH, "basic/%s" % instance.pybookName)
+        path = os.path.join(settings.PYBOOK_EXPORT_PATH,
+                            "basic/%s" % instance.pybookName)
         data, error_string = getPybookBasic(path)
         context['basic_data'] = data
         context['errors'] = error_string
