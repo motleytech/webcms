@@ -229,6 +229,8 @@ CMS_PERMISSION = True
 
 CMS_PLACEHOLDER_CONF = {}
 
+PYBOOK_EXPORT_PATH = os.path.abspath(os.path.join(THIS_DIR, "../pybook/export"))
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
