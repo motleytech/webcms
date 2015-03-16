@@ -1,0 +1,13 @@
+<div>
+    {% if namesAndUrls %}
+    <ul>
+        {% for name, furl in namesAndUrls %}
+        <li>
+            <a href="{{ furl }}" target="_blank">{{ name }}</a>
+        </li>
+        {% endfor %}
+    </ul>
+    {% else %}
+        <pre>{{ errors }}</pre>
+    {% endif %}
+</div>

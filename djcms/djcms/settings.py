@@ -169,6 +169,7 @@ INSTALLED_APPS = (
     'djangocms_blog',
 
     'cmsplugin_disqus',
+    'cmsplugin_pybook',
 )
 
 DISQUS_SHORTNAME = ws_settings.DISQUS_SHORTNAME
