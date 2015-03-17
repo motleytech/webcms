@@ -170,6 +170,8 @@ INSTALLED_APPS = (
 
     'cmsplugin_disqus',
     'cmsplugin_pybook',
+    'markup_deprecated',
+    'cmsplugin_simple_markdown',
 )
 
 DISQUS_SHORTNAME = ws_settings.DISQUS_SHORTNAME
