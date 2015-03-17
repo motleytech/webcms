@@ -104,3 +104,11 @@ div.border-box-sizing {
   margin-bottom: 5px;
 }
 
+div.output_wrapper {
+  margin-top: 5px;
+}
+
+div.output_subarea {
+  border: 1px solid #ccc;
+  border-radius: 2px;
+}
