@@ -431,6 +431,9 @@ package_info = [
     }),
 
     ('install_pybook', {
+        'options': {
+            'stdout_redirect': False,
+            },
         'install': [
             'cd %s; python install.py' % ("%s/webcms/djcms/pybook/setup" % WS_ROOT_FOLDER),
             ],
@@ -465,6 +468,7 @@ package_info = [
 
     ('start_supervisor_pybook_and_nginx', {
         'options': {
+            'stdout_redirect': False,
             'only_in_prod': True,
             },
         'install': [
@@ -474,6 +478,7 @@ package_info = [
 
     ("setup_backup_cron", {
         'options': {
+            'stdout_redirect': False,
             'only_in_prod': True,
             },
         'exists': [
