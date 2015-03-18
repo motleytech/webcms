@@ -164,7 +164,7 @@ def main():
     python %s
 
     """ % (REPO_PATH, "env_webcms.sh",
-           CONF_PATH, "%s/setup/install_settings.py" % REPO_PATH,
+           CONF_PATH, "%s/setup/ws_settings.py" % REPO_PATH,
            INSTALL_SCRIPT)
 
 if __name__ == "__main__":

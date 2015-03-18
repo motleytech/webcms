@@ -223,14 +223,14 @@ def conf_supervisor_for_pybook():
     this_dir = os.path.dirname(os.path.abspath(__file__))
     out_conf_dir = os.path.abspath(os.path.join(this_dir, "../../conf"))
 
-    sup_fname = "supervisor_pybook.conf" % name
+    sup_fname = "supervisor_pybook.conf"
     sup_op_fpath = os.path.join(out_conf_dir, sup_fname)
 
     # copy supervisor config
     os.system("sudo cp %s /etc/supervisor/conf.d/%s" % (sup_op_fpath, sup_fname))
     # create supervisor log files
     os.system("touch %s/logs/supervisor_pybook.log" % (
-        settings.WS_ROOT_FOLDER, name))
+        settings.WS_ROOT_FOLDER))
 
     # copy nginx config
     return True
