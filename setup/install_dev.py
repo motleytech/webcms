@@ -6,7 +6,7 @@
 # run prod install script... pass dev=true
 
 import os
-from bootstrap_dev import run_command
+from bootstrap_prod import run_command
 import ws_settings as settings
 from ws_utils import print_fatal, print_info
 
