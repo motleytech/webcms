@@ -6,23 +6,24 @@ Bootstrapping script for webcms personal webserver.
 import os
 import time
 import subprocess
-from bootstrap_prod import *
+import bootstrap_prod as bp
 
 THIS_DIR = os.path.dirname(os.path.abspath(__file__))
 
-INSTALL_TYPE = "dev"
+bp.INSTALL_TYPE = "dev"
 
-WS_ROOT_FOLDER = THIS_DIR
-REPO_URL = "git@github.com:motleytech/webcms.git"
+bp.WS_ROOT_FOLDER = THIS_DIR
+bp.REPO_URL = "git@github.com:motleytech/webcms.git"
 
-REPO_PATH = os.path.join(WS_ROOT_FOLDER, REPO_NAME)
-CONF_PATH = os.path.join(WS_ROOT_FOLDER, "conf")
+bp.REPO_PATH = os.path.join(bp.WS_ROOT_FOLDER, bp.REPO_NAME)
+bp.CONF_PATH = os.path.join(bp.WS_ROOT_FOLDER, "conf")
 
-BLOG_REPO_URL = "git@github.com:motleytech/djangocms-blog.git"
-BLOG_REPO_PATH = os.path.join(REPO_PATH, "djcms/djangocms-blog")
+bp.BLOG_REPO_URL = "git@github.com:motleytech/djangocms-blog.git"
+bp.BLOG_REPO_PATH = os.path.join(bp.REPO_PATH, "djcms/djangocms-blog")
 
-PYBOOK_REPO = "git@github.com:motleytech/pybook.git"
-PYBOOK_REPO_PATH = os.path.join(REPO_PATH, "djcms/pybook")
+bp.PYBOOK_REPO = "git@github.com:motleytech/pybook.git"
+bp.PYBOOK_REPO_PATH = os.path.join(bp.REPO_PATH, "djcms/pybook")
 
 if __name__ == "__main__":
-    main()
+    bp.main()
+
