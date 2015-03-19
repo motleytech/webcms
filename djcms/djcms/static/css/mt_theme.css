@@ -4,14 +4,17 @@ body {
 }
 
 div.container-content {
-    background-color: #ddd;
+    background-color: #eee;
     padding: 25px;
+    margin: 0px 5px 0px 5px;
 }
 
 div.navbar {
-    border-radius: 0px 0px 4px 4px;
+    border-radius: 0px 0px 5px 5px;
+    border: 0px;
     min-height: 28px;
     margin-bottom: 0px;
+    background-image: linear-gradient(to bottom, #222 0, #444 100%);
 }
 
 .navbar-brand {
@@ -22,15 +25,42 @@ div.navbar {
     padding: 10px 15px;
 }
 
+.navbar-nav li.dropdown>a {
+    padding: 10px 5px 10px 0px;
+}
+
+.navbar-default .navbar-nav>li>a {
+    color: #ddd;
+}
+
+.navbar-default .navbar-nav>li>a:hover {
+    color: #bbb;
+}
+
+
+.navbar-default .navbar-nav>.active>a {
+    background-image: linear-gradient(to bottom, #444 0, #666 100%);
+    color: #ddd;
+}
+
+.navbar-default .navbar-nav>.active>a:hover {
+    color: #bbb;
+}
+
+.navbar-nav>li>.dropdown-menu {
+
+}
+
+
 .footer-message {
-    background-image: linear-gradient(to bottom,#fff 0,#f8f8f8 100%);
+    background-image: linear-gradient(to bottom, #444 0, #222 100%);
     padding: 10px;
-    border-radius: 0px 0px 4px 4px;
+    border-radius: 5px 5px 0px 0px;
 }
 
 .footer-table {
     width: 100%;
-    color: #222;
+    color: #777;
 }
 
 .footer-powered-by {
@@ -87,5 +117,10 @@ ul.post-detail li {
 
 .blog-sidebar h4 {
     font-size: 1.2em;
+}
+
+blockquote {
+    border-left-color: #ddd;
+    border-left-width: 8px;
 }
 
