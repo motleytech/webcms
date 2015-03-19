@@ -408,6 +408,7 @@ package_info = [
 
     ('install-virt-pkgs', {
         'install': [
+            '/bin/bash -c "source %s; pip install distribute==0.7.3"' % VENV_ACTIVATE_PATH,
             # this needs bash for the source command
             '/bin/bash -c "source %s; pip install --download-cache %s -r %s/requirements_cms.txt"' % (VENV_ACTIVATE_PATH, PIP_CACHE_FOLDER, THIS_DIR),
             ],
