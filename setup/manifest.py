@@ -191,6 +191,15 @@ package_info = [
             ],
     }),
 
+    ('zip', {
+        'exists': [
+            ('dpkg -s zip', 0),
+            ],
+        'install': [
+            'sudo aptitude install -y zip',
+            ],
+    }),
+
     ('libpq-dev', {
         'exists': [
             ('dpkg -s libpq-dev', 0),
