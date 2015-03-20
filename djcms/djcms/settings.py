@@ -72,7 +72,7 @@ LANGUAGE_CODE = 'en'
 TIME_ZONE = 'America/Los_Angeles'
 USE_I18N = True
 USE_L10N = True
-USE_TZ = True
+USE_TZ = False
 
 
 # Static files (CSS, JavaScript, Images)
