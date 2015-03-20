@@ -408,6 +408,7 @@ package_info = [
 
     ('install-virt-pkgs', {
         'install': [
+            '/bin/bash -c "source %s; pip install distribute==0.7.3"' % VENV_ACTIVATE_PATH,
             # this needs bash for the source command
             '/bin/bash -c "source %s; pip install --download-cache %s -r %s/requirements_cms.txt"' % (VENV_ACTIVATE_PATH, PIP_CACHE_FOLDER, THIS_DIR),
             ],
@@ -486,7 +487,6 @@ package_info = [
             ],
         'install': [
             "sudo su -c 'crontab -l | { cat; echo \"30 3 * * * python %s/backup.py 2>&1 | logger\"; } | crontab -'" % (THIS_DIR),
-            "sudo su %s -c 'crontab -l | { cat; echo \"*/10 * * * * python %s/webcms/djcms/pybook/update_from_git.py 2>&1 | logger\"; } | crontab -'" % (WS_USER, WS_ROOT_FOLDER),
         ],
     }),
 ]
