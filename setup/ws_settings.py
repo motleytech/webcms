@@ -11,7 +11,7 @@ import os
 SITE_DETAILS = [
     # name(unique), domain, forwarding, num_django_processes
     ('motleytechnet', 'www.motleytech.net', '.motleytech.net', 3),
-    #('nagarajancom', 'www.nagarajan.com', '.nagarajan.com', 1),
+    ('nagarajancom', 'www.nagarajan.com', '.nagarajan.com', 1),
 
     # we can also serve multiple domains using the same server (different processes).
     #('mypersonalweb', 'www.mypersonalweb.com', '.mypersonalweb.com', 1),
