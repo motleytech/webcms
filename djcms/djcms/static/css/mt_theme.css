@@ -51,6 +51,10 @@ div.navbar {
 
 }
 
+article.post-detail>header {
+    margin-bottom: 20px;
+}
+
 .footer-message {
     background-image: linear-gradient(to bottom, #444 0, #222 100%);
     padding: 10px;
