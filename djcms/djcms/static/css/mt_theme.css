@@ -127,3 +127,9 @@ blockquote {
     border-left-width: 8px;
 }
 
+.noteworthy-equation div.MathJax_Display {
+    border: 2px solid #08F;
+    padding: 10px;
+    margin: 25px;
+}
+
