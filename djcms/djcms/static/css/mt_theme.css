@@ -96,15 +96,15 @@ article.post-detail>header {
     text-align: center;
 }
 
-.post-detail li {
-    display: inline;
-    list-style-type: none;
-}
-
-ul.post-detail li {
+/*.post-detail li {*/
     /*display: inline;*/
-    list-style-type: none;
-}
+    /*list-style-type: none;*/
+/*}*/
+
+/*ul.post-detail li {*/
+    /*/*display: inline;*/*/
+    /*list-style-type: none;*/
+/*}*/
 
 .blog-lead {
     margin-top: 20px;
