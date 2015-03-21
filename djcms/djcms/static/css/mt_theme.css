@@ -131,5 +131,6 @@ blockquote {
     border: 2px solid #08F;
     padding: 10px;
     margin: 25px;
+    width: inherit;
 }
 
