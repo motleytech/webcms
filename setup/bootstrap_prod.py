@@ -150,13 +150,18 @@ def main():
     NOTE
     ====
     Repository cloned into %s.
+    Before you install and run the server, its time to configure it.
 
     Please edit %s in %s folder and change the passowords/secrets.
-    These values should be kept scrictly secret in a production environment.
+    These values should be kept scrictly secret while running a production environment.
 
-    You can additionally modify %s to configure installation settings.
+    You should additionally modify %s to configure domain settings.
 
-    To clear the database and start fresh, you can type
+    Also change the password for the ipython notebook webserver.
+    Directions can be found at this location...
+        https://github.com/motleytech/pybook/blob/master/README.md
+
+    Optional: To clear the database and start fresh, you can type (now)
     'sudo su postgres -c "dropdb webcmsdb"'
 
     To start the installation, run command
