@@ -134,3 +134,12 @@ blockquote {
     width: inherit;
 }
 
+article.post-item header {
+    margin-bottom: 20px;
+}
+
+article.post-item footer.read-more{
+    border-bottom: 2px solid #ccc;
+    padding-bottom: 10px;
+}
+
