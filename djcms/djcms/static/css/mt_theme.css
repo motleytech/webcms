@@ -118,6 +118,10 @@ article.post-detail>header {
     padding-left: 20px;
 }
 
+.plugin ul.blog-tags, ul.blog-tags li ul {
+    padding-left: 20px;
+}
+
 .blog-sidebar h4 {
     font-size: 1.2em;
 }
