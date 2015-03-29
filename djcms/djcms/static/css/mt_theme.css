@@ -147,3 +147,8 @@ article.post-item footer.read-more{
     padding-bottom: 10px;
 }
 
+div.plugin_video object {
+    display: block;
+    margin: 20px auto;
+}
+
