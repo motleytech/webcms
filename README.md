@@ -24,7 +24,7 @@ python bootstrap_prod.py
 
 This will create the `/webserver` folder and clone the git repository in `/webserver/webcms`.
 
-* In `/webserver/conf` folder, edit the file `env_webcms.sh` and populate the values for passwords and django_secret. You should create your own values or use `makepasswd`  to generate random passwords (section on makepasswd below). Keep the values in the `env_webcms.sh` file secret... these are  essential to the security of your website.
+* In `/webserver/conf` folder, edit the file `env_webcms.sh` and populate the values for passwords and django_secret. You should create your own values or use `makepasswd`  to generate random passwords (section on makepasswd below). Keep the values in the `env_webcms.sh` file secret... these are  essential to the security of your website. Change the ipython notebook password as well... follow the directions on this page https://github.com/motleytech/pybook.
 
 * Modify the server settings file `/webserver/webcms/setup/ws_settings.py` to configure the server install. You should change the domains that you want to support by changing `SITE_DETAILS`. By default, there is 1 domain defined with 1 django process assigned to handle it. You can have multiple domains with multiple django processes serving each domain.
 
@@ -49,7 +49,7 @@ python bootstrap_dev.py
 
 You should now have the git repository cloned in `~/dev/ws_project/webcms` folder.
 
-* In `~/dev/ws_project/conf` folder, modify the file `env_webcms.sh` and change the values for passwords and django_secret.
+* In `~/dev/ws_project/conf` folder, modify the file `env_webcms.sh` and change the values for passwords and django_secret. Change the ipython notebook password as well... follow the directions on this page https://github.com/motleytech/pybook.
 
 * Modify the server settings file `~/dev/ws_project/webcms/setup/ws_settings.py` to configure the server install. You should change the domains that you want to support by changing `SITE_DETAILS`.
 

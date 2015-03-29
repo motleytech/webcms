@@ -159,7 +159,7 @@ def main():
 
     Also change the password for the ipython notebook webserver.
     Directions can be found at this location...
-        https://github.com/motleytech/pybook/blob/master/README.md
+        https://github.com/motleytech/pybook
 
     Optional: To clear the database and start fresh, you can type (now)
     'sudo su postgres -c "dropdb webcmsdb"'
