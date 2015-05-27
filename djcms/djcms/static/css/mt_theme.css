@@ -157,3 +157,7 @@ img.img-center {
     margin: 20px auto;
 }
 
+hr {
+    border-top: 1px solid #bbb;
+}
+
