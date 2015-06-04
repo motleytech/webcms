@@ -5,7 +5,7 @@ body {
 
 div.container-content {
     background-color: #eee;
-    padding: 25px 50px;
+    padding: 20px 40px 25px 70px;
     margin: 0px 5px 0px 5px;
 }
 
@@ -161,3 +161,6 @@ hr {
     border-top: 1px solid #bbb;
 }
 
+.app-blog .blog-list article {
+    margin-top: 40px;
+}
