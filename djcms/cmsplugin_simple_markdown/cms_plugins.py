@@ -44,8 +44,9 @@ class SimpleMarkdownCMSPlugin(CMSPluginBase):
         return re.sub('\(page:([^\)]+)\)', link_repl, markdown_text)
 
     def render(self, context, instance, placeholder):
-        inText = self.replace_links(instance.markdown_text)
-        context['markdown_text'] = markdown.markdown(inpText, extensions=extensions)
+        inpText = self.replace_links(instance.markdown_text)
+        content = markdown.markdown(inpText, extensions=extensions)
+        context['markdown_text'] = content
         # context['text'] = self.replace_links(instance.markdown_text)
         self.render_template = instance.template
         return context

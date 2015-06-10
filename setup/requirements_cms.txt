@@ -2,12 +2,14 @@ Django==1.6.10
 Django-Select2==4.2.2
 Markdown==2.6.2
 Pillow==2.7.0
+Pygments==2.0.2
 South==1.0.2
 Unidecode==0.04.17
 argparse==1.2.1
 cmsplugin-disqus==1.0
 cmsplugin-filer==0.10.1
-cmsplugin-simple-markdown==1.4
+# we copied this into our own repo
+# cmsplugin-simple-markdown==1.4
 distribute==0.7.3
 dj-database-url==0.3.0
 django-admin-enhancer==1.0.0
