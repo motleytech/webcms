@@ -182,6 +182,12 @@ pre {
     word-wrap: inherit;
 }
 
+code {
+    border: 1px solid #ccc;
+    background-color: #f0f0f0;
+    color: #222;
+}
+
 .hll { background-color: #ffffcc }
 .c { color: #408080; font-style: italic } /* Comment */
 .err { border: 1px solid #FF0000 } /* Error */
