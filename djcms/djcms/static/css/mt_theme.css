@@ -6,11 +6,11 @@ body {
 div.container-content {
     background-color: #f8f8f8;
     padding: 20px 40px 25px 70px;
-    margin: 0px 5px 0px 5px;
+    margin: 0px 10px 0px 10px;
 }
 
 div.navbar {
-    border-radius: 0px 0px 5px 5px;
+    border-radius: 0px 0px 10px 10px;
     border: 0px;
     min-height: 28px;
     margin-bottom: 0px;
@@ -18,7 +18,12 @@ div.navbar {
 }
 
 .navbar-brand {
-    padding: 8px 15px;
+    padding: 8px 20px 8px 40px;
+}
+
+
+.navbar-brand img {
+    height: 36px;
 }
 
 .navbar-nav li a {
@@ -31,6 +36,8 @@ div.navbar {
 
 .navbar-default .navbar-nav>li>a {
     color: #ddd;
+    padding: 16px 20px;
+    font-size: 1.2em;
 }
 
 .navbar-default .navbar-nav>li>a:hover {
@@ -58,7 +65,7 @@ article.post-detail>header {
 .footer-message {
     background-image: linear-gradient(to bottom, #444 0, #222 100%);
     padding: 10px;
-    border-radius: 5px 5px 0px 0px;
+    border-radius: 10px 10px 0px 0px;
 }
 
 .footer-table {
@@ -163,6 +170,16 @@ hr {
 
 .app-blog .blog-list article {
     margin-top: 40px;
+}
+
+pre {
+    border-radius: 4px;
+    background: #eeeeee;
+    padding: 10px;
+    margin-bottom: 15px;
+    overflow-x: auto;
+    word-break: inherit;
+    word-wrap: inherit;
 }
 
 .hll { background-color: #ffffcc }
