@@ -17,10 +17,13 @@ div.navbar {
     background-image: linear-gradient(to bottom, #222 0, #444 100%);
 }
 
+a {
+    color: #0565C2;
+}
+
 .navbar-brand {
     padding: 8px 20px 8px 40px;
 }
-
 
 .navbar-brand img {
     height: 36px;
