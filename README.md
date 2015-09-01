@@ -13,7 +13,7 @@ You want the production environment if you want to get your website up and runni
 
 #### Directions for the production environment
 
-The installation has 4 easy steps...
+The installation has 5 easy steps...
 
 * Download and run `bootstrap_prod.py`...
 <pre>
@@ -24,7 +24,7 @@ python bootstrap_prod.py
 
 This will create the `/webserver` folder and clone the git repository in `/webserver/webcms`.
 
-* In `/webserver/conf` folder, edit the file `env_webcms.sh` and populate the values for passwords and django_secret. You should create your own values or use `makepasswd`  to generate random passwords (section on makepasswd below). Keep the values in the `env_webcms.sh` file secret... these are  essential to the security of your website. Change the ipython notebook password as well... follow the directions on this page https://github.com/motleytech/pybook.
+* In `/webserver/conf` folder, edit the file `env_webcms.sh` and populate the values for passwords and django_secret. You should create your own values or use `makepasswd`  to generate random passwords (section on makepasswd below). Keep the values in the `env_webcms.sh` file secret... these are  essential to the security of your website.
 
 * Modify the server settings file `/webserver/webcms/setup/ws_settings.py` to configure the server install. You should change the domains that you want to support by changing `SITE_DETAILS`. By default, there is 1 domain defined with 1 django process assigned to handle it. You can have multiple domains with multiple django processes serving each domain.
 
@@ -33,6 +33,8 @@ This will create the `/webserver` folder and clone the git repository in `/webse
 cd /webserver/webcms/setup;
 python install.py
 </pre>
+
+*  Change the ipython notebook password as well... follow the directions on this page https://github.com/motleytech/pybook.
 
 The script will install a bunch of stuff and will prompt you to create an admin user for managing your website. Go ahead and create one with a password of your choice. If the install procedure succeeds, your webserver is ready. Point your browser to `http://www.yourwebsite.com/admin` and start adding pages. Remember, `http://localhost/` might not work as nginx is not set to server at the localhost address in the production environment.
 
