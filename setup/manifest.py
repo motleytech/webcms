@@ -154,6 +154,12 @@ package_info = [
             ],
     }),
 
+    ('upgrade-pip', {
+        'install': [
+            'sudo pip install -U pip',
+            ],
+    }),
+
     ('git', {
         'exists': [
             ('dpkg -s git', 0),
