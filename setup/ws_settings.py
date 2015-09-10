@@ -10,7 +10,7 @@ import os
 # with forwarding, 'myblog.com' or '*.myblog.com' will lead to 'www.myblog.com'
 SITE_DETAILS = [
     # name(unique), domain, forwarding, num_django_processes
-    ('motleytechnet', 'www.motleytech.net', '.motleytech.net', 3),
+    ('motleytechnet', 'www.motleytech.net', '.motleytech.net', 2),
     ('nagarajancom', 'www.nagarajan.com', '.nagarajan.com', 1),
 
     # we can also serve multiple domains using the same server (different processes).
