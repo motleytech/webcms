@@ -19,6 +19,7 @@ CONF_PATH = os.path.join(WS_ROOT_FOLDER, "conf")
 BRANCH_NAME = "motleytechnet"
 
 BLOG_REPO_URL = "https://github.com/motleytech/djangocms-blog.git"
+BLOG_BRANCH = "multiblog"
 BLOG_REPO_PATH = os.path.join(REPO_PATH, "djcms/djangocms-blog")
 BLOG_UPSTREAM = "https://github.com/nephila/djangocms-blog.git"
 
@@ -119,7 +120,7 @@ def main():
         if blog_repo_exists:
             run_command("rm -rf %s" % BLOG_REPO_PATH)
         run_command("cd %s; git clone %s;" % (os.path.dirname(BLOG_REPO_PATH), BLOG_REPO_URL))
-        run_command("cd %s; git checkout develop" % BLOG_REPO_PATH)
+        run_command("cd %s; git checkout %s" % (BLOG_REPO_PATH, BLOG_BRANCH))
         run_command("cd %s; git remote add upstream %s" % (BLOG_REPO_PATH, BLOG_UPSTREAM))
 
     pybook_repo_exists = run_command("[ -d %s ]" % PYBOOK_REPO_PATH, True, True)
