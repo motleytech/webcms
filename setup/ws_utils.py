@@ -236,7 +236,7 @@ def conf_supervisor_for_pybook():
     return True
 
 
-def startSupervisorPybookAndNginx():
+def startSupervisorAndNginx():
     import ws_settings as settings
 
     os.system("sudo supervisorctl reread")
@@ -244,7 +244,11 @@ def startSupervisorPybookAndNginx():
     for name, domain, forw, nump in settings.SITE_DETAILS:
         os.system("sudo supervisorctl start webcms_%s" % name)
 
-    os.system("sudo supervisorctl start pybook")
     os.system("sudo service nginx restart")
+
+    return True
+
+def startPybook():
+    os.system("sudo supervisorctl start pybook")
 
     return True

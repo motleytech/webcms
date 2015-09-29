@@ -117,10 +117,22 @@ def config_supervisor_for_pybook():
         return 1
     return 0
 
-def start_supervisor_pybook_and_nginx():
-    from ws_utils import startSupervisorPybookAndNginx
+def start_supervisor_and_nginx():
+    from ws_utils import startSupervisorAndNginx
     try:
-        result = startSupervisorPybookAndNginx()
+        result = startSupervisorAndNginx()
+        if result is True:
+            return 0
+        return 1
+    except:
+        print_exc()
+        return 1
+    return 0
+
+def start_pybook():
+    from ws_utils import startPybook
+    try:
+        result = startPybook()
         if result is True:
             return 0
         return 1
@@ -462,19 +474,27 @@ package_info = [
         'install': [
             'cd %s; python install.py' % ("%s/webcms/djcms/pybook/setup" % WS_ROOT_FOLDER),
             ],
-    }),
+    } if settings.INSTALL_PYBOOK is True else None),
 
-    ('create_configs', {
+    ('create_webcms_config', {
         'options': {
             'only_in_prod': True,
             },
         'install': [
             create_configs,
-            create_pybook_config,
-            config_supervisor_for_pybook,
             configure_supervisor_and_nginx,
         ],
     }),
+
+    ('create_pybook_config', {
+        'options': {
+            'only_in_prod': True,
+            },
+        'install': [
+            create_pybook_config,
+            config_supervisor_for_pybook,
+        ],
+    } if settings.INSTALL_PYBOOK is True else None),
 
     ('set_owner_and_permissions', {
         'options': {
@@ -491,15 +511,25 @@ package_info = [
             ],
     }),
 
-    ('start_supervisor_pybook_and_nginx', {
+    ('start_supervisor_and_nginx', {
         'options': {
             'stdout_redirect': False,
             'only_in_prod': True,
             },
         'install': [
-            start_supervisor_pybook_and_nginx,
+            start_supervisor_and_nginx,
         ],
     }),
+
+    ('start_pybook', {
+        'options': {
+            'stdout_redirect': False,
+            'only_in_prod': True,
+            },
+        'install': [
+            start_pybook,
+        ],
+    } if settings.INSTALL_PYBOOK is True else None),
 
     ("setup_backup_cron", {
         'options': {

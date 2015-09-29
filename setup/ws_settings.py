@@ -17,6 +17,8 @@ SITE_DETAILS = [
     #('mypersonalweb', 'www.mypersonalweb.com', '.mypersonalweb.com', 1),
 ]
 
+INSTALL_PYBOOK = True
+
 WS_ROOT_FOLDER   = "/webserver"
 WS_PIP_CACHE     = "/webserver_pip_cache"
 WS_BACKUP_FOLDER = "/webserver_backup"
