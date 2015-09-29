@@ -16,7 +16,7 @@ REPO_URL = "https://github.com/motleytech/webcms.git"
 REPO_NAME = "webcms"
 REPO_PATH = os.path.join(WS_ROOT_FOLDER, REPO_NAME)
 CONF_PATH = os.path.join(WS_ROOT_FOLDER, "conf")
-BRANCH_NAME = "motleytechnet"
+BRANCH_NAME = "multiblog"
 
 BLOG_REPO_URL = "https://github.com/motleytech/djangocms-blog.git"
 BLOG_BRANCH = "multiblog"
