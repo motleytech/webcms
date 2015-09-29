@@ -35,7 +35,7 @@ def restore_from_backup(zip_file, env):
         os.system("sudo chmod -R g+w %s/media" % settings.WS_ROOT_FOLDER)
         server_ctl.main("start")
     else:
-        os.system("sudo chown -R motley:motley %s/media" % settings.WS_ROOT_FOLDER)
+        os.system("sudo chown -R `whoami`:`whoami` %s/media" % settings.WS_ROOT_FOLDER)
 
     print "Restored postgres db and media folder"
 
@@ -46,9 +46,7 @@ def main():
         exit(1)
     backup_zip = sys.argv[1]
 
-    ENV = ""
-    if len(sys.argv) == 3:
-        ENV = sys.argv[2]
+    ENV = "prod" if os.environ["PRODUCTION_ENV"] is True else "dev"
 
     restore_from_backup(backup_zip, ENV)
 
