@@ -244,6 +244,13 @@ DATABASES = {
     }
 }
 
+BLOG_PERMALINK_URLS = {
+    'full_date': r'^(?P<year>\d{4})/(?P<month>\d{1,2})/(?P<day>\d{1,2})/(?P<slug>\w[-\w]*)/$',
+    'short_date': r'^(?P<year>\d{4})/(?P<month>\d{1,2})/(?P<slug>\w[-\w]*)/$',
+    'category': r'^post/(?P<category>\w[-\w]*)/(?P<slug>\w[-\w]*)/$',
+    'slug': r'^post/(?P<slug>\w[-\w]*)/$',
+}
+
 
 # import sites from config directory
 import imp
@@ -258,4 +265,3 @@ except IOError:
     # we are probably in syncdb / migrate step in the install
     logging.error("Failed to import site_list.py.\nCan be safely ignored during setup")
     SITE_ID = 1
-
