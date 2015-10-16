@@ -251,6 +251,12 @@ BLOG_PERMALINK_URLS = {
     'slug': r'^post/(?P<slug>\w[-\w]*)/$',
 }
 
+# map of start of url to static placeholder name
+STATIC_PLACEHOLDER_MAP = {
+    '/en/': "blog-sidebar",
+    '/en/techtips': "blog-sidebar-tt",
+    'default': "blog-sidebar",
+}
 
 # import sites from config directory
 import imp
