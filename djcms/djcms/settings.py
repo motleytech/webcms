@@ -166,6 +166,7 @@ INSTALLED_APPS = (
     'meta',
     'meta_mixin',
     'admin_enhancer',
+    'aldryn_apphooks_config',
     'djangocms_blog',
 
     'cmsplugin_disqus',
