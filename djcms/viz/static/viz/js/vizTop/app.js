@@ -21,12 +21,29 @@ define([
         };
 
         App.start = function () {
+            this.addElements();
+            this.createUI();
+        };
+
+        App.addElements = function () {
+            $("#" + this.divId).append("<h2>My first d3 viz</h2>");
+            this.d3div = $("#" + this.divId).append('<div id="d3div"></div>');
+            utils.addCSSLink('/static/viz/css/vizTop/custom.css');
+        };
+
+        App.createUI = function () {
+            // add d3 box, buttons and setup button callbacks.
+        };
+
+        App.getTopData = function (callback) {
             $.get("/en/api/get_top_result", "",
                     function (result) {
                         console.log("got api call result");
                         console.log(result);
+                        callback();
                     }, "json");
-        }
+
+        };
 
         appFactory = utils.createFactory(App);
         app = appFactory();

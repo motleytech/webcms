@@ -6,7 +6,7 @@ require.config({
     paths: {
         jquery: '/static/js/jquery',
         d3: '//cdnjs.cloudflare.com/ajax/libs/d3/3.5.6/d3.min',
-        app: '/static/viz/js/demo/app',
+        app: '/static/viz/js/vizTop/app',
         utils: '/static/viz/js/common/utils',
     }
 });
