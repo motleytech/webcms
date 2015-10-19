@@ -1,0 +1,9 @@
+{% load i18n l10n sekizai_tags static cms_tags cms_custom_tags %}
+
+{% addtoblock "js" %}
+    {% getJavascript as javascript %}
+    {{ javascript | safe }}
+{% endaddtoblock %}
+
+{% getHtml as html %}
+{{ html | safe }}

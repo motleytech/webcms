@@ -14,6 +14,7 @@ urlpatterns = i18n_patterns('',
         {'sitemaps': {'cmspages': CMSSitemap}}),
     url(r'^taggit_autosuggest/', include('taggit_autosuggest.urls')),
     url(r'^cmsplugin_pybook/', include('cmsplugin_pybook.urls')),  # NOQA
+    url(r'^api/', include('server_api.urls')),
     url(r'^', include('cms.urls')),
 )
 

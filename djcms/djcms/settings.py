@@ -148,6 +148,7 @@ INSTALLED_APPS = (
     'djangocms_googlemap',
     'djangocms_inherit',
     'djangocms_link',
+    'djangocms_snippet',
     'djangocms_picture',
     'djangocms_teaser',
     'djangocms_video',
@@ -173,6 +174,8 @@ INSTALLED_APPS = (
     'cmsplugin_pybook',
     'markup_deprecated',
     'cmsplugin_simple_markdown',
+    'server_api',
+    'viz',
 )
 
 DISQUS_SHORTNAME = ws_settings.DISQUS_SHORTNAME
