@@ -166,6 +166,15 @@ package_info = [
             ],
     }),
 
+    ('python-pip', {
+        'exists': [
+            ('dpkg -s python-pip', 0),
+            ],
+        'install': [
+            'sudo apt-get install -y python-pip',
+            ],
+    }),
+
     ('upgrade-pip', {
         'install': [
             'sudo pip install -U pip',
