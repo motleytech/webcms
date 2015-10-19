@@ -299,15 +299,6 @@ package_info = [
             ],
     }),
 
-    ('python-pip', {
-        'exists': [
-            ('dpkg -s python-pip', 0),
-            ],
-        'install': [
-            'sudo aptitude install -y python-pip',
-            ],
-    }),
-
     ('python-imaging', {
         'exists': [
             ('dpkg -s python-imaging', 0),
